@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>apigee</groupId>
+	<artifactId>parent-pom</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0</version>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>central</id>
+			<name>Maven Plugin Repository</name>
+			<url>http://repo1.maven.org/maven2</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+		</pluginRepository>
+		<pluginRepository>
+			<id>apigee-cs-repo</id>
+			<url>http://repo.apigee.com:8081/artifactory/repo</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+	<modules>
+            <module>../forcastweatherapi</module>		
+	</modules>
+	<build>
+	
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.apigee.build-tools.enterprise4g</groupId>
+					<artifactId>4G-gateway-maven-build-pack</artifactId>
+					<version>0.0.13</version>
+				</plugin>
+			</plugins>
+		</pluginManagement> 
+		<plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<id>copy-resources-step</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<!-- this is important -->
+							<overwrite>true</overwrite>
+							<!-- target -->
+							<outputDirectory>${basedir}/target/apiproxy</outputDirectory>
+							<resources>
+								<resource>
+									<!-- source -->
+									<directory>apiproxy</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.apigee.build-tools.enterprise4g</groupId>
+				<artifactId>4G-gateway-maven-build-pack</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin> 
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<testFailureIgnore>false</testFailureIgnore>
+				</configuration>
+			</plugin>
+
+				
+			
+		</plugins>
+	</build>
+	
+	
+<!-- This is where you add the environment specific properties under various profile names -->		
+	<profiles>
+	   <profile>
+			<id>test</id>
+			<properties>
+				<apigee.profile>test</apigee.profile>
+				<apigee.env>test</apigee.env>
+				<apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
+				<apigee.apiversion>v1</apigee.apiversion> <!-- value of version in  https://api.enterprise.apigee.com/v2 -->
+				<apigee.org>demo30</apigee.org>
+			    	<apigee.username>${username}</apigee.username>
+                		<apigee.password>${password}</apigee.password>
+				<apigee.options>clean,validate</apigee.options>
+		   </properties>
+	   </profile>
+	   <profile>
+			<id>prod</id>
+			<properties>
+				<apigee.profile>prod</apigee.profile>
+				<apigee.env>prod</apigee.env>
+				<apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
+				<apigee.apiversion>v1</apigee.apiversion> <!-- value of version in  https://api.enterprise.apigee.com/v2 -->
+				<apigee.org>demo30</apigee.org>
+			    	<apigee.username>${username}</apigee.username>
+                		<apigee.password>${password}</apigee.password>
+				<apigee.options>override</apigee.options>
+				<apigee.override.delay>10</apigee.override.delay>
+		   </properties>
+	   </profile>
+	   
+</profiles>
+
+		
+<dependencies>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>4.8.2</version>
+		<scope>test</scope>
+	</dependency>
+</dependencies>
+
+<repositories>
+<repository>
+<id>apigee-cs-repo</id>
+<url>http://repo.apigee.com:8081/artifactory/repo</url>
+</repository>
+</repositories>
+</project>
+
+

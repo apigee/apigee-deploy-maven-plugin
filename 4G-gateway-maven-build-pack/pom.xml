@@ -1,0 +1,121 @@
+<project xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xmlns='http://maven.apache.org/POM/4.0.0'
+	xsi:schemaLocation='http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd'>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.apigee.build-tools.enterprise4g</groupId>
+	<artifactId>4G-gateway-maven-build-pack</artifactId>
+	<packaging>maven-plugin</packaging>
+	<version>0.0.15</version>
+	<name>4G-gateway-maven-build-pack Maven Mojo</name>
+	<url>http://maven.apache.org</url>
+
+	<build>
+
+		<resources>
+
+			<resource>
+				<directory>${basedir}/src/main/java</directory>
+				<includes>
+					<include>log4j.xml</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-plugin-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<goalPrefix>apigee-enterprise</goalPrefix>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<!-- <build> <plugins> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+		<artifactId>maven-compiler-plugin</artifactId> <version>2.3.2</version> <configuration> 
+		<source>1.5</source> <target>1.5</target> </configuration> </plugin> <plugin> 
+		<groupId>org.apache.maven.plugins</groupId> <artifactId>maven-plugin-plugin</artifactId> 
+		<version>2.9</version> </plugin> </plugins> </build> -->
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- using google http client for http rest protocols. supposed to be better 
+			than all -->
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client</artifactId>
+			<version>1.10.3-beta</version>
+		</dependency>
+		<!-- using sl4j logging wrapping lg4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.6</version>
+		</dependency>
+		<!-- excluding commons logging by declaring it in the provided scope -->
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>12.0</version>
+		</dependency>
+		<!-- Gson: Java to Json conversion -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.2</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>xalan</artifactId>
+			<version>2.7.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.apigee.cs</groupId>
+			<artifactId>apigee-util</artifactId>
+			<version>1.0.18</version>
+		</dependency>
+		<dependency>
+			<groupId>com.apigee.cs</groupId>
+			<artifactId>apigee-scripting-tool</artifactId>
+			<version>1.0.17</version>
+		</dependency>
+
+	</dependencies>
+	<distributionManagement>
+		<!-- <snapshotRepository> <id>apigee-cs-plugins-snapshot</id> <name>apigee-cs-snapshot</name> 
+			<url>http://repo.apigee.com:8081/artifactory/plugins-snapshot-local</url> 
+			</snapshotRepository> -->
+		<repository>
+			<id>apigee-cs-plugins-release</id>
+			<name>apigee-cs-plugins-release</name>
+			<url>http://repo.apigee.com:8081/artifactory/plugins-release-local</url>
+		</repository>
+
+	</distributionManagement>
+
+</project>

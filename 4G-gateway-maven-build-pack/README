@@ -1,0 +1,22 @@
+How to Install the Plugin
+How to compile the plugin
+-------------------------
+mvn clean install -Dmaven.test.skip=true
+
+
+How to deploy the plugin to repository
+--------------------------------------
+mvn deploy -Dmaven.test.skip=true
+
+Maven Describe Output
+---------------------------
+Use maven describe to get more details on the available goals and on each of individual goals.
+
+For available Goals:
+mvn help:describe -Dplugin=apigee-enterprise
+
+For 'configure' Goal:
+mvn help:describe -Dplugin=apigee-enterprise -Dmojo=configure -Dfull=true
+
+For 'deploy' Goal:
+mvn help:describe -Dplugin=apigee-enterprise -Dmojo=deploy -Dfull=true

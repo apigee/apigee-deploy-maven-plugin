@@ -1,0 +1,80 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>parent-pom</artifactId>
+		<groupId>apigee</groupId>
+		<version>1.0</version>
+		<relativePath>../parent-pom/pom.xml</relativePath>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>apigee</groupId>
+	<artifactId>forecastweatherapi</artifactId>
+	<version>1.0</version>
+	<name>forecastweatherapi</name>
+	<packaging>pom</packaging>
+
+	<build>
+		<plugins>
+			
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.5</version>
+				<executions>
+					<execution>
+						<id>auto-clean</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>copy-resources-step</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<!-- this is important -->
+							<overwrite>true</overwrite>
+							<!-- target -->
+							<outputDirectory>${basedir}/target/apiproxy</outputDirectory>
+							<resources>
+								<resource>
+									<!-- source -->
+									<directory>apiproxy</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.apigee.build-tools.enterprise4g</groupId>
+				<artifactId>4G-gateway-maven-build-pack</artifactId>
+				<configuration>
+					<skip>false</skip> <!-- Use this module level config to skip module build. Make it true -->
+				</configuration>
+				<executions>
+			    <execution>
+		        <id>configure-bundle-step</id>
+		        <phase>package</phase>
+		        <goals>
+		       		<goal>configure</goal>
+		        </goals>
+			    </execution>
+		     </executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>

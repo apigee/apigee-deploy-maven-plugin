@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="1" name="forcastweatherapi">
+    <ConfigurationVersion minorVersion="0" majorVersion="4"/>
+    <CreatedAt>1385383926445</CreatedAt>
+    <CreatedBy>rajeshmishra@apigee.com</CreatedBy>
+    <Description>Yahoo Forecast API</Description>
+    <DisplayName>forcastrss</DisplayName>
+    <LastModifiedAt>1385383926445</LastModifiedAt>
+    <LastModifiedBy>rajeshmishra@apigee.com</LastModifiedBy>
+    <Policies/>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources/>
+    <TargetServers/>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+    <validate>true</validate>
+</APIProxy>
