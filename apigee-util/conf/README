@@ -1,0 +1,3 @@
+To create a keystore:
+
+keytool -genseckey -alias ast -keyalg AES -keysize 256 -storepass changeit -keypass changeit -storetype JCEKS -keystore ast.jceks

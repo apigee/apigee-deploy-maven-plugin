@@ -1,0 +1,8 @@
+# ast will look for these environmental variables
+# source this file before running ast
+
+export AST_HOSTNAME=mycontrolcenterhost
+export AST_USERNAME=admin
+export AST_PASSWORD=mypassword
+export AST_PORT=9080
+

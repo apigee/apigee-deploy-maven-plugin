@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<sci:Policy xmlns:sci="http://www.sonoasystems.com/schemas/2007/8/3/sci/" name="OfflineFileCheckJythonPolicy">
+  <sci:Conditions>
+    <sci:EqualsCondition name="equalsCondition1" operand1="offlineFileExists" operand2Value="true"/>
+  </sci:Conditions>
+  <sci:Script name="OfflineFileCheckScript" scriptType="python">
+    <sci:Location>script://CheckIfOfflineFileExistsOnGw.py</sci:Location>
+  </sci:Script>
+  <sci:RaiseFault name="raiseFaultIfOfflineFileExists">
+    <sci:ConditionRef ref="equalsCondition1"/>
+  </sci:RaiseFault>
+  <sci:FaultHandling>
+    <sci:Fault faultName="raiseFaultIfOfflineFileExists">
+      <sci:Script name="AssignResponseCode" scriptType="python">
+        <sci:Location>script://AssignResponseCode.py</sci:Location>
+      </sci:Script>
+    </sci:Fault>
+  </sci:FaultHandling>
+</sci:Policy>

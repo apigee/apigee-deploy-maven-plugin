@@ -1,0 +1,28 @@
+#!/usr/bin/env ast
+
+require 'rexml/document'
+
+include REXML
+
+
+if ARGV.length != 3 then
+	puts "\n\nUSAGE: #{ARGV[0]} <domainname> <appname>"
+	return
+end
+
+doc = REXML::Document.new ast.configurationServiceClient.getApplicationDetails(ARGV[1],ARGV[2]).toString
+
+# Some exmples of parsing up the contents
+puts "application: #{doc.root.elements['//ApplicationDetails'].attributes['name']}"
+puts "domain: #{doc.root.elements['//ApplicationDetails'].attributes['domainName']}"
+puts "version: #{doc.root.elements['//ApplicationDetails'].attributes['id']}"
+puts "state:  #{doc.root.elements['//ApplicationDetails/State'].text}"
+
+
+
+
+
+
+
+
+

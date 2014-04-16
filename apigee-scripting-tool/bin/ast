@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+
+# If we are invoked via symbolic link, we can't determine AST_HOME
+# So we try to figure out the target file
+SCRIPT_NAME=${BASH_SOURCE[0]}
+if [ -L "$SCRIPT_NAME" ]; then
+	SCRIPT_NAME=$(readlink $SCRIPT_NAME)	
+fi
+AST_HOME=$(dirname ${SCRIPT_NAME})/..
+
+# If JAVA_HOME isn't set, try to figure it out
+if [ "${JAVA_HOME}" = "" ]; then
+	JAVA_CMD=`which java`
+	JAVA_HOME=`dirname $JAVA_CMD`/..
+	export JAVA_HOME
+	export JAVA_CMD=${JAVA_CMD}/bin/java
+fi
+
+
+JAVA_CMD=${JAVA_HOME}/bin/java
+
+
+${JAVA_CMD} -Dast.home=${AST_HOME} -Dlogback.configurationFile=${AST_HOME}/conf/logback.xml -cp "${AST_HOME}/lib/*:${AST_HOME}/ruby-lib" com.apigee.cs.ast.Main $@ 
+
+

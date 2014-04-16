@@ -1,0 +1,12 @@
+#!/usr/bin/env ast
+
+java_import 'com.sonoa.security.util.EncryptionUtil'
+
+if ARGV.length != 2 then
+	puts "Usage: #{ARGV[0]} <plaintext>"
+	return 1
+end
+
+cipherText = EncryptionUtil.encrypt(ARGV[1])
+puts "Encrpyted value: #{cipherText}"
+

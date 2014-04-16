@@ -1,0 +1,30 @@
+#!/usr/bin/env ast
+
+require 'rexml/document'
+
+include REXML
+
+
+if ARGV.length != 3 then
+	puts "\n\nUSAGE: #{ARGV[0]} <domainname> <appname>"
+	return
+end
+
+info = ast.configurationServiceClient.getAllApplicationVersionInfo(ARGV[1],ARGV[2])
+
+doc = Document.new info
+
+puts doc
+puts "* * *"
+
+# Some exmples of parsing up the contents
+puts "Application: #{doc.root.elements['//VersionInfo'].attributes['applicationName']}"
+puts "Revision: #{doc.root.elements['//VersionInfo/Revision'].text}"
+
+
+
+
+
+
+
+

@@ -1,0 +1,25 @@
+---
+test-profile:
+
+
+ client_endpoints:
+  abc:
+    vhost: SSL
+    
+ target_endpoints: 
+  ep1:
+    uri: http://somewhere
+  ep2: 
+    uri: http://elsewhere
+
+    
+ variables: 
+  abc: def
+  zyz: 123
+        
+ policies:
+  mypolicy:
+    enabled: true
+    variables:
+      a: "{AES}mZ3MrWiRsiyYpMSi3o50x/p5g6Aw6NyJrfkCe6A0S5k="
+ 

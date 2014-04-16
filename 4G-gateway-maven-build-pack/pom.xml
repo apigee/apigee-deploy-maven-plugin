@@ -28,6 +28,31 @@
 					<goalPrefix>apigee-enterprise</goalPrefix>
 				</configuration>
 			</plugin>
+
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>X.Y.ga</version>
+                <configuration>
+                    <header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+                    <properties>
+                        <owner>Mycila</owner>
+                        <email>mathieu.carbou@gmail.com</email>
+                    </properties>
+                    <excludes>
+                        <exclude>**/README</exclude>
+                        <exclude>src/test/resources/**</exclude>
+                        <exclude>src/main/resources/**</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 
@@ -106,6 +131,7 @@
 		</dependency>
 
 	</dependencies>
+
 	<distributionManagement>
 		<!-- <snapshotRepository> <id>apigee-cs-plugins-snapshot</id> <name>apigee-cs-snapshot</name> 
 			<url>http://repo.apigee.com:8081/artifactory/plugins-snapshot-local</url> 

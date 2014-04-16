@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.example</groupId>
+	<artifactId>parent-pom</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0</version>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>central</id>
+			<name>Maven Plugin Repository</name>
+			<url>http://repo1.maven.org/maven2</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+		</pluginRepository>
+		<pluginRepository>
+			<id>apigee-cs-repo</id>
+			<url>http://ci.fortasoft.com:8081/artifactory/repo</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+	<modules>
+		</modules>
+	<build>
+		<directory>build</directory>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.apigee.cs</groupId>
+				<artifactId>apigee-maven-plugin</artifactId>
+				<version>1.0.11</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<testFailureIgnore>false</testFailureIgnore>
+				</configuration>
+			</plugin>
+				
+		</plugins>
+	</build>
+	<profiles>
+        <profile>
+            <id>test-1</id>
+            <properties>
+                <ast.hostname>192.168.0.1</ast.hostname>
+                <ast.secure>true</ast.secure>
+		<ast.port>9443</ast.port>
+                <ast.username>admin</ast.username>
+                <ast.password>secret</ast.password>
+                <ast.domain>testdomain</ast.domain>
+                <ast.profile>test-1</ast.profile>
+            </properties>
+        </profile>
+        <profile>
+            <id>test-2</id>
+            <properties>
+                <ast.hostname>192.168.0.2</ast.hostname>
+                <ast.port>9080</ast.port>
+		<ast.secure>false</ast.secure>
+                <ast.username>admin</ast.username>
+                <ast.password>secret2</ast.password>
+                <ast.domain>testdomain</ast.domain>
+                <ast.profile>test-2</ast.profile>
+            </properties>
+        </profile>
+</profiles>
+			
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+	<repositories>
+    <repository>
+      <id>apigee-cs-repo</id>
+      <url>http://ci.fortasoft.com:8081/artifactory/repo</url>
+    </repository>
+  </repositories>
+</project>
+

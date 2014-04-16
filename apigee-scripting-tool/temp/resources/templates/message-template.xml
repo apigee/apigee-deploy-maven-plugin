@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<sci:MessageTemplates xmlns:sci='http://www.sonoasystems.com/schemas/2007/8/3/sci/'>
+  <sci:MessageTemplate name='TestMessageTemplate'>
+    <sci:messagepart><Message>Test Successful</Message></sci:messagepart>
+  </sci:MessageTemplate>
+</sci:MessageTemplates>

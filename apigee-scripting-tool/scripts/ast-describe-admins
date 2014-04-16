@@ -1,0 +1,17 @@
+#!/usr/bin/env ast
+require 'rexml/document'
+
+include REXML
+
+
+xml = ast.userManagementServiceClient.getAllAdmins()
+
+doc = Document.new xml
+
+doc.elements.each("//User") { |element| 
+
+ puts "#{element.attributes['id']} store=#{element.attributes['store']}" 
+
+}
+
+

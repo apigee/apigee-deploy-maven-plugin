@@ -1,0 +1,17 @@
+#!/usr/bin/env ast
+
+# Lists applications in a domain
+
+if ARGV.length != 2 then
+	puts "\n\nUSAGE: #{ARGV[0]} <domainname>"
+	return
+end
+
+x=ast.configurationServiceClient.getDomainDetails(ARGV[1])
+puts x
+
+
+
+
+
+

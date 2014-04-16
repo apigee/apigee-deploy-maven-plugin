@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sci:Application xmlns:sci="http://www.sonoasystems.com/schemas/2007/8/3/sci/" name="HealthCheckApplication">
+  <sci:Description>HealthCheckApplication
+
+Echos the request sent by the client, and returns a HTTP 200 OK if the application is running
+This application is used to check the health of the ServiceNet</sci:Description>
+  <sci:ConfigurationVersion majorVersion="5" minorVersion="0"/>
+  <sci:NamespaceGroups>
+    <sci:NamespaceGroup name="standard.namespaces">
+      <sci:Namespace prefix="xsi">http://www.w3.org/2001/XMLSchema-instance</sci:Namespace>
+      <sci:Namespace prefix="wsdl">http://schemas.xmlsoap.org/wsdl</sci:Namespace>
+      <sci:Namespace prefix="soap">http://www.sonoasystems.com/schemas/2006/02/wsdl/soap/</sci:Namespace>
+      <sci:Namespace prefix="soap11env">http://schemas.xmlsoap.org/soap/envelope/</sci:Namespace>
+      <sci:Namespace prefix="soap12env">http://www.w3.org/2003/05/soap-envelope</sci:Namespace>
+    </sci:NamespaceGroup>
+  </sci:NamespaceGroups>
+  <sci:FlowVariables>
+    <sci:Variable name="offlineFileExists" scope="global" type="boolean" value="false"/>
+  </sci:FlowVariables>
+  <sci:MessageStatistics>enabled</sci:MessageStatistics>
+  <sci:Reporting>disabled</sci:Reporting>
+  <sci:PolicyStatistics>enabled</sci:PolicyStatistics>
+</sci:Application>
