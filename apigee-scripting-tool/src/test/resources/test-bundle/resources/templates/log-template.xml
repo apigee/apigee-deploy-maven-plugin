@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<sci:LogTemplate xmlns:sci="http://www.sonoasystems.com/schemas/2007/8/3/sci/" name="LogTemplate">
-  <sci:LogMessage key="testmessage">This is a test message,value=${value}</sci:LogMessage>
-</sci:LogTemplate>

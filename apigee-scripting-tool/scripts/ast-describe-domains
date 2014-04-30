@@ -1,8 +1,0 @@
-#!/usr/bin/env ast
-
-# Lists all domains
-
-ast.configurationServiceClient.getAllDomainNames().each { |el| puts "#{el}" }
-
-
-
