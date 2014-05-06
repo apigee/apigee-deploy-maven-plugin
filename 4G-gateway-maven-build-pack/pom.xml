@@ -20,12 +20,99 @@
          xsi:schemaLocation='http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd'>
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.apigee.build-tools.enterprise4g</groupId>
-    <artifactId>Apigee-Edge-Maven-plugin</artifactId>
+    <artifactId>apigee-edge-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
     <!-- This is inherited from <version>0.0.15</version> of the the non-opensource plugin -->
     <version>1.0.0</version>
-    <name>Apigee-Edge-Maven-plugin Maven Mojo</name>
+    <name>apigee-edge-maven-plugin maven mojo</name>
     <url>http://maven.apache.org</url>
+
+    <!--<url>https://github.com/apigeecs/proxy-dependency-maven-plugin</url>  -->
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+            <comments>
+                Copyright (C) 2014 Apigee Corporation
+
+                Licensed under the Apache License, Version 2.0 (the "License");
+                you may not use this file except in compliance with the License.
+                You may obtain a copy of the License at
+
+                http://www.apache.org/licenses/LICENSE-2.0
+
+                Unless required by applicable law or agreed to in writing, software
+                distributed under the License is distributed on an "AS IS" BASIS,
+                WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+                See the License for the specific language governing permissions and
+                limitations under the License.
+            </comments>
+        </license>
+    </licenses>
+    <scm>
+        <url>https://github.com/apigeecs/apigee-deploy-maven-plugin</url>
+        <connection>scm:git:https://github.com/apigeecs/apigee-deploy-maven-plugin</connection>
+        <tag>master</tag>
+    </scm>
+    <developers>
+        <developer>
+            <id>craigmwarren</id>
+            <name>Craig Warren</name>
+        </developer>
+        <developer>
+            <id>santanu-dey</id>
+            <name>Santanu Dey</name>
+        </developer>
+        <developer>
+            <id>mwartikar</id>
+            <name>Manoj Wartikar</name>
+        </developer>
+        <developer>
+            <id>rajeshm7910</id>
+            <name>Rajesh Mishra</name>
+        </developer>
+
+        <developer>
+            <id>rajanishgj</id>
+            <name>Rajanish GL</name>
+        </developer>
+
+        <developer>
+            <id>rajanishgj</id>
+            <name>Srikanth Seshadri</name>
+        </developer>
+
+        <developer>
+            <id>rajanishgj</id>
+            <name>Srikanth Seshadri</name>
+        </developer>
+
+        <developer>
+            <id>rajanishgj</id>
+            <name>Srikanth Seshadri</name>
+        </developer>
+
+        <developer>
+            <id>sriki77</id>
+            <name>Srikanth Seshadri</name>
+        </developer>
+
+        <developer>
+            <id>priyanky</id>
+            <name>Priyanky Thomas</name>
+        </developer>
+
+        <developer>
+            <id>richarst</id>
+            <name>Steve Richardson</name>
+        </developer>
+
+
+
+
+    </developers>
+
 
     <build>
 
@@ -48,6 +135,47 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+             <!--  The below plugin is used for applying/updating license info-->
+            <!--<plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <version>2.3</version>
@@ -71,7 +199,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>  -->
         </plugins>
     </build>
 
