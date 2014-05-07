@@ -39,3 +39,18 @@ For available Goals : mvn help:describe -Dplugin=apigee-enterprise
 For 'configure' Goal : mvn help:describe -Dplugin=apigee-enterprise -Dmojo=configure -Dfull=true
 
 For 'deploy' Goal : mvn help:describe -Dplugin=apigee-enterprise -Dmojo=deploy -Dfull=true
+
+-----
+Note
+------
+
+The Plugin development expects the developer to have an Apigee Org and access to test the Plugins.
+The information is configured in default profile of the pom.
+
+------------------------------
+Command to execute for testing
+------------------------------
+
+mvn clean install -Dusername=<username> -Dpassword=<password> -Dorg=<org> -Denv=<env>
+
+
