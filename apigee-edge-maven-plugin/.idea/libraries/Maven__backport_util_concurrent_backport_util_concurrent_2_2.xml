@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: backport-util-concurrent:backport-util-concurrent:2.2">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/backport-util-concurrent/backport-util-concurrent/2.2/backport-util-concurrent-2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/backport-util-concurrent/backport-util-concurrent/2.2/backport-util-concurrent-2.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/backport-util-concurrent/backport-util-concurrent/2.2/backport-util-concurrent-2.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

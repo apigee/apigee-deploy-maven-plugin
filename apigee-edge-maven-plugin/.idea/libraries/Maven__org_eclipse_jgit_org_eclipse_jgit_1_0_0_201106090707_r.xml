@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.eclipse.jgit:org.eclipse.jgit:1.0.0.201106090707-r">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/jgit/org.eclipse.jgit/1.0.0.201106090707-r/org.eclipse.jgit-1.0.0.201106090707-r.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/jgit/org.eclipse.jgit/1.0.0.201106090707-r/org.eclipse.jgit-1.0.0.201106090707-r-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/jgit/org.eclipse.jgit/1.0.0.201106090707-r/org.eclipse.jgit-1.0.0.201106090707-r-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
