@@ -15,9 +15,7 @@
     limitations under the License.
 
 -->
-<project xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-         xmlns='http://maven.apache.org/POM/4.0.0'
-         xsi:schemaLocation='http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd'>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.apigee.build-tools.enterprise4g</groupId>
     <artifactId>apigee-edge-maven-plugin</artifactId>
@@ -51,9 +49,9 @@
         </license>
     </licenses>
     <scm>
-        <url>https://github.com/apigee/apigee-deploy-maven-plugin</url>
+        <url>git@github.com:apigee/apigee-deploy-maven-plugin.git</url>
         <connection>scm:git:https://github.com/apigee/apigee-deploy-maven-plugin.git</connection>
-        <tag>master</tag>
+        <tag>apigee-edge-maven-plugin-1.0.0</tag>
     </scm>
     <developers>
         <developer>
