@@ -17,6 +17,13 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+      <groupId>org.sonatype.oss</groupId>
+      <artifactId>oss-parent</artifactId>
+      <version>7</version>
+    </parent>
+
     <groupId>io.apigee.build-tools.enterprise4g</groupId>
     <artifactId>apigee-edge-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
@@ -25,7 +32,6 @@
     <name>apigee-edge-maven-plugin maven mojo</name>
     <url>http://maven.apache.org</url>
 
-    <!--<url>https://github.com/apigeecs/proxy-dependency-maven-plugin</url>  -->
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -296,17 +302,7 @@
         </dependency>
 
     </dependencies>
-    <distributionManagement>
-        <!-- <snapshotRepository> <id>apigee-cs-plugins-snapshot</id> <name>apigee-cs-snapshot</name>
-            <url>http://repo.apigee.com:8081/artifactory/plugins-snapshot-local</url>
-            </snapshotRepository> -->
-        <repository>
-            <id>apigee-cs-plugins-release</id>
-            <name>apigee-cs-plugins-release</name>
-            <url>http://repo.apigee.com:8081/artifactory/plugins-release-local</url>
-        </repository>
 
-    </distributionManagement>
     <profiles>
     <profile>
         <id>default</id>
