@@ -51,8 +51,8 @@
         </license>
     </licenses>
     <scm>
-        <url>https://github.com/apigeecs/apigee-deploy-maven-plugin</url>
-        <connection>scm:git:https://github.com/apigeecs/apigee-deploy-maven-plugin</connection>
+        <url>https://github.com/apigee/apigee-deploy-maven-plugin</url>
+        <connection>scm:git:https://github.com/apigee/apigee-deploy-maven-plugin.git</connection>
         <tag>master</tag>
     </scm>
     <developers>
