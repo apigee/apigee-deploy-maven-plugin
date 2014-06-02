@@ -130,3 +130,10 @@ Note:- The Plugin development expects the developer to have an Apigee Org and ac
 The information is configured in default profile of the pom.
 
 
+People Involved
+------------------------
+
+The plugin is initially developed  by [Santany Dey] (sdey@apigee.com). With major contributions from [Rajesh Mishra] (rajesh.mishra@apigee.com) and others listed in the pom developer list.
+It was open sourced by [Priyanky Thomas] (priyanky@apigee.com).
+Project was initially co-ordinated by [Senthil Doraiswamy] (senthil@apigee.com)
+
