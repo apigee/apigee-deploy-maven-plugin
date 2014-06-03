@@ -130,7 +130,7 @@
 				<apigee.env>test</apigee.env>
 				<apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
 				<apigee.apiversion>v1</apigee.apiversion> <!-- value of version in  https://api.enterprise.apigee.com/v2 -->
-				<apigee.org>demo30</apigee.org>
+				<apigee.org>testmyapi</apigee.org>
 			    	<apigee.username>${username}</apigee.username>
                 		<apigee.password>${password}</apigee.password>
 				<apigee.options>clean,validate</apigee.options>
