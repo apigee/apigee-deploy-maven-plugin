@@ -1,6 +1,6 @@
 ## Getting Started
 - [ ] Clone this repo
-- [ ] Execute [Install API Bundle](https://github.com/apigee/apigee-deploy-maven-plugin/tree/master/samples#using-maven-command-directly)
+- [ ] Execute [Install API Bundle](https://github.com/apigeecs/apigee-deploy-maven-plugin-demo/blob/master/README.md#install-api-bundle)
 
 
 HOW TO RUN 
