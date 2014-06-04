@@ -1,6 +1,6 @@
 ## Getting Started
 - [ ] Clone this repo
-- [ ] Execute [Install API Bundle](https://github.com/apigeecs/apigee-deploy-maven-plugin-demo/blob/master/README.md#install-api-bundle)
+- [ ] Execute [Install API Bundle](https://github.com/apigee/apigee-deploy-maven-plugin/tree/master/samples#using-maven-command-directly)
 
 
 HOW TO RUN 
@@ -17,5 +17,5 @@ using script
 ./deploy.sh  test <apigee edge login>
 
 ## More Documentation
-* [Download word documentation]
+* Download word documentation
 * [Ask The Expert Presentation](https://community.apigee.com/learn/know-ask-expert-and-office-hours)
