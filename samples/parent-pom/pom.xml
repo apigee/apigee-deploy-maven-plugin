@@ -35,7 +35,7 @@
 				<updatePolicy>never</updatePolicy>
 			</releases>
 		</pluginRepository>
-		<pluginRepository>
+		<!--pluginRepository>
 			<id>apigee-cs-repo</id>
 			<url>http://repo.apigee.com:8081/artifactory/repo</url>
 			<snapshots>
@@ -44,7 +44,7 @@
 			<releases>
 				<updatePolicy>never</updatePolicy>
 			</releases>
-		</pluginRepository>
+		</pluginRepository-->
 	</pluginRepositories>
 	<modules>
             <module>../forcastweatherapi</module>		
@@ -55,7 +55,7 @@
 			<plugins>
 				<plugin>
 					<groupId>io.apigee.build-tools.enterprise4g</groupId>
-					<artifactId>Apigee-Edge-Maven-plugin</artifactId>
+					<artifactId>apigee-edge-maven-plugin</artifactId>
 					<version>1.0.0</version>
 				</plugin>
 			</plugins>
@@ -89,7 +89,7 @@
 
 			<plugin>
 				<groupId>io.apigee.build-tools.enterprise4g</groupId>
-				<artifactId>Apigee-Edge-Maven-plugin</artifactId>
+				<artifactId>apigee-edge-maven-plugin</artifactId>
 				<configuration>
 					<skip>true</skip>
 				</configuration>
@@ -163,12 +163,12 @@
 	</dependency>
 </dependencies>
 
-<repositories>
+<!--repositories>
 <repository>
 <id>apigee-cs-repo</id>
 <url>http://repo.apigee.com:8081/artifactory/repo</url>
 </repository>
-</repositories>
+</repositories-->
 </project>
 
 
