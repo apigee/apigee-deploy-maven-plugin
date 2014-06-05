@@ -16,18 +16,23 @@
     limitations under the License.
 
 -->
-<TargetEndpoint name="default">
+<ProxyEndpoint name="default">
     <Description/>
     <Flows/>
     <PreFlow name="PreFlow">
         <Request/>
         <Response/>
     </PreFlow>
-    <HTTPTargetConnection>
-        <URL>WILL BE REPLACED BY MAVEN</URL>
-    </HTTPTargetConnection>
+    <HTTPProxyConnection>
+        <BasePath>/v1/weather</BasePath>
+        <VirtualHost>default</VirtualHost>
+        <VirtualHost>secure</VirtualHost>
+    </HTTPProxyConnection>
+    <RouteRule name="default">
+        <TargetEndpoint>default</TargetEndpoint>
+    </RouteRule>
     <PostFlow name="PostFlow">
         <Request/>
         <Response/>
     </PostFlow>
-</TargetEndpoint>
+</ProxyEndpoint>
