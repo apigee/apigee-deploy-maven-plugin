@@ -55,15 +55,6 @@
                 <groupId>io.apigee.build-tools.enterprise4g</groupId>
                 <artifactId>apigee-edge-maven-plugin</artifactId>
                 <version>1.0.0</version>
-                <configuration>
-                    <orgName>${org}</orgName>
-                    <deploymentEnv>test</deploymentEnv>
-                    <hostURL>https://api.enterprise.apigee.com</hostURL>
-                    <apiVersion>v1</apiVersion>
-                    <userName>${username}</userName>
-                    <password>${password}</password>
-                    <options>validate,update</options>
-                </configuration>
                 <executions>
                     <execution>
                         <id>configure-bundle</id>
@@ -97,7 +88,7 @@
                             <ignoreResultFailures>true</ignoreResultFailures>
                             <suppressJMeterOutput>false</suppressJMeterOutput>
                             <propertiesUser>
-                                <testEnv>test</testEnv>
+                                <testEnv>${apigee.env}</testEnv>
                             </propertiesUser>
                         </configuration>
                     </execution>
@@ -109,4 +100,32 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <apigee.profile>prod</apigee.profile>
+                <apigee.env>prod</apigee.env>
+                <apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
+                <apigee.apiversion>v1</apigee.apiversion>
+                <apigee.org>${org}</apigee.org>
+                <apigee.username>${username}</apigee.username>
+                <apigee.password>${password}</apigee.password>
+                <apigee.options>validate,update</apigee.options>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <apigee.profile>test</apigee.profile>
+                <apigee.env>test</apigee.env>
+                <apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
+                <apigee.apiversion>v1</apigee.apiversion>
+                <apigee.org>${org}</apigee.org>
+                <apigee.username>${username}</apigee.username>
+                <apigee.password>${password}</apigee.password>
+                <apigee.options>validate,update</apigee.options>
+            </properties>
+        </profile>
+    </profiles>
 </project>

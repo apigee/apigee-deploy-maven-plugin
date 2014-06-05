@@ -24,7 +24,7 @@
         <Response/>
     </PreFlow>
     <HTTPProxyConnection>
-        <BasePath>/v1/forcastrss</BasePath>
+        <BasePath>/weather</BasePath>
         <VirtualHost>default</VirtualHost>
         <VirtualHost>secure</VirtualHost>
     </HTTPProxyConnection>
