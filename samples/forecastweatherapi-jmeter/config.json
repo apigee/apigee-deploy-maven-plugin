@@ -1,0 +1,84 @@
+{
+    "configurations": [
+        {
+            "name": "test",
+            "policies": [
+                {
+                    "name": "assignPayload.xml",
+                    "tokens": [
+                        {
+                            "xpath": "/AssignMessage/Add/Headers/Header[@name='TO_BE_REPLACED']",
+                            "value": "max-age=3600"
+                        },
+                        {
+                            "xpath": "/AssignMessage/Add/Headers/Header[@name='TO_BE_REPLACED']/@name",
+                            "value": "Cache-Control"
+                        }
+                    ]
+                }
+            ],
+            "proxies": [
+                {
+                    "name": "default.xml",
+                    "tokens": [
+                        {
+                            "xpath": "/ProxyEndpoint/HTTPProxyConnection/BasePath",
+                            "value": "/weather"
+                        }
+                    ]
+                }
+            ],
+            "targets": [
+                {
+                    "name": "default.xml",
+                    "tokens": [
+                        {
+                            "xpath": "/TargetEndpoint/HTTPTargetConnection/URL",
+                            "value": "http://weather.yahooapis.com"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "prod",
+            "policies": [
+                {
+                    "name": "assignPayload.xml",
+                    "tokens": [
+                        {
+                            "xpath": "/AssignMessage/Add/Headers/Header[@name='TO_BE_REPLACED']",
+                            "value": "max-age=3600"
+                        },
+                        {
+                            "xpath": "/AssignMessage/Add/Headers/Header[@name='TO_BE_REPLACED']/@name",
+                            "value": "Cache-Control"
+                        }
+                    ]
+                }
+            ],
+            "proxies": [
+                {
+                    "name": "default.xml",
+                    "tokens": [
+                        {
+                            "xpath": "/ProxyEndpoint/HTTPProxyConnection/BasePath",
+                            "value": "/weather"
+                        }
+                    ]
+                }
+            ],
+            "targets": [
+                {
+                    "name": "default.xml",
+                    "tokens": [
+                        {
+                            "xpath": "/TargetEndpoint/HTTPTargetConnection/URL",
+                            "value": "http://weather.yahooapis.com"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
