@@ -7,7 +7,7 @@ The code is distributed under the Apache License 2.0.
 
 
 -------------------------------------------
-Detailed documentation on the use of plugin
+##Detailed documentation on the use of plugin
 -------------------------------------------
 
 
