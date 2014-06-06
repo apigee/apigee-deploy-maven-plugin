@@ -4,7 +4,7 @@ With the Apigee Enterprise, you can find building simple API's quick and easy us
 
 # Contents
 
-- [Getting Started](#Getting-Started)
+- [Getting-Started](#Getting-Started)
 
 Creating a development workspace using the Export Paradigm
 
