@@ -12,7 +12,7 @@ The code is distributed under the Apache License 2.0.
 
 
 
-# Contents
+## Contents
 
 - [Getting-Started](#getting-started)
 
