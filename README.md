@@ -204,7 +204,7 @@ The config.json acts as your build time configuration modification descriptor. T
 
 for instance in the example below you have two configurations one for the test profile and one for the production profile. This example also shows how you can use xpath to replace environment specific settings.
 
-#### Config.json Data Structure
+#### Config-json Sample
 
 
 Refer config.json template [config.json]
