@@ -4,7 +4,7 @@ With the Apigee Enterprise, you can find building simple API's quick and easy us
 
 
 
-[Getting Started](#Getting Started)
+- [Getting Started](#Getting-Started)
 
 Creating a development workspace using the Export Paradigm
 
@@ -48,7 +48,7 @@ Config.json Data Structure
 
 
 
-## Getting Started
+## Getting-Started
 
 Often the most difficult and confusing thing in application development is figuring out how to build a common framework for creating new applications. Over time development teams have started using tools like Maven, Ant and Ivy to automate some of these functions. At Apigee we have use two primary methods for creating our development workspaces. The first and most widely used is the export paradigm, the second is using a maven archetype.
 
