@@ -1,5 +1,5 @@
 ## Getting Started
-- [ ] [Sign up for an Apigee Account!](https://accounts.apigee.com/accounts/sign_up?callback=https://enterprise.apigee.co)
+- [ ] [Sign up for an Apigee Account!](https://accounts.apigee.com/accounts/sign_up?callback=https://enterprise.apigee.co). Not required if account is already provided.
 - [ ] [Download and install Maven 3.0.*](http://maven.apache.org/download.cgi)
 - [ ] Clone this repo
 - [ ] ```cd {sample-apiproxy-above}``` 
