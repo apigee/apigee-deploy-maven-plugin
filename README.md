@@ -16,8 +16,6 @@ The code is distributed under the Apache License 2.0.
 
 - [Getting-Started](#getting-started)
 
-- [Create a new API](#create-a-new-api)
-
 - [Building API bundles](#building-api-bundles)
 
 - [Steps to set it up](#steps-to-set-it-up) 
