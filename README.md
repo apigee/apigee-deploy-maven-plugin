@@ -29,6 +29,7 @@ The code is distributed under the Apache License 2.0.
 - [pom.xml Sample](#pom-xml-sample)
 
 - [Config.json Sample](#config-json-sample)
+- [Commands](#commands-for-deploying-the-proxy-using-maven)
 
 
 # Getting Started
@@ -248,7 +249,7 @@ Refer config.json template [config.json]
 
 Deploy and run the scripts
 
-Command
+##Commands for deploying the proxy using maven
 
 *To deploy the proxy*
 
