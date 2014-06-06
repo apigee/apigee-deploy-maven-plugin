@@ -135,5 +135,5 @@ People Involved
 
 The plugin is initially developed  by [Santany Dey] (sdey@apigee.com). With major contributions from [Rajesh Mishra] (rajesh.mishra@apigee.com) and others listed in the pom developer list.
 It was open sourced by [Priyanky Thomas] (priyanky@apigee.com).
-Project was initially co-ordinated by [Senthil Doraiswamy] (senthil@apigee.com)
+
 
