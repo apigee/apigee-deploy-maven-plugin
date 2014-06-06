@@ -12,6 +12,12 @@ Detailed documentation on the use of plugin
 
 Refer [Maven Deployment Guide](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/BuildingAndDeployingAPIBundles.docx)
 
+----------------------------------------------------------------
+For the users starting with Apigee Build Plugin
+----------------------------------------------------------------
+
+Refer the above documentation
+
 
 ----------------------------------------------------------------
 For the users migrating from  Apigee maven repo to maven central
@@ -95,7 +101,7 @@ Recommended Convention for Contributions
 4. Moderator of the code will merge after review
 
 ------------------------------------
-Commands to get started for newbee Plugin developers
+Commands to get started for newbee Plugin(Tool) developers. (This is not for Plugin Users)
 -------------------------------------
 
 *Install/compile the Plugin*    
