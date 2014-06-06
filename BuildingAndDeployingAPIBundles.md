@@ -2,29 +2,17 @@
 
 With the Apigee Enterprise, you can find building simple API's quick and easy using our Cloud based User Interface to easily modify and build application bundles to facilitate most of your API management needs. This document will explore what happens when you need more control over the configuration and code you are pushing into your Apigee enterprise environment. Some of the key concepts included in this document will be how to manage configuration using file system based storage, how to effectively build configuration bundles, and how to deploy these bundles to the enterprise UI.
 
+# Contents
 
-
-Getting Started
-
+- [Getting-Started](#getting-started)
 Creating a development workspace using the Export Paradigm
 
-Creating a base directory on your computer
 
 Create a new API
 
-Export your API
-
-Decompress API Bundle
-
-Creating a development workspace with a Maven ArcheType
-
-Building your base Apigee file structure with maven archetype
-
-Building API project folders with maven archetype
+What is an Apigee bundle?
 
 Building API bundles
-
-What is an Apigee bundle?
 
 Common API building strategies
 
@@ -57,23 +45,9 @@ Often the most difficult and confusing thing in application development is figur
 Using this method is very simple and can be outlined by these key steps:
 
 1. Create your base directory structure on your computer
-2. Create a new API at enterprise.apigee.com or on your management server (On-Premise Customers Only)
+2. Create a new API at enterprise.apigee.com or on your management server 
 3. Export your API
 4. De-Compress your API Bundle
-
-### Creating a base directory on your computer
-
-The primary reason to use the export paradigm over the Maven archetype is to gain the flexibility to create your own file structure to contain your app-bundles. Because of the flexibility we will recommend placeholders for certain items that correspond to items that you will want to have on your file-system for effective management.
-
-
-
-| Application bundles | This area will correspond to application bundles that you create to manage API's. Or in simpler terms "Code" |
-| --- | --- |
-| Environments Resources | This placeholder can be used to store xml or json used to create resources on an environment. i.e. Cache, VirtualHosts, KeyValueMaps etc. |
-| Documentation | We always recommend some general API documentation to live with the api configurations. |
-
-
-
 
 
 ### Create a new API
@@ -91,6 +65,24 @@ Instructions for exporting your API via an API can be found at this link
 Instructions for exporting you API using the UI can be found at this link
 
 [http://apigee.com/docs/api-platform/content/edit-api-revisions-offline#-a-class-jumplink-name-export-a-downloading-an-api-revision](http://apigee.com/docs/api-platform/content/edit-api-revisions-offline#-a-class-jumplink-name-export-a-downloading-an-api-revision)
+
+
+
+# Building API bundles
+
+### What is an Apigee bundle? 
+
+Apigee bundles can be described as a zipped file system composed of configuration, scripts and code. The file system when extracted is composed of the following structure.
+
+|-apiproxy
+
+ |---proxies
+
+ |---resources
+
+ |---policies
+
+ |---targets
 
 ### Decompress API Bundle
 
@@ -111,22 +103,6 @@ targets - A folder that contains information about target configurations (outbou
 resources - A folder that contains any scripts (Java, js, and python)
 
 Note: when creating scripts place your scripts in folders with the name of the script ext i.e. java, jsc, py
-
-# Building API bundles
-
-### What is an Apigee bundle? 
-
-Apigee bundles can be described as a zipped file system composed of configuration, scripts and code. The file system when extracted is composed of the following structure.
-
-|-apiproxy
-
- |---proxies
-
- |---resources
-
- |---stepdefinitions
-
- |---targets
 
 ### Common API building strategies
 
