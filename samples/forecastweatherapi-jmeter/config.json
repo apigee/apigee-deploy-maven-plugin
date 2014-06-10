@@ -4,15 +4,11 @@
             "name": "test",
             "policies": [
                 {
-                    "name": "assignPayload.xml",
+                    "name": "Assign-Message-1.xml",
                     "tokens": [
                         {
-                            "xpath": "/AssignMessage/Add/Headers/Header[@name='TO_BE_REPLACED']",
-                            "value": "max-age=3600"
-                        },
-                        {
-                            "xpath": "/AssignMessage/Add/Headers/Header[@name='TO_BE_REPLACED']/@name",
-                            "value": "Cache-Control"
+                            "xpath": "/AssignMessage/Set/Headers/Header[@name='ENV']",
+                            "value": "TEST"
                         }
                     ]
                 }
