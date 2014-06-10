@@ -150,7 +150,7 @@
               <idleTime>true</idleTime>
             </value>
           </objProp>
-          <stringProp name="filename">/Users/ApigeeCorporation/Documents/tools/git/L.L.Bean2/L.L.Bean/LLBean/apiproxies/weather-api/target/jmeter/results/20131221-weather.jtl</stringProp>
+          <stringProp name="filename">../target/jmeter/results/weather.jtl</stringProp>
         </ResultCollector>
         <hashTree/>
       </hashTree>
