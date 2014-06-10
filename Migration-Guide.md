@@ -19,7 +19,7 @@ All the features available till 0.0.16 is moved on to the open source version an
 
    **version  change** :Update 0.0.X to 1.0.0  (The latest one in                           maven central)
 
-2.  Update Parent pom under *pluginManagement* and *plugin* sections
+2.  Update *Parent pom* under *pluginManagement* and *plugin* sections
 
 **a**
 
@@ -45,10 +45,9 @@ All the features available till 0.0.16 is moved on to the open source version an
          </plugin>
 
 
-In Child pom
-------------
 
-1. Update the  plugin
+
+1. Update the *Child pom* update the below 
 
 			<plugin>
 				<groupId>io.apigee.build-tools.enterprise4g</groupId>
