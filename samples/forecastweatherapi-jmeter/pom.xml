@@ -72,7 +72,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+            <!--plugin>
                 <groupId>com.lazerycode.jmeter</groupId>
                 <artifactId>jmeter-maven-plugin</artifactId>
                 <version>1.8.1</version>
@@ -97,13 +97,15 @@
                     <testFilesDirectory>tests</testFilesDirectory>
                     <testResultsTimestamp>false</testResultsTimestamp>
                 </configuration>
-            </plugin>
+            </plugin-->
         </plugins>
     </build>
     <profiles>
         <profile>
             <id>test</id>
             <properties>
+                <org>testmyapi</org>  <!-- default org, replace with dafault org to avoid passing parameter e.g. -Dorg testmyapi -->
+                <options>validate</options>  <!-- default org, replace with dafault org to avoid passing parameter e.g. -Dorg testmyapi -->
                 <apigee.profile>test</apigee.profile>
                 <apigee.env>test</apigee.env>
                 <apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
@@ -111,13 +113,14 @@
                 <apigee.org>${org}</apigee.org>
                 <apigee.username>${username}</apigee.username>
                 <apigee.password>${password}</apigee.password>
-                <apigee.options>validate</apigee.options>             
+                <apigee.options>${options}</apigee.options>             
             </properties>
             <build>
               <plugins>
                 <plugin>
                     <groupId>com.lazerycode.jmeter</groupId>
                     <artifactId>jmeter-maven-plugin</artifactId>
+                    <version>1.8.1</version>
                     <executions>
                         <execution>
                             <id>jmeter-tests</id>
@@ -138,6 +141,10 @@
                             </configuration>
                         </execution>
                     </executions>
+                    <configuration>
+                        <testFilesDirectory>tests</testFilesDirectory>
+                        <testResultsTimestamp>false</testResultsTimestamp>
+                    </configuration>                    
                     </plugin>
                 </plugins>
             </build>            
