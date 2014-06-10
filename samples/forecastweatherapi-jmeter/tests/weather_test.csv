@@ -1,6 +1,6 @@
 testcaseid,userstory,testcasedescription,servername,path,woeid,units,execute,assertheader,assertcontent,env,assertcontentnegative
 WEATHER-1-1,WEATHER-1,valid location (woeid),testmyapi-test.apigee.net,/weather/forecastrss,2502265,c,Y,HTTP/1.1 200 OK,city,DEV,NON-EXISTENT-WORD
 WEATHER-1-2,WEATHER-1,valid location (woeid),testmyapi-test.apigee.net,/weather/forecastrss,56465629,c,Y,HTTP/1.1 200 OK,city,DEV,NON-EXISTENT-WORD
-WEATHER-1-3,WEATHER-1,weather at kris kleva,testmyapi-test.apigee.net,/weather/forecastrss,2524575,c,Y,HTTP/1.1 200 OK,city,DEV,NON-EXISTENT-WORD
+WEATHER-1-3,WEATHER-1,weather at maine,testmyapi-test.apigee.net,/weather/forecastrss,2524575,c,Y,HTTP/1.1 200 OK,city,DEV,NON-EXISTENT-WORD
 WEATHER-1-4,WEATHER-1,invalid location (woed),testmyapi-test.apigee.net,/weather/forecastrss,00000000,c,Y,HTTP/1.1 200 OK,,DEV,city,NON-EXISTENT-WORD
 WEATHER-1-5,WEATHER-1,invalid location (woed) test that channel word does not exist,testmyapi-test.apigee.net,/weather/forecastrss,00000000,c,N,HTTP/1.1 200 OK,,DEV,channel

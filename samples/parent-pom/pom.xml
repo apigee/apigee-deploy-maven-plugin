@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>apigee</groupId>
+	<artifactId>parent-pom</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0</version>
+	
+	<modules>
+            <module>../forecastweatherapi-jmeter</module>		
+	</modules>
+	<properties>
+            <main.basedir>${project.basedir}</main.basedir>
+    </properties>
+
+	<build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
+        
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <overwrite>true</overwrite>
+                            <encoding>UTF-8</encoding>
+                             <echo message="basedir parent : ${basedir}"/>
+                            <outputDirectory>${basedir}/target/apiproxy</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>apiproxy</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>io.apigee.build-tools.enterprise4g</groupId>
+                <artifactId>apigee-edge-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <id>configure-bundle</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>configure</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>deploy-bundle</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--plugin>
+                <groupId>com.lazerycode.jmeter</groupId>
+                <artifactId>jmeter-maven-plugin</artifactId>
+                <version>1.8.1</version>
+                <executions>
+                    <execution>
+                        <id>jmeter-tests</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>jmeter</goal>
+                        </goals>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                            <ignoreResultFailures>true</ignoreResultFailures>
+                            <suppressJMeterOutput>false</suppressJMeterOutput>
+                            <propertiesUser>
+                                <testEnv>${apigee.env}</testEnv>
+                            </propertiesUser>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <testFilesDirectory>tests</testFilesDirectory>
+                    <testResultsTimestamp>false</testResultsTimestamp>
+                </configuration>
+            </plugin-->
+		</plugins>
+	</build>
+	
+<!-- This is where you add the environment specific properties under various profile names -->		
+ <profiles>
+        <profile>
+            <id>test</id>
+            <properties>
+                <org>testmyapi</org>  <!-- default org, replace with dafault org to avoid passing parameter e.g. -Dorg testmyapi -->
+                <options>validate</options>  <!-- default org, replace with dafault org to avoid passing parameter e.g. -Dorg testmyapi -->
+                <apigee.profile>test</apigee.profile>
+                <apigee.env>test</apigee.env>
+                <apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
+                <apigee.apiversion>v1</apigee.apiversion>
+                <apigee.org>${org}</apigee.org>
+                <apigee.username>${username}</apigee.username>
+                <apigee.password>${password}</apigee.password>
+                <apigee.options>${options}</apigee.options>             
+            </properties>
+        </profile>        
+        <profile>
+            <id>prod</id>
+            <properties>
+                <apigee.profile>prod</apigee.profile>
+                <apigee.env>prod</apigee.env>
+                <apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
+                <apigee.apiversion>v1</apigee.apiversion>
+                <apigee.org>${org}</apigee.org>
+                <apigee.username>${username}</apigee.username>
+                <apigee.password>${password}</apigee.password>
+                <apigee.options>validate</apigee.options>
+            </properties>
+        </profile>
+    </profiles>
+		
+<dependencies>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>4.8.2</version>
+		<scope>test</scope>
+	</dependency>
+</dependencies>
+
+</project>
