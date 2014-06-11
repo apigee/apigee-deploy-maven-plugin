@@ -51,6 +51,15 @@
                             "value": "Cache-Control"
                         }
                     ]
+                },
+                {
+                    "name": "Assign-Message-1.xml",
+                    "tokens": [
+                        {
+                            "xpath": "/AssignMessage/Set/Headers/Header[@name='ENV']",
+                            "value": "PROD"
+                        }
+                    ]
                 }
             ],
             "proxies": [
