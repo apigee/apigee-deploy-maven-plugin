@@ -8,7 +8,7 @@ The code is distributed under the Apache License 2.0.
 ------------
 TL;DR
 ------------
-Sample [forecastweather-jmeter](https://github.com/apigee/apigee-deploy-maven-plugin/tree/master/samples) API bundle provides steps and commands to hit the ground quickly.
+Sample [forecastweather-jmeter](https://github.com/apigee/apigee-deploy-maven-plugin/tree/master/samples) API bundle provides Getting Started steps and commands to hit the ground quickly.
 
 
 -------------------------------------------
