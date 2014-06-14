@@ -19,9 +19,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>apigee</groupId>
-    <artifactId>forecastweatherapi</artifactId>
+    <artifactId>forecastweatherapi-simple</artifactId>
     <version>1.0</version>
-    <name>forecastweatherapi</name>
+    <name>forecastweatherapi-simple</name>
     <packaging>pom</packaging>
     <build>
         <plugins>
