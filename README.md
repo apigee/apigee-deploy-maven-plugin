@@ -10,12 +10,14 @@ TL;DR
 ------------
 The [samples folder](https://github.com/apigee/apigee-deploy-maven-plugin/tree/master/samples) provides a Readme with Getting Started steps and commands to hit the ground quickly.
 
+------------
+Video
+------------
+Learn more, check out this video! [Ask the Expert](https://community.apigee.com/ask-expert#maven)
 
 -------------------------------------------
 ##Detailed documentation on the use of plugin
 -------------------------------------------
-
-
 
 ## Contents
 
