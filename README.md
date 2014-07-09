@@ -266,9 +266,9 @@ mvn apigee-enterprise:deploy -P prod -Dusername=admin@toopowerful.com -Dpassword
 
 **Note 3:** The "apigee.options" element can have the following values: **clean** (this option will delete the last deployed revision in an environment), **validate** (this option will validate a bundle before importing. Thus if you want strict validation then its required), **inactive** (this option will import the bundle without activating the bundle), **override** (this option is used for seamless deployment and should be supplied with apigee.override.delay parameter. The apigee.override.delay expects delay to be given in seconds), **update** (this option will update the deployed revision. This is similar to import with validation but no new revision is created. If there are any errors in the bundle, an error is thrown and the existing bundle is left intact. In case the revision they are trying to update is deployed, it will internally trigger undeployment and deployment. It is completely in the background and not visible in the response. **It is not advised to update the deployed revision** . (UI could show a warning or something in this case).
 
-**Note 4** The "apigee.options" combination could be given with comma separated values. The precedence order of options are -> override, update, (clean, inactive, validate, force). 
+**Note 4:** The "apigee.options" combination could be given with comma separated values. The precedence order of options are -> override, update, (clean, inactive, validate, force). 
 
-**Note 5** Flow without "apigee.options":import –> undeploy (lastactive) –> deploy (new revision)
+**Note 5:** Flow without "apigee.options":import –> undeploy (lastactive) –> deploy (new revision)
 
 ----------------------------------------------------------------
 For the users migrating from Apigee Maven repo to Maven central
