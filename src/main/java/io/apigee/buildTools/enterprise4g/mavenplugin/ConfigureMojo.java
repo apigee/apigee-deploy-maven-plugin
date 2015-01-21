@@ -21,6 +21,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 
@@ -36,53 +37,76 @@ import java.io.File;
 public class ConfigureMojo extends GatewayAbstractMojo {
 
 
-    public void execute() throws MojoExecutionException, MojoFailureException {
+	public void execute() throws MojoExecutionException, MojoFailureException {
 
-        if (super.isSkip()) {
-            getLog().info("Skipping");
-            return;
-        }
+		if (super.isSkip()) {
+			getLog().info("Skipping");
+			return;
+		}
 
-        Logger logger = LoggerFactory.getLogger(ConfigureMojo.class);
-        File configFile = findConfigFile(logger);
+		Logger logger = LoggerFactory.getLogger(ConfigureMojo.class);
+		File configFile = findConfigFile(logger);
 
-        if (configFile != null) {
-            configurePackage(logger, configFile);
-        }
+		if (configFile != null) {
+			configurePackage(logger, configFile);
+		}
 
-        logger.info("\n\n=============Now zipping the App Bundle================\n\n");
+		File nodeDir = new File(super.getBuildDirectory() + "/apiproxy/resources/node");
+		if (nodeDir && nodeDir.isDirectory()) {
+			logger.info("\n\n=============Now zipping node modules================\n\n");
 
-        try {
-            ZipUtils zu = new ZipUtils();
-            zu.zipDir(new File(super.getApplicationBundlePath()),
-                    new File(super.getBuildDirectory() + "/apiproxy"), "apiproxy");
-        } catch (Exception e) {
-            throw new MojoExecutionException(e.getMessage());
-        }
-    }
+			String[] filesInNodeDir = nodeDir.list();
 
-    private void configurePackage(Logger logger, File configFile) throws MojoExecutionException {
-        logger.debug("\n\n=============Now updating the configuration values for the App Bundle================\n\n");
-        try {
-            if (super.getProfile().getProfileId() != null && super.getProfile().getProfileId() != "") {
-                PackageConfigurer.configurePackage(super.getProfile().getProfileId(), configFile);
-            } else {
-                PackageConfigurer.configurePackage(super.getProfile().getEnvironment(), configFile);
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw new MojoExecutionException(e.getMessage());
-        }
-    }
+			for (String fileName:filesInNodeDir) {
+				File dirFile = new File (fileName);
+				if (dirFile.isDirectory())
+				{
+					try {
+						ZipUtils zu = new ZipUtils();
+						zu.zipDir(new File(fileName + ".zip")),
+								dirFile, fileName.getName());
+						FileUtils.deleteDirectory(dirFile);
+					} catch (Exception e) {
+						throw new MojoExecutionException(e.getMessage());
+					}
+				}
+			}
 
-    private File findConfigFile(Logger logger) throws MojoExecutionException {
-        File configFile = new File(super.getBaseDirectoryPath() + File.separator + "config.json");
+		}
 
-        if (configFile.exists()) {
-            return configFile;
-        }
+		logger.info("\n\n=============Now zipping the App Bundle================\n\n");
 
-        logger.info("No config.json found. Skipping package configuration.");
-        return null;
-    }
+		try {
+			ZipUtils zu = new ZipUtils();
+			zu.zipDir(new File(super.getApplicationBundlePath()),
+					new File(super.getBuildDirectory() + "/apiproxy"), "apiproxy");
+		} catch (Exception e) {
+			throw new MojoExecutionException(e.getMessage());
+		}
+	}
+
+	private void configurePackage(Logger logger, File configFile) throws MojoExecutionException {
+		logger.debug("\n\n=============Now updating the configuration values for the App Bundle================\n\n");
+		try {
+			if (super.getProfile().getProfileId() != null && super.getProfile().getProfileId() != "") {
+				PackageConfigurer.configurePackage(super.getProfile().getProfileId(), configFile);
+			} else {
+				PackageConfigurer.configurePackage(super.getProfile().getEnvironment(), configFile);
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new MojoExecutionException(e.getMessage());
+		}
+	}
+
+	private File findConfigFile(Logger logger) throws MojoExecutionException {
+		File configFile = new File(super.getBaseDirectoryPath() + File.separator + "config.json");
+
+		if (configFile.exists()) {
+			return configFile;
+		}
+
+		logger.info("No config.json found. Skipping package configuration.");
+		return null;
+	}
 }
