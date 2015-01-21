@@ -51,22 +51,25 @@ public class ConfigureMojo extends GatewayAbstractMojo {
 			configurePackage(logger, configFile);
 		}
 
-		File nodeDir = new File(super.getBuildDirectory() + "/apiproxy/resources/node");
-		if (nodeDir && nodeDir.isDirectory()) {
+        String nodeDirPath = super.getBuildDirectory() + "/apiproxy/resources/node/";
+        File nodeDir = new File(nodeDirPath);
+		if (nodeDir != null && nodeDir.isDirectory()) {
 			logger.info("\n\n=============Now zipping node modules================\n\n");
 
 			String[] filesInNodeDir = nodeDir.list();
 
 			for (String fileName:filesInNodeDir) {
-				File dirFile = new File (fileName);
+                String filePath = nodeDirPath+fileName;
+				File dirFile = new File (filePath);
 				if (dirFile.isDirectory())
 				{
+                    logger.info("Zipping "+fileName+" (it is a directory).");
 					try {
 						ZipUtils zu = new ZipUtils();
-						zu.zipDir(new File(fileName + ".zip")),
-								dirFile, fileName.getName());
-						FileUtils.deleteDirectory(dirFile);
-					} catch (Exception e) {
+						zu.zipDir(new File(filePath + ".zip"),
+								dirFile, fileName);
+                        FileUtils.deleteDirectory(dirFile);
+                    } catch (Exception e) {
 						throw new MojoExecutionException(e.getMessage());
 					}
 				}

@@ -1,3 +1,6 @@
 samples/forecastweatherapi/target/apiproxy/forcastweatherapi.xml
 samples/forecastweatherapi/target/apiproxy/proxies/default.xml
 samples/forecastweatherapi/target/apiproxy/targets/default.xml
+.idea
+*.iml
+target
