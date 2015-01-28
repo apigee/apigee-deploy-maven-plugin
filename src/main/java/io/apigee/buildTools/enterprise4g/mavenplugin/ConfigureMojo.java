@@ -51,9 +51,33 @@ public class ConfigureMojo extends GatewayAbstractMojo {
 			configurePackage(logger, configFile);
 		}
 
+        logger.info("\n\n=============Checking for node.js app================\n\n");
+        //sometimes node.js source lives outside the apiproxy/ in node/ within the base project directory
+        String externalNodeDirPath = super.getBaseDirectoryPath() + "/node/";
+        File externalNodeDir = new File(externalNodeDirPath);
+
+        //if node.js source is inside apiproxy/ directory, it will be in the build directory
         String nodeDirPath = super.getBuildDirectory() + "/apiproxy/resources/node/";
         File nodeDir = new File(nodeDirPath);
-		if (nodeDir != null && nodeDir.isDirectory()) {
+
+
+        //if we find files in the node/ directory outside apiproxy/, move into apiproxy/resources/node
+        //this takes precedence and we will overwrite potentially stale node.js code in  apiproxy/resources/node
+        if(externalNodeDir.isDirectory()){
+            String[] filesInExternalNodeDir = externalNodeDir.list();
+            if(filesInExternalNodeDir.length > 0) {
+                logger.info("Node.js app code found outside apiproxy/ directory. Moving to target/apiproxy/resources/node (will overwrite).");
+                try {
+                    FileUtils.deleteDirectory(nodeDir);
+                    FileUtils.copyDirectory(externalNodeDir, nodeDir);
+                }catch(Exception e){
+                    throw new MojoExecutionException(e.getMessage());
+                }
+            }
+        }
+
+        //always handle zipping of any directories in apiproxy/resources/node
+		if (nodeDir.isDirectory()) {
 			logger.info("\n\n=============Now zipping node modules================\n\n");
 
 			String[] filesInNodeDir = nodeDir.list();
