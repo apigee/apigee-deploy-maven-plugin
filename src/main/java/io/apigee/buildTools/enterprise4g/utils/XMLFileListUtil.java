@@ -15,14 +15,14 @@
  */
 package io.apigee.buildTools.enterprise4g.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 //import javax.xml.parsers.ParserConfigurationException;
 //import javax.xml.transform.SourceLocator;
@@ -61,7 +61,7 @@ public class XMLFileListUtil {
 		// the project pom level.
 
 		List<File> fileNames = new ArrayList<File>();
-		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + "apiproxy" + File.separator + "proxies";
+        String sDirectory = configFile.getParent() + File.separator + "apiproxy" + File.separator + "proxies";
 
 		fileNames = getXMLFiles(sDirectory);
 
@@ -74,7 +74,7 @@ public class XMLFileListUtil {
 
 		List<File> fileNames = new ArrayList<File>();
 
-		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + "apiproxy" + File.separator + "policies";
+        String sDirectory = configFile.getParent() + File.separator + "apiproxy" + File.separator + "policies";
 
 		fileNames = getXMLFiles(sDirectory);
 
@@ -92,7 +92,7 @@ public class XMLFileListUtil {
 
 		List<File> fileNames = new ArrayList<File>();
 
-		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + "apiproxy" + File.separator + "stepdefinitions";
+        String sDirectory = configFile.getParent() + File.separator + "apiproxy" + File.separator + "stepdefinitions";
 
 		fileNames = getXMLFiles(sDirectory);
 
@@ -105,7 +105,7 @@ public class XMLFileListUtil {
 
 		List<File> fileNames = new ArrayList<File>();
 
-		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + "apiproxy" + File.separator + "targets";
+        String sDirectory = configFile.getParent() + File.separator + "apiproxy" + File.separator + "targets";
 
 		fileNames = getXMLFiles(sDirectory);
 
@@ -118,7 +118,7 @@ public class XMLFileListUtil {
 
 		List<File> fileNames = new ArrayList<File>();
 
-		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + "apiproxy";
+        String sDirectory = configFile.getParent() + File.separator + "apiproxy";
 
 		fileNames = getXMLFiles(sDirectory);
 

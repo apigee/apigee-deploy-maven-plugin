@@ -1,3 +1,9 @@
+Custom Changes
+
+ - Config.json is expected to be under a target folder: target/config.json
+ - apigee.env.classifier property is used to set the ending of a zip produced by the plugin: apigee.env.classifier=prod will result in <artifactId>-<version>-prod.zip
+
+
 ----------------
 About the Plugin
 ----------------

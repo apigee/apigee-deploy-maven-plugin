@@ -15,10 +15,11 @@
  */
 package io.apigee.buildTools.enterprise4g.mavenplugin;
 
-import java.io.File;
+import org.apache.maven.plugin.AbstractMojo;
 
 import io.apigee.buildTools.enterprise4g.utils.ServerProfile;
-import org.apache.maven.plugin.AbstractMojo;
+
+import java.io.File;
 
 
 
@@ -142,6 +143,13 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 	 */
 	private Long overridedelay;
 	
+    /**
+     * Gateway delay
+     * 
+     * @parameter expression="${apigee.env.classifier}"
+     */
+    private String envClassifier;
+
 	
 	/**
 	* Skip running this plugin.
@@ -188,7 +196,8 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 	}
 
 	public String getApplicationBundlePath() {
-		return this.baseDirectory+File.separator+"target"+File.separator+this.projectName+this.projectVersion+"-"+this.id+".zip";
+        return this.baseDirectory + File.separator + "target" + File.separator + this.projectName + "-"
+                + this.projectVersion + "-" + this.envClassifier + ".zip";
 	}
 	
 	public String getBaseDirectoryPath(){
