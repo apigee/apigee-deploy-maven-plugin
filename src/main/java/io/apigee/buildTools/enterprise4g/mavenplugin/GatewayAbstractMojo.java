@@ -15,6 +15,8 @@
  */
 package io.apigee.buildTools.enterprise4g.mavenplugin;
 
+import com.expedia.lct.eps.support.JasyptPropertyEncryptor;
+
 import org.apache.maven.plugin.AbstractMojo;
 
 import io.apigee.buildTools.enterprise4g.utils.ServerProfile;
@@ -144,11 +146,14 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 	private Long overridedelay;
 	
     /**
-     * Gateway delay
-     * 
      * @parameter expression="${apigee.env.classifier}"
      */
     private String envClassifier;
+
+    /**
+     * @parameter expression="${apigee.jasypt.client.pass}"
+     */
+    private String jasyptClientPass;
 
 	
 	/**
@@ -174,8 +179,10 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 		this.buildProfile.setApi_version(this.apiVersion);
 		this.buildProfile.setHostUrl(this.hostURL);
 		this.buildProfile.setEnvironment(this.deploymentEnv);
-		this.buildProfile.setCredential_user(this.userName);
-		this.buildProfile.setCredential_pwd(this.password);
+        this.buildProfile.setCredential_pwd(JasyptPropertyEncryptor.decryptPropertyString(this.password,
+                jasyptClientPass));
+        this.buildProfile.setCredential_user(JasyptPropertyEncryptor.decryptPropertyString(this.userName,
+                jasyptClientPass));
 		this.buildProfile.setProfileId(this.id);
 		this.buildProfile.setOptions(this.options);
 		this.buildProfile.setDelay(this.delay);
