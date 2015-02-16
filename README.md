@@ -1,3 +1,10 @@
+Custom Changes
+
+ - Config.json is expected to be under a target folder: target/config.json
+ - apigee.env.classifier property is used to set the ending of a zip produced by the plugin: apigee.env.classifier=prod will result in <artifactId>-<version>-prod.zip
+ - Credentials could be encoded with a help of jasypt. But that will also require to provide client pass by the apigee.jasypt.client.pass property
+
+
 ----------------
 About the Plugin
 ----------------

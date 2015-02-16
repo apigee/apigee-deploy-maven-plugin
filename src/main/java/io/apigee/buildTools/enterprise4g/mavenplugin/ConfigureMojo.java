@@ -15,12 +15,13 @@
  */
 package io.apigee.buildTools.enterprise4g.mavenplugin;
 
-import io.apigee.buildTools.enterprise4g.utils.PackageConfigurer;
-import io.apigee.buildTools.enterprise4g.utils.ZipUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import io.apigee.buildTools.enterprise4g.utils.PackageConfigurer;
+import io.apigee.buildTools.enterprise4g.utils.ZipUtils;
 
 import java.io.File;
 
@@ -76,7 +77,8 @@ public class ConfigureMojo extends GatewayAbstractMojo {
     }
 
     private File findConfigFile(Logger logger) throws MojoExecutionException {
-        File configFile = new File(super.getBaseDirectoryPath() + File.separator + "config.json");
+        File configFile =
+                new File(super.getBaseDirectoryPath() + File.separator + "target" + File.separator + "config.json");
 
         if (configFile.exists()) {
             return configFile;

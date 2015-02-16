@@ -24,7 +24,7 @@
       <version>7</version>
     </parent>
 
-    <groupId>io.apigee.build-tools.enterprise4g</groupId>
+    <groupId>com.expedia.lct.eps.io.apigee.build-tools.enterprise4g</groupId>
     <artifactId>apigee-edge-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
     <!-- This is inherited from <version>0.0.15</version> of the the non-opensource plugin -->
@@ -60,6 +60,18 @@
         <developerConnection>scm:git:https://github.com/apigee/apigee-deploy-maven-plugin.git</developerConnection>
         <tag>apigee-edge-maven-plugin-1.0.0</tag>
     </scm>
+     <distributionManagement>
+        <repository>
+            <id>lct-nexus</id>
+            <name>lct-maven-releases</name>
+            <url>http://nexus.sb.karmalab.net/nexus/content/repositories/lct-maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>lct-nexus</id>
+            <name>lct-snapshots</name>
+            <url>http://nexus.sb.karmalab.net/nexus/content/repositories/lct-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
     <developers>
         <developer>
             <id>craigmwarren</id>
@@ -180,7 +192,11 @@
 
     <dependencies>
 
-
+        <dependency>
+            <groupId>com.expedia.lct.eps</groupId>
+            <artifactId>eps-common</artifactId>
+            <version>1.4-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.maven</groupId>
