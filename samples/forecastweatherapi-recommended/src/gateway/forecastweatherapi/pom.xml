@@ -30,7 +30,7 @@
     <version>1.0</version>
     <name>forecastweatherapi</name>
     <packaging>pom</packaging>
-
+<!-- optional tests
     <profiles>
         <profile>
             <id>test</id>
@@ -48,26 +48,26 @@
                                 <goal>jmeter</goal>
                             </goals>
                             <configuration>
-                                <skipTests>${skipTests}</skipTests> <!-- default true -->
+                                <skipTests>${skipTests}</skipTests>
                                 <ignoreResultFailures>true</ignoreResultFailures>
                                 <suppressJMeterOutput>false</suppressJMeterOutput>
-                                    <propertiesUser> 
+                                    <propertiesUser>
                                         <testData>weather_test.csv</testData>
                                         <threadNum>5</threadNum>
                                         <rampUpPeriodSecs>5</rampUpPeriodSecs>
                                         <loopCount>2</loopCount>
-                                    </propertiesUser> 
+                                    </propertiesUser>
                             </configuration>
                         </execution>
                     </executions>
                     <configuration>
                         <testFilesDirectory>tests</testFilesDirectory>
                         <testResultsTimestamp>false</testResultsTimestamp>
-                    </configuration>                    
+                    </configuration>
                     </plugin>
                 </plugins>
-            </build>            
-        </profile>        
+            </build>
+        </profile>
         <profile>
             <id>prod</id>
             <build>
@@ -87,23 +87,24 @@
                                 <skipTests>${skipTests}</skipTests>
                                 <ignoreResultFailures>true</ignoreResultFailures>
                                 <suppressJMeterOutput>false</suppressJMeterOutput>
-                                    <propertiesUser> 
+                                    <propertiesUser>
                                         <testData>weather_prod.csv</testData>
                                         <threadNum>5</threadNum>
                                         <rampUpPeriodSecs>5</rampUpPeriodSecs>
                                         <loopCount>2</loopCount>
-                                    </propertiesUser> 
+                                    </propertiesUser>
                             </configuration>
                         </execution>
                     </executions>
                     <configuration>
                         <testFilesDirectory>tests</testFilesDirectory>
                         <testResultsTimestamp>false</testResultsTimestamp>
-                    </configuration>                    
+                    </configuration>
                     </plugin>
                 </plugins>
-            </build>            
+            </build>
 
         </profile>
     </profiles>
+-->
 </project>

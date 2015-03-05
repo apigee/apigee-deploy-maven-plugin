@@ -17,11 +17,11 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>apigee</groupId>
-	<artifactId>parent-pom</artifactId>
-	<packaging>pom</packaging>
-	<version>1.0</version>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>apigee</groupId>
+    <artifactId>parent-pom</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0</version>
     <pluginRepositories>
         <pluginRepository>
             <id>central</id>
@@ -36,17 +36,17 @@
             </releases>
         </pluginRepository>
     </pluginRepositories>
-	<properties>
+    <properties>
             <main.basedir>${project.basedir}</main.basedir>
     </properties>
 
-	<build>
+    <build>
         <plugins>
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>2.5</version>
             </plugin>
-        
+
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.6</version>
@@ -91,15 +91,15 @@
                     </execution>
                 </executions>
             </plugin>
-		</plugins>
-	</build>
-<!-- This is where you add the environment specific properties under various profile names -->		
+        </plugins>
+    </build>
+<!-- This is where you add the environment specific properties under various profile names -->
  <profiles>
         <profile>
             <id>test</id>
             <properties>
-                <org>testmyapi</org>  <!-- default org, replace with dafault org to avoid passing parameter e.g. -Dorg testmyapi -->
-                <options>validate</options>  <!-- default org, replace with dafault org to avoid passing parameter e.g. -Dorg testmyapi -->
+                <org>testmyapi</org>  <!-- default org, replace with default org to avoid passing parameter e.g. -Dorg testmyapi -->
+                <options>validate</options>  <!-- default org, replace with default org to avoid passing parameter e.g. -Dorg testmyapi -->
                 <apigee.profile>test</apigee.profile>
                 <apigee.env>test</apigee.env>
                 <apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
@@ -109,14 +109,14 @@
                 <apigee.password>${password}</apigee.password>
                 <apigee.options>${options}</apigee.options>
                 <!--apigee.override.delay>10</apigee.override.delay-->
-                <!--apigee.delay>1000</apigee.delay-->                                  
+                <!--apigee.delay>1000</apigee.delay-->
             </properties>
-        </profile>        
+        </profile>
         <profile>
             <id>prod</id>
             <properties>
-                <org>testmyapi</org>  <!-- default org, replace with dafault org to avoid passing parameter e.g. -Dorg testmyapi -->
-                <options>validate</options>  <!-- default org, replace with dafault org to avoid passing parameter e.g. -Dorg testmyapi -->                
+                <org>testmyapi</org>  <!-- default org, replace with default org to avoid passing parameter e.g. -Dorg testmyapi -->
+                <options>validate</options>  <!-- default org, replace with default org to avoid passing parameter e.g. -Dorg testmyapi -->
                 <apigee.profile>prod</apigee.profile>
                 <apigee.env>prod</apigee.env>
                 <apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
@@ -126,7 +126,7 @@
                 <apigee.password>${password}</apigee.password>
                 <apigee.options>${options}</apigee.options>
                 <!--apigee.override.delay>10</apigee.override.delay-->
-                <!--apigee.delay>1000</apigee.delay-->                       
+                <!--apigee.delay>1000</apigee.delay-->
             </properties>
         </profile>
     </profiles>

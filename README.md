@@ -2,7 +2,7 @@
 About the Plugin
 ----------------
 
-apigee-edge-maven-plugin is a build and deploy utility for building and deploying the Apigee ApiProxy's/Application bundles into Apigee Edge Platform. 
+apigee-edge-maven-plugin is a build and deploy utility for building and deploying the Apigee ApiProxy's/Application bundles into Apigee Edge Platform.
 The code is distributed under the Apache License 2.0.
 
 ------------
@@ -25,18 +25,18 @@ Learn more, check out this video! [Ask the Expert](https://community.apigee.com/
 
 - [Getting-Started](#getting-started)
 - [Building API bundles](#building-api-bundles)
-- [Steps to set it up](#steps-to-set-it-up) 
+- [Steps to set it up](#steps-to-set-it-up)
 - [Step 1: Create a maven compatible file structure](#step1-create-a-maven-compatible-file-structure)
 - [Step 2: Create and configure pom files](#step-2-create-and-configure-pom-files)
 - [Step 3: Create and configure config.json](#step-3-create-and-configure-config-json)
-- [parent-pom/pom.xml Sample](#parent-pom-pom-xml-sample) 
+- [parent-pom/pom.xml Sample](#parent-pom-pom-xml-sample)
 - [pom.xml Sample](#pom-xml-sample)
 - [Config.json Sample](#config-json-sample)
 - [Commands](#commands-for-deploying-the-proxy-using-maven)
 
 # Getting Started
 
-Often the most difficult and confusing aspect of application development is figuring out how to build a common framework for creating new applications. Over time, development teams have started using tools like Maven, Ant and Ivy to automate some of these functions. This plugin uses the Maven plugin for deploying Apigee bundles to the Edge platform. 
+Often the most difficult and confusing aspect of application development is figuring out how to build a common framework for creating new applications. Over time, development teams have started using tools like Maven, Ant and Ivy to automate some of these functions. This plugin uses the Maven plugin for deploying Apigee bundles to the Edge platform.
 
 #### Why this deployment plugin is developed?
 
@@ -50,7 +50,7 @@ Often the most difficult and confusing aspect of application development is figu
 
 ## Building API bundles
 
-### What is an Apigee bundle? 
+### What is an Apigee bundle?
 
 Apigee bundles can be described as a zipped file system composed of configuration, scripts and code. The file system when extracted is composed of the following structure.
 
@@ -79,21 +79,21 @@ Instructions for exporting your API via an API can be found at this link
 
 To export you API via Apigee Edge select the organization that contains the proxy you wish to export. From the navigation bar on the top, under APIs select the API Proxies. Select the proxy, on the far left of the screen, under the drop down menu titled Project, select Download Current Revision.
 
-## Steps to set it up 
+## Steps to set it up
 
 Follow below steps to set up your local development environment
 
 1. Create the folder structure as described in the  section
 2. Create and configure pom files - Parent pom and the child pom for the proxy
 3. Create and configure config.json - if there are environment specific configurations (This is an optional step)
-  
+
 And you are ready for deploy to Apigee Edge using the plugin
 
 
 ###Step 1 Create a Maven compatible file structure
 
 
-Below is the recommended structure for the project. However only the folder structure below the folder gateway is mandatory 
+Below is the recommended structure for the project. However only the folder structure below the folder gateway is mandatory
 
 |-name-of-root (typically company name)
 
@@ -176,17 +176,23 @@ Parent-pom: The contents of the parent pom folder will contain a single pom.xml 
 
 Refer parent-pom template [parent-pom] (https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/forecastweatherapi-recommended/src/gateway/shared-pom.xml)
 
+**groupId** element's content should be set to client's company name.  Here you see it as apigee.
+
+**artifactId** element's content be left as parent-pom.
+
 Child-pom: Here we configure all the details specific to the particular proxy.
 
 #### pom-xml Sample
 
 Refer child-pom template [child-pom](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/forecastweatherapi-recommended/src/gateway/forecastweatherapi/pom.xml).
 
-**groupId** element's content should match that of the same element in the parent pom.xml. 
+**groupId** element's content should match that of the same element in the parent pom.xml.
 
-**artifactId** element's content should be a unique name, typically set to the folder name or the name of the API.
+**artifactId** element's content should be a unique name, typically set to the name of the API.
 
-**name** element's content should match the artifact name.
+**name** element's content should match the artifactId above (typically set to the name of the API).
+
+**side-note** groupId and artifactId, combined, define the artifact living quarters within a repository.
 
 ### Step 3 Create and configure config-json
 
@@ -266,7 +272,7 @@ mvn apigee-enterprise:deploy -P prod -Dusername=admin@toopowerful.com -Dpassword
 
 **Note 3:** The "apigee.options" element can have the following values: **clean** (this option will delete the last deployed revision in an environment), **validate** (this option will validate a bundle before importing. Thus if you want strict validation then its required), **inactive** (this option will import the bundle without activating the bundle), **override** (this option is used for seamless deployment and should be supplied with apigee.override.delay parameter. The apigee.override.delay expects delay to be given in seconds), **update** (this option will update the deployed revision. This is similar to import with validation but no new revision is created. If there are any errors in the bundle, an error is thrown and the existing bundle is left intact. In case the revision they are trying to update is deployed, it will internally trigger undeployment and deployment. It is completely in the background and not visible in the response. **It is not advised to update the deployed revision** . (UI could show a warning or something in this case).
 
-**Note 4:** The "apigee.options" combination could be given with comma separated values. The precedence order of options are -> override, update, (clean, inactive, validate, force). 
+**Note 4:** The "apigee.options" combination could be given with comma separated values. The precedence order of options are -> override, update, (clean, inactive, validate, force).
 
 **Note 5:** Flow without "apigee.options":import –> undeploy (lastactive) –> deploy (new revision)
 
