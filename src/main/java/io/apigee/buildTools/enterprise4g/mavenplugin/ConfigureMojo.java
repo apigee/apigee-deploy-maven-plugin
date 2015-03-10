@@ -78,28 +78,28 @@ public class ConfigureMojo extends GatewayAbstractMojo {
 
         //always handle zipping of any directories in apiproxy/resources/node
 		if (nodeDir.isDirectory()) {
-			logger.info("\n\n=============Now zipping node modules================\n\n");
+            logger.info("\n\n=============Now zipping node modules================\n\n");
 
-			String[] filesInNodeDir = nodeDir.list();
+            String[] filesInNodeDir = nodeDir.list();
 
-			for (String fileName:filesInNodeDir) {
-                String filePath = nodeDirPath+fileName;
-				File dirFile = new File (filePath);
-				if (dirFile.isDirectory())
-				{
-                    logger.info("Zipping "+fileName+" (it is a directory).");
-					try {
-						ZipUtils zu = new ZipUtils();
-						zu.zipDir(new File(filePath + ".zip"),
-								dirFile, fileName);
+            for (String fileName : filesInNodeDir) {
+                String filePath = nodeDirPath + fileName;
+                File dirFile = new File(filePath);
+                if (dirFile.isDirectory() && fileName.contains("node_modules"))
+                {
+                    logger.info("Zipping " + fileName + " (it is a directory).");
+                    try {
+                        ZipUtils zu = new ZipUtils();
+                        zu.zipDir(new File(filePath + ".zip"),
+                                dirFile, fileName);
                         FileUtils.deleteDirectory(dirFile);
                     } catch (Exception e) {
-						throw new MojoExecutionException(e.getMessage());
-					}
-				}
-			}
+                        throw new MojoExecutionException(e.getMessage());
+                    }
+                }
+            }
 
-		}
+        }
 
 		logger.info("\n\n=============Now zipping the App Bundle================\n\n");
 
