@@ -57,7 +57,7 @@
     <scm>
         <url>git@github.com:apigee/apigee-deploy-maven-plugin.git</url>
         <connection>scm:git:https://github.com/apigee/apigee-deploy-maven-plugin.git</connection>
-        <developerConnection>scm:git:https://github.com/apigee/apigee-deploy-maven-plugin.git</developerConnection>
+        <developerConnection>scm:git:ssh://git@github.com/apigee/apigee-deploy-maven-plugin.git</developerConnection>
         <tag>apigee-edge-maven-plugin-1.0.0</tag>
     </scm>
     <developers>
