@@ -33,6 +33,7 @@ Learn more, check out this video! [Ask the Expert](http://academy.apigee.com/ask
 - [pom.xml Sample](#pom-xml-sample)
 - [Config.json Sample](#config-json-sample)
 - [Commands](#commands-for-deploying-the-proxy-using-maven)
+- [Node.js Application Support](#deploying-api-proxies-with-nodejs-apps)
 
 # Getting Started
 
