@@ -33,6 +33,7 @@ Learn more, check out this video! [Ask the Expert](http://academy.apigee.com/ask
 - [pom.xml Sample](#pom-xml-sample)
 - [Config.json Sample](#config-json-sample)
 - [Commands](#commands-for-deploying-the-proxy-using-maven)
+- [Node.js Application Support](#deploying-api-proxies-with-nodejs-apps)
 
 # Getting Started
 
@@ -160,9 +161,9 @@ proxies - A folder that contains information about your proxy configurations (in
 
 targets - A folder that contains information about target configurations (outbound)
 
-resources - A folder that contains any scripts (Java, js, and python)
+resources - A folder that contains any scripts (java, jsc, py, node)
 
-Note: when creating scripts place your scripts in folders with the name of the script ext i.e. java, jsc, py
+Note: when creating scripts, place your script/jar files in the proper folders based on the script type (e.g. javascript in jsc, node.js in node, java in java).
 
 
 
@@ -275,6 +276,29 @@ mvn apigee-enterprise:deploy -P prod -Dusername=admin@toopowerful.com -Dpassword
 **Note 4:** The "apigee.options" combination could be given with comma separated values. The precedence order of options are -> override, update, (clean, inactive, validate, force).
 
 **Note 5:** Flow without "apigee.options":import –> undeploy (lastactive) –> deploy (new revision)
+
+
+## Deploying API Proxies with Node.js apps
+
+Starting at version 1.0.1 of the plugin, support for API proxies that contain node.js applications is included.  The plugin 
+will compress the ```node_modules``` directory contained in ```apiproxy/resources/node```.  
+
+The plugin also supports moving node.js application source into ```apiproxy/resources/node``` if the source exists
+outside of the API proxy structure itself.  An example structure when node.js application source is beside ```apiproxy```:
+
+
+    |--name-of-root (typically proxy name)
+      |---apiproxy
+        |-----proxies
+        |-----resources
+          |-------node (where root/node gets moved to)
+        |-----targets
+      |---node (where node.js application source exists)
+ 
+ Note: In above example, if you have code in ```node/``` and ```apiproxy/resources/node```, the source in ```node/``` takes 
+ precedence and any files located in ```apiproxy/resource/node``` will be overwritten.
+
+The above structure follows the same pattern when developing with java source code outside of the ```apiproxy``` bundle working directory.
 
 ----------------------------------------------------------------
 For the users migrating from Apigee Maven repo to Maven central
