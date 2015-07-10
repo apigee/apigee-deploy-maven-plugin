@@ -40,19 +40,6 @@
             "name": "prod",
             "policies": [
                 {
-                    "name": "assignPayload.xml",
-                    "tokens": [
-                        {
-                            "xpath": "/AssignMessage/Add/Headers/Header[@name='TO_BE_REPLACED']",
-                            "value": "max-age=3600"
-                        },
-                        {
-                            "xpath": "/AssignMessage/Add/Headers/Header[@name='TO_BE_REPLACED']/@name",
-                            "value": "Cache-Control"
-                        }
-                    ]
-                },
-                {
                     "name": "Assign-Message-1.xml",
                     "tokens": [
                         {
