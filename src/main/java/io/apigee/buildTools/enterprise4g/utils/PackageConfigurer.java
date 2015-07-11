@@ -31,6 +31,7 @@ import javax.xml.xpath.XPathExpressionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import io.apigee.buildTools.enterprise4g.utils.ConfigTokens.Policy;
@@ -155,15 +156,17 @@ public class PackageConfigurer {
         javax.xml.xpath.XPath xpath = factory.newXPath();
         javax.xml.xpath.XPathExpression expression = xpath.compile("/APIProxy/Description");
 
-        NodeList nodes = (NodeList) expression.evaluate(xmlDoc,
-                XPathConstants.NODESET);
+        Node node = (Node) expression.evaluate(xmlDoc, XPathConstants.NODE);
+        if (node == null) {
+            node = xmlDoc.createElement("Description");
+        }
 
-        if (nodes.item(0).hasChildNodes()) {
+        if (node.hasChildNodes()) {
             // sets the description to whatever is in the <proxyname>.xml file
-            nodes.item(0).setTextContent(expression.evaluate(xmlDoc));
+            node.setTextContent(expression.evaluate(xmlDoc));
         } else {
             // if Description is empty, then it reverts back to appending the username, git hash, etc
-            nodes.item(0).setTextContent(getComment(fileList.get(0)));
+            node.setTextContent(getComment(fileList.get(0)));
         }
 
         DOMSource source = new DOMSource(xmlDoc);

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="76" name="taskservice">
+    <ConfigurationVersion minorVersion="0" majorVersion="4"/>
+    <CreatedAt>1389090682052</CreatedAt>
+    <CreatedBy>sdey@apigee.com</CreatedBy>
+    <DisplayName>taskservice</DisplayName>
+    <LastModifiedAt>1389090682052</LastModifiedAt>
+    <LastModifiedBy>sdey@apigee.com</LastModifiedBy>
+    <Policies>
+        <Policy>QuotaPolicy</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>proxy</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources/>
+    <TargetServers/>
+    <TargetEndpoints/>
+</APIProxy>
