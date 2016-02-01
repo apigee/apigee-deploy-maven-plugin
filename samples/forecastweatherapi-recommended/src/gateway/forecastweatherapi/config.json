@@ -19,7 +19,7 @@
                     "tokens": [
                         {
                             "xpath": "/ProxyEndpoint/HTTPProxyConnection/BasePath",
-                            "value": "/weather"
+                            "value": "/weatherapi"
                         }
                     ]
                 }
@@ -68,7 +68,7 @@
                     "tokens": [
                         {
                             "xpath": "/ProxyEndpoint/HTTPProxyConnection/BasePath",
-                            "value": "/weather"
+                            "value": "/weatherapi"
                         }
                     ]
                 }
