@@ -255,6 +255,42 @@ public class RestUtil {
             logger.error(e.getMessage());
         }
     }
+    
+    public static String getLatestRevision(ServerProfile profile) throws IOException {
+
+        // trying to construct the URL like
+        // https://api.enterprise.apigee.com/v1/organizations/apigee-cs/apis/taskservice/
+        // response is like
+        // {
+        // "name" : "taskservice1",
+        // "revision" : [ "1" ]
+        // }
+    	String revision = "";
+        HttpRequest restRequest = REQUEST_FACTORY
+                .buildGetRequest(new GenericUrl(profile.getHostUrl() + "/"
+                        + profile.getApi_version() + "/organizations/"
+                        + profile.getOrg() + "/apis/"
+                        + profile.getApplication() + "/"));
+        restRequest.setReadTimeout(0);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept("application/json");
+        headers.setBasicAuthentication(profile.getCredential_user(),
+                profile.getCredential_pwd());
+        restRequest.setHeaders(headers);
+
+        logger.info(PrintUtil.formatRequest(restRequest));
+
+        try {
+            HttpResponse response = restRequest.execute();
+            AppRevision apprev = response.parseAs(AppRevision.class);
+            Collections.sort(apprev.revision, new StringToIntComparator());
+            revision = apprev.revision.get(0);
+            logger.info(PrintUtil.formatResponse(response, gson.toJson(apprev).toString()));
+        } catch (HttpResponseException e) {
+            logger.error(e.getMessage());
+        }
+        return revision;
+    }
 
     // This function should do -
     // Return a revision if there is a active revision
