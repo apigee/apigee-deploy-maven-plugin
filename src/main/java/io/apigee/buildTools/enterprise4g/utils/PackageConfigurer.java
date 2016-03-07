@@ -154,21 +154,22 @@ public class PackageConfigurer {
         javax.xml.xpath.XPathFactory factory = javax.xml.xpath.XPathFactory.newInstance();
         javax.xml.xpath.XPath xpath = factory.newXPath();
         javax.xml.xpath.XPathExpression expression = xpath.compile("/APIProxy/Description");
-
-        NodeList nodes = (NodeList) expression.evaluate(xmlDoc,
+    	NodeList nodes = (NodeList) expression.evaluate(xmlDoc,
                 XPathConstants.NODESET);
-
-        if (nodes.item(0).hasChildNodes()) {
-            // sets the description to whatever is in the <proxyname>.xml file
-            nodes.item(0).setTextContent(expression.evaluate(xmlDoc));
-        } else {
-            // if Description is empty, then it reverts back to appending the username, git hash, etc
-            nodes.item(0).setTextContent(getComment(fileList.get(0)));
-        }
-
-        DOMSource source = new DOMSource(xmlDoc);
-        StreamResult result = new StreamResult(fileList.get(0));
-        transformer.transform(source, result);
+    	if(nodes !=null && nodes.getLength()>0){
+    		if (nodes.item(0).hasChildNodes()) {
+                // sets the description to whatever is in the <proxyname>.xml file
+                nodes.item(0).setTextContent(expression.evaluate(xmlDoc));
+            } else {
+                // if Description is empty, then it reverts back to appending the username, git hash, etc
+                nodes.item(0).setTextContent(getComment(fileList.get(0)));
+            }
+        	
+            DOMSource source = new DOMSource(xmlDoc);
+            StreamResult result = new StreamResult(fileList.get(0));
+            transformer.transform(source, result);
+    	}
+        
     }
 
     public static Document replaceTokens(Document doc, Policy configTokens)
