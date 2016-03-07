@@ -30,6 +30,7 @@ public class ServerProfile {
 	private String options;
 	private Long delay;
 	private Long overridedelay;
+	private Long revision;
 	
 	public String getApplication() {
 		return application;
@@ -137,6 +138,12 @@ public class ServerProfile {
 		this.overridedelay = overridedelay;
 	}
 
-	
+	public Long getRevision() {
+		return revision;
+	}
+
+	public void setRevision(Long revision) {
+		this.revision = revision;
+	}
 
 }

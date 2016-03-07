@@ -68,6 +68,9 @@ public class DeployMojo extends GatewayAbstractMojo
 	String activeRevision="";
 	String bundleRevision="";
 	
+	//revision passed in the maven argument
+	String revisionInArg = "";
+	
 	BUILDOPTIONS buildOption;
 	
 
@@ -118,6 +121,10 @@ public class DeployMojo extends GatewayAbstractMojo
 						break;
 					case update:
 						Options.update=true;
+						//set the revision that is passed as argument
+						if (this.getRevision() != null) {
+							revisionInArg = String.valueOf(this.getRevision());
+						}
 						break;
 					case override:
 						Options.override=true;
@@ -278,13 +285,36 @@ public class DeployMojo extends GatewayAbstractMojo
                             }
 						}
 						else if (Options.update) {
-                            activeRevision=RestUtil.getDeployedRevision(this.getProfile());
-							if (activeRevision.length() > 0)
+							String latestRev = "";
+							
+							//If revision to be updated is passed in the maven command as an argument, update that revision
+							if(revisionInArg.length()>0){
+								logger.info("Updating Revision passed: "+ revisionInArg);
+								doUpdate(revisionInArg);
+								break;
+							}
+							
+							//Check if there is a revision deployed
+							activeRevision=RestUtil.getDeployedRevision(this.getProfile());
+							if (activeRevision.length() > 0){
+								logger.info("Active Revision: "+ activeRevision);
+								logger.info("Updating Active Revision: "+ activeRevision);
 								doUpdate(activeRevision);
-							else {
+								break;
+							}
+							
+							//Check for the latest revision, if not import a new revision
+						    latestRev = RestUtil.getLatestRevision(this.getProfile());
+							if (latestRev.length() >0){
+								logger.info("Latest Revision: "+ latestRev);
+								logger.info("Updating Latest Revision: "+ latestRev);
+								doUpdate(latestRev);
+								break;
+							}else {
 								doImport();
 								doActivateBundle();
 							}
+							
 						}else if (Options.clean) {
                             activeRevision=RestUtil.getDeployedRevision(this.getProfile());
                                 if (this.activeRevision.length() > 0) {

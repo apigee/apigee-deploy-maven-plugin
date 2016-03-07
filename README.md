@@ -26,7 +26,7 @@ Learn more, check out this video! [Ask the Expert](http://academy.apigee.com/ask
 - [Getting-Started](#getting-started)
 - [Building API bundles](#building-api-bundles)
 - [Steps to set it up](#steps-to-set-it-up)
-- [Step 1: Create a maven compatible file structure](#step1-create-a-maven-compatible-file-structure)
+- [Step 1: Create a maven compatible file structure](#step-1-create-a-maven-compatible-file-structure)
 - [Step 2: Create and configure pom files](#step-2-create-and-configure-pom-files)
 - [Step 3: Create and configure config.json](#step-3-create-and-configure-config-json)
 - [parent-pom/pom.xml Sample](#parent-pom-pom-xml-sample)
@@ -271,7 +271,10 @@ mvn apigee-enterprise:deploy -P prod -Dusername=admin@toopowerful.com -Dpassword
 
 **Note 2:** The"apigee.override.delay", "apigee.delay,apigee.options" are optional elements. The "apigee.override.delay" could be specified (in milliseconds). This will ensure to add a delay between the operations like delete, import, activate, deactivate etc.
 
-**Note 3:** The "apigee.options" element can have the following values: **clean** (this option will delete the last deployed revision in an environment), **validate** (this option will validate a bundle before importing. Thus if you want strict validation then its required), **inactive** (this option will import the bundle without activating the bundle), **override** (this option is used for seamless deployment and should be supplied with apigee.override.delay parameter. The apigee.override.delay expects delay to be given in seconds), **update** (this option will update the deployed revision. This is similar to import with validation but no new revision is created. If there are any errors in the bundle, an error is thrown and the existing bundle is left intact. In case the revision they are trying to update is deployed, it will internally trigger undeployment and deployment. It is completely in the background and not visible in the response. **It is not advised to update the deployed revision** . (UI could show a warning or something in this case).
+**Note 3:** The "apigee.options" element can have the following values: **clean** (this option will delete the last deployed revision in an environment), **validate** (this option will validate a bundle before importing. Thus if you want strict validation then its required), **inactive** (this option will import the bundle without activating the bundle), **override** (this option is used for seamless deployment and should be supplied with apigee.override.delay parameter. The apigee.override.delay expects delay to be given in seconds), **update** (this option will update the revision). This is similar to import with validation but no new revision is created. If there are any errors in the bundle, an error is thrown and the existing bundle is left intact. In case the revision they are trying to update is deployed, it will internally trigger undeployment and deployment. It is completely in the background and not visible in the response.
+
+**Note3a** . The “apigee.revision” element can be used **when using the update option only**. The update option will be executed on the provided revision.
+
 
 **Note 4:** The "apigee.options" combination could be given with comma separated values. The precedence order of options are -> override, update, (clean, inactive, validate, force).
 

@@ -142,6 +142,13 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 	 */
 	private Long overridedelay;
 	
+	/**
+	 * Gateway revision
+	 * 
+	 * @parameter expression="${apigee.revision}"
+	 */
+	private Long revision;
+	
 	
 	/**
 	* Skip running this plugin.
@@ -172,6 +179,7 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 		this.buildProfile.setOptions(this.options);
 		this.buildProfile.setDelay(this.delay);
 		this.buildProfile.setOverridedelay(this.overridedelay);
+		this.buildProfile.setRevision(this.revision);
 		
 		return buildProfile;
 	}
@@ -272,5 +280,13 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 		this.overridedelay = overridedelay;
 	}
 	
+	public Long getRevision() {
+		return this.revision;
+	}
+
+
+	public void setRevision(Long revision) {
+		this.revision = revision;
+	}
 	
 }
