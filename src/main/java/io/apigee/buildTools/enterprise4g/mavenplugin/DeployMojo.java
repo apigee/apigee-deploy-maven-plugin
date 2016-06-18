@@ -301,8 +301,13 @@ public class DeployMojo extends GatewayAbstractMojo
 								logger.info("Updating Active Revision: "+ activeRevision);
 								doUpdate(activeRevision);
 								break;
+							}else {
+								doImport();
+								doActivateBundle();
 							}
 							
+							/*
+							//Commenting for https://github.com/apigee/apigee-deploy-maven-plugin/issues/46
 							//Check for the latest revision, if not import a new revision
 						    latestRev = RestUtil.getLatestRevision(this.getProfile());
 							if (latestRev.length() >0){
@@ -310,10 +315,12 @@ public class DeployMojo extends GatewayAbstractMojo
 								logger.info("Updating Latest Revision: "+ latestRev);
 								doUpdate(latestRev);
 								break;
-							}else {
+							}
+							
+							else {
 								doImport();
 								doActivateBundle();
-							}
+							}*/
 							
 						}else if (Options.clean) {
                             activeRevision=RestUtil.getDeployedRevision(this.getProfile());

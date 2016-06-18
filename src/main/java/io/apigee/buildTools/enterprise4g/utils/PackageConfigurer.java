@@ -195,13 +195,13 @@ public class PackageConfigurer {
                         configTokens.tokens.get(i).xpath);
                 javax.xml.xpath.XPathExpression expression = xpath
                         .compile(configTokens.tokens.get(i).xpath);
-
+                
                 NodeList nodes = (NodeList) expression.evaluate(doc,
                         XPathConstants.NODESET);
-
                 for (int j = 0; j < nodes.getLength(); j++) {
-
-                    if (nodes.item(j).hasChildNodes()) {
+                	//Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/45
+                    //if (nodes.item(j).hasChildNodes()) {
+                    if (nodes.item(j).getNodeName() != null && !nodes.item(j).getNodeName().equals("")) {
                         logger.debug(
                                 "=============Updated existing value {} to new value {} ================\n",
                                 nodes.item(j).getTextContent(),
