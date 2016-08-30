@@ -611,10 +611,14 @@ public class RestUtil {
                     + "/deployments";
 
             if (Options.override) {
-                GenericData data = new GenericData();
-                data.set("override", "true");
-                data.set("delay", "5");
-                urlEncodedContent = new UrlEncodedContent(data);
+                //GenericData data = new GenericData();
+                //data.set("override", "true");
+                //data.set("delay", "5");
+                //urlEncodedContent = new UrlEncodedContent(data);
+                deployCmd = deployCmd + "?override=true";
+                if (Options.override_delay != 0) {
+                	deployCmd = deployCmd + "&delay="+Options.override_delay;
+                }
             }
 
 
