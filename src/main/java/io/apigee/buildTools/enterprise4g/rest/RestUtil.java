@@ -611,14 +611,13 @@ public class RestUtil {
                     + "/deployments";
 
             if (Options.override) {
-                //GenericData data = new GenericData();
-                //data.set("override", "true");
-                //data.set("delay", "5");
-                //urlEncodedContent = new UrlEncodedContent(data);
-                deployCmd = deployCmd + "?override=true";
+                GenericData data = new GenericData();
+                data.set("override", "true");
+                //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/18
                 if (Options.override_delay != 0) {
-                	deployCmd = deployCmd + "&delay="+Options.override_delay;
+                    data.set("delay", Options.override_delay);
                 }
+                urlEncodedContent = new UrlEncodedContent(data);
             }
 
 
