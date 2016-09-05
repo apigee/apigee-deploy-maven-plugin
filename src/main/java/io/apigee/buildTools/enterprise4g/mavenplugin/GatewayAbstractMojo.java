@@ -74,6 +74,19 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 	 */
 	private String hostURL;
 	
+	/**
+	 * Mgmt API OAuth token endpoint
+	 * 
+	 * @parameter expression="${apigee.mgmttokenurl}" default-value="https://login.apigee.com/oauth/token"
+	 */
+	private String mgmtTokenURL;
+
+	/**
+	 * Mgmt API OAuth MFA - TOTP
+	 * 
+	 * @parameter expression="${apigee.mfatoken}"
+	 */
+	private String mfaToken;
 
 	/**
 	 * Gateway env profile
@@ -172,6 +185,8 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 		this.buildProfile.setApplication(this.projectName);
 		this.buildProfile.setApi_version(this.apiVersion);
 		this.buildProfile.setHostUrl(this.hostURL);
+		this.buildProfile.setMgmtTokenUrl(this.mgmtTokenURL);
+		this.buildProfile.setMFAToken(this.mfaToken);
 		this.buildProfile.setEnvironment(this.deploymentEnv);
 		this.buildProfile.setCredential_user(this.userName);
 		this.buildProfile.setCredential_pwd(this.password);

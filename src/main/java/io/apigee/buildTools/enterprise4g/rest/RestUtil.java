@@ -38,6 +38,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import com.apigee.mgmtapi.sdk.client.MgmtAPIClient;
+import com.apigee.mgmtapi.sdk.model.AccessToken;
 
 public class RestUtil {
 
@@ -52,6 +54,9 @@ public class RestUtil {
     public static final String STATE_ERROR = "error";
     public static final String STATE_IMPORTED = "imported";
 
+    static String accessToken = null;
+    static final String mgmtAPIClientId = "edgecli";
+    static final String mgmtAPIClientSecret = "edgeclisecret";
 
     public static class Options {
 
@@ -239,14 +244,12 @@ public class RestUtil {
         restRequest.setReadTimeout(0);
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept("application/json");
-        headers.setBasicAuthentication(profile.getCredential_user(),
-                profile.getCredential_pwd());
         restRequest.setHeaders(headers);
 
         logger.info(PrintUtil.formatRequest(restRequest));
 
         try {
-            HttpResponse response = restRequest.execute();
+            HttpResponse response = executeAPI(profile, restRequest);
             AppRevision apprev = response.parseAs(AppRevision.class);
             Collections.sort(apprev.revision, new StringToIntComparator());
             setVersionRevision(apprev.revision.get(0));
@@ -274,14 +277,12 @@ public class RestUtil {
         restRequest.setReadTimeout(0);
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept("application/json");
-        headers.setBasicAuthentication(profile.getCredential_user(),
-                profile.getCredential_pwd());
         restRequest.setHeaders(headers);
 
         logger.info(PrintUtil.formatRequest(restRequest));
 
         try {
-            HttpResponse response = restRequest.execute();
+            HttpResponse response = executeAPI(profile, restRequest);
             AppRevision apprev = response.parseAs(AppRevision.class);
             Collections.sort(apprev.revision, new StringToIntComparator());
             revision = apprev.revision.get(0);
@@ -311,13 +312,11 @@ public class RestUtil {
             restRequest.setReadTimeout(0);
             HttpHeaders headers = new HttpHeaders();
             headers.setAccept("application/json");
-            headers.setBasicAuthentication(profile.getCredential_user(),
-                    profile.getCredential_pwd());
             restRequest.setHeaders(headers);
 
 
             logger.debug(PrintUtil.formatRequest(restRequest));
-            HttpResponse response = restRequest.execute();
+            HttpResponse response = executeAPI(profile, restRequest);
             deployment1 = response.parseAs(BundleDeploymentConfig.class);
             logger.debug(PrintUtil.formatResponse(response, gson.toJson(deployment1).toString()));
 
@@ -368,14 +367,12 @@ public class RestUtil {
         restRequest.setReadTimeout(0);
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept("application/json");
-        headers.setBasicAuthentication(profile.getCredential_user(),
-                profile.getCredential_pwd());
         restRequest.setHeaders(headers);
 
         logger.info(PrintUtil.formatRequest(restRequest));
 
         try {
-            HttpResponse response = restRequest.execute();
+            HttpResponse response = executeAPI(profile, restRequest);
 
 
             // logger.info(response.parseAsString());
@@ -430,14 +427,12 @@ public class RestUtil {
         restRequest.setReadTimeout(0);
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept("application/json");
-        headers.setBasicAuthentication(profile.getCredential_user(),
-                profile.getCredential_pwd());
         restRequest.setHeaders(headers);
 
         logger.info(PrintUtil.formatRequest(restRequest));
 
         try {
-            HttpResponse response = restRequest.execute();
+            HttpResponse response = executeAPI(profile, restRequest);
             AppConfig appconf = response.parseAs(AppConfig.class);
             setVersionRevision(appconf.revision);
             logger.info(PrintUtil.formatResponse(response, gson.toJson(appconf).toString()));
@@ -493,14 +488,12 @@ public class RestUtil {
                 HttpHeaders headers = new HttpHeaders();
                 headers.setAccept("application/json");
                 headers.setContentType("application/x-www-form-urlencoded");
-                headers.setBasicAuthentication(profile.getCredential_user(),
-                        profile.getCredential_pwd());
                 undeployRestRequest.setHeaders(headers);
 
                 HttpResponse response = null;
 
                 logger.info(PrintUtil.formatRequest(undeployRestRequest));
-                response = undeployRestRequest.execute();
+                response = executeAPI(profile, undeployRestRequest);
                 deployment1 = response.parseAs(BundleActivationConfig.class);
                 logger.info(PrintUtil.formatResponse(response, gson.toJson(deployment1).toString()));
 
@@ -600,8 +593,6 @@ public class RestUtil {
             HttpHeaders headers = new HttpHeaders();
             headers.setAccept("application/json");
             //headers.setContentType("application/x-www-form-urlencoded");
-            headers.setBasicAuthentication(profile.getCredential_user(),
-                    profile.getCredential_pwd());
 
             String deployCmd = profile.getHostUrl() + "/"
                     + profile.getApi_version() + "/organizations/"
@@ -630,7 +621,7 @@ public class RestUtil {
             HttpResponse response = null;
             logger.info(PrintUtil.formatRequest(deployRestRequest));
 
-            response = deployRestRequest.execute();
+            response = executeAPI(profile, deployRestRequest);
 
             if (Options.override) {
                 SeamLessDeploymentStatus deployment3 = response.parseAs(SeamLessDeploymentStatus.class);
@@ -705,8 +696,6 @@ public class RestUtil {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept("application/json");
         headers.setContentType("application/octet-stream");
-        headers.setBasicAuthentication(profile.getCredential_user(),
-                profile.getCredential_pwd());
         HttpRequest deleteRestRequest = REQUEST_FACTORY.buildDeleteRequest(
                 new GenericUrl(profile.getHostUrl() + "/"
                         + profile.getApi_version() + "/organizations/"
@@ -718,7 +707,7 @@ public class RestUtil {
         HttpResponse response = null;
 
         logger.info(PrintUtil.formatRequest(deleteRestRequest));
-        response = deleteRestRequest.execute();
+        response = executeAPI(profile, deleteRestRequest);
 
         //		String deleteResponse = response.parseAsString();
         AppConfig deleteResponse = response.parseAs(AppConfig.class);
@@ -745,6 +734,48 @@ public class RestUtil {
 
     public static void setVersionRevision(String versionRevision) {
         RestUtil.versionRevision = versionRevision;
+    }
+
+    /** 
+     * OAuth token acquisition for calling management APIs
+     * Expiry time: 1799 sec = 30 mins
+     * MFA Token: TOTP expires in 30 secs
+     */
+    public static HttpResponse executeAPI(ServerProfile profile, HttpRequest request) 
+            throws IOException {
+        MgmtAPIClient client = new MgmtAPIClient();
+        if (accessToken == null) {
+            logger.info("Acquiring mgmt API token from " + profile.getMgmtTokenUrl());
+            try {
+                AccessToken token = null;
+                String mfaToken = profile.getMFAToken();
+                if (mfaToken == null || mfaToken.length() == 0) {
+                    logger.info("MFA token not provided. Skipping.");
+                    token = client.getAccessToken(
+                            profile.getMgmtTokenUrl(),
+                            mgmtAPIClientId, mgmtAPIClientSecret,
+                            profile.getCredential_user(),
+                            profile.getCredential_pwd());
+                } else {
+                    logger.info("MFA token provided.");
+                    token = client.getAccessToken(
+                            profile.getMgmtTokenUrl(),
+                            mgmtAPIClientId, mgmtAPIClientSecret,
+                            profile.getCredential_user(),
+                            profile.getCredential_pwd(),
+                            profile.getMFAToken());
+                }
+                accessToken = token.getAccess_token();
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
+        } else {
+            logger.debug("Reusing mgmt API access token");            
+        }
+
+        HttpHeaders headers = request.getHeaders();
+        headers.setAuthorization("Bearer " + accessToken);
+        return request.execute();
     }
 
 }
