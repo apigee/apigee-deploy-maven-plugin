@@ -23,6 +23,8 @@ public class ServerProfile {
 	private String credential_pwd; //
 	private String hostURL; // hostname & scheme e.g.,
 							// https://api.enterprise.apigee.com
+	private String mgmtTokenURL; // Mgmt API OAuth token endpoint
+	private String mfaToken; // Mgmt API OAuth MFA - TOTP
 	private String environment; // prod or test
 	private String api_version; // v2 or v1 in the server url
 	private String bundle_zip_full_path;
@@ -70,6 +72,22 @@ public class ServerProfile {
 
 	public void setHostUrl(String host) {
 		this.hostURL = host;
+	}
+
+	public String getMgmtTokenUrl() {
+		return mgmtTokenURL;
+	}
+
+	public void setMgmtTokenUrl(String url) {
+		this.mgmtTokenURL = url;
+	}
+
+	public String getMFAToken() {
+		return mfaToken;
+	}
+
+	public void setMFAToken(String otp) {
+		this.mfaToken = otp;
 	}
 
 	public String getEnvironment() {

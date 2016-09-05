@@ -263,7 +263,20 @@ mvn apigee-enterprise:deploy -P prod -Dusername=admin@toopowerful.com -Dpassword
 
 **mvn install -P  <profile_name> -Dusername=<username> -Dpassword=<password>**
 
+##MFA - Optional
+Apigee protects its management APIs using OAuth tokens as an alternative to the 
+Basic Auth security. Additionally MFA using TOTP can also be configured as an 
+additional layer of security for acquiring OAuth tokens. The plugin has the 
+capability to acquire OAuth tokens and invoke management API calls.
 
+The following parameters can be used to configure OAuth token acquistion.
+### OAuth token (defaults to cloud version)
+```mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Dorg=testmyapi -Dmgmttokenurl='https://login.apigee.com/oauth/token'```
+
+### OAuth token with MFA
+```mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Dorg=testmyapi -Dmgmttokenurl='https://login.apigee.com/oauth/token' -Dmfatoken=$mfa_token```
+Refer to [How to get OAuth2 tokens](http://docs.apigee.com/api-services/content/using-oauth2-security-apigee-edge-management-api#howtogetoauth2tokens) for details
+mfatoken.js provides an example.
 
 ## Advanced Configuration Options
 

@@ -73,7 +73,7 @@
             <plugin>
                 <groupId>io.apigee.build-tools.enterprise4g</groupId>
                 <artifactId>apigee-edge-maven-plugin</artifactId>
-                <version>1.0.2</version>
+                <version>1.0.4-SNAPSHOT</version>
                 <executions>
                     <execution>
                         <id>configure-bundle</id>
@@ -103,6 +103,8 @@
                 <apigee.profile>test</apigee.profile>
                 <apigee.env>test</apigee.env>
                 <apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
+                <apigee.mgmttokenurl>${mgmttokenurl}</apigee.mgmttokenurl> <!-- optional: mfa -->
+                <apigee.mfatoken>${mfatoken}</apigee.mfatoken> <!-- optional: mfa -->
                 <apigee.apiversion>v1</apigee.apiversion>
                 <apigee.org>${org}</apigee.org>
                 <apigee.username>${username}</apigee.username>
