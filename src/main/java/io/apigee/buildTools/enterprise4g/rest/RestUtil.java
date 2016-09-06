@@ -736,30 +736,46 @@ public class RestUtil {
         RestUtil.versionRevision = versionRevision;
     }
 
-    /** 
+    /**
      * OAuth token acquisition for calling management APIs
-     * Expiry time: 1799 sec = 30 mins
-     * MFA Token: TOTP expires in 30 secs
+     * Access Token expiry 1799 sec = 30 mins long enough to finish any maven task
+     * MFA Token: TOTP expires in 30 secs.
      */
     public static HttpResponse executeAPI(ServerProfile profile, HttpRequest request) 
             throws IOException {
+        HttpHeaders headers = request.getHeaders();
         MgmtAPIClient client = new MgmtAPIClient();
-        if (accessToken == null) {
-            logger.info("Acquiring mgmt API token from " + profile.getMgmtTokenUrl());
+        String mfaToken = profile.getMFAToken();
+        String mgmtTokenUrl = profile.getMgmtTokenUrl();
+
+        /**** Basic Auth - Backward compatibility ****/
+        if (profile.getMgmtAPIBasicAuth().equalsIgnoreCase("true")) {
+            headers.setBasicAuthentication(profile.getCredential_user(),
+                                            profile.getCredential_pwd());
+            return request.execute();
+        }
+
+        /**** OAuth ****/
+        if (accessToken != null) {
+            // subsequent calls
+            logger.debug("Reusing mgmt API access token");
+            headers.setAuthorization("Bearer " + accessToken);
+            return request.execute();
+        } else {
+            logger.info("Acquiring mgmt API token from " + mgmtTokenUrl);
             try {
                 AccessToken token = null;
-                String mfaToken = profile.getMFAToken();
                 if (mfaToken == null || mfaToken.length() == 0) {
                     logger.info("MFA token not provided. Skipping.");
                     token = client.getAccessToken(
-                            profile.getMgmtTokenUrl(),
+                            mgmtTokenUrl,
                             mgmtAPIClientId, mgmtAPIClientSecret,
                             profile.getCredential_user(),
                             profile.getCredential_pwd());
                 } else {
-                    logger.info("MFA token provided.");
+                    logger.info("Making use of the provided MFA token.");
                     token = client.getAccessToken(
-                            profile.getMgmtTokenUrl(),
+                            mgmtTokenUrl,
                             mgmtAPIClientId, mgmtAPIClientSecret,
                             profile.getCredential_user(),
                             profile.getCredential_pwd(),
@@ -768,14 +784,10 @@ public class RestUtil {
                 accessToken = token.getAccess_token();
             } catch (Exception e) {
                 logger.error(e.getMessage());
+                // should we throw something up ??
             }
-        } else {
-            logger.debug("Reusing mgmt API access token");            
+
+            return request.execute();
         }
-
-        HttpHeaders headers = request.getHeaders();
-        headers.setAuthorization("Bearer " + accessToken);
-        return request.execute();
     }
-
 }

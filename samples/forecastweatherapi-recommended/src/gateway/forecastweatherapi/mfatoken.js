@@ -3,7 +3,6 @@
 //*********************
 // CLI alternative to Google Authenticator or similar mobile apps.
 // Helpful for use with CI bots and automation tools.
-// IMPORTANT: Waits for a maximum of 25s to generate a usable OTP
 //
 // INSTALL
 // $ npm install totp-generator
@@ -12,26 +11,31 @@
 // $ node mfatoken.js
 // 
 // NOTES
-// - TOTP is valid for 30 sec
-// - Ensuring OTP is valid for next 25 secs helps in subsequent usage of OTP
+//   Ensuring OTP is valid for next minOTPValidity millisecs
+//   helps in subsequent usage of OTP
 //******************************************************************************
-
 var totp = require('totp-generator');
+var TOTP_WINDOW = 30000; // TOTP CONSTANT
+
+/////////////// Config/Tweak /////////////////
+var secret = 'OKYMN32T74TEERMX';
+
+// usable OTP
+var minOTPValidity = 10000; // ms
+//////////////////////////////////////////////
 
 function myotp(){
-  var token = totp('OKYMN32T74TEERMX');
+  var token = totp(secret);
   console.log(token);
 }
 
 var now = new Date().getTime();
-var delta = now%30000;
-//console.log(delta);
+var delta = now%TOTP_WINDOW;
 
-// 25s is a good window to use otp
-if (delta < 5000) {
+if (delta < (TOTP_WINDOW - minOTPValidity)) {
   myotp();
 } else {
-  var waitTime = 30000-delta;
+  var waitTime = TOTP_WINDOW - delta;
   //console.log('Waiting for ' + waitTime + ' ms');
   setTimeout(function(){ myotp(); }, waitTime);
 }
