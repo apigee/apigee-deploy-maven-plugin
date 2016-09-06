@@ -18,7 +18,7 @@ Video
 Learn more, check out this video! [Ask the Expert](http://academy.apigee.com/ask-expert#maven)
 
 -------------------------------------------
-##Detailed documentation on the use of plugin
+## Detailed documentation on the use of plugin
 -------------------------------------------
 
 ## Contents
@@ -26,13 +26,15 @@ Learn more, check out this video! [Ask the Expert](http://academy.apigee.com/ask
 - [Getting-Started](#getting-started)
 - [Building API bundles](#building-api-bundles)
 - [Steps to set it up](#steps-to-set-it-up)
-- [Step 1: Create a maven compatible file structure](#step-1-create-a-maven-compatible-file-structure)
-- [Step 2: Create and configure pom files](#step-2-create-and-configure-pom-files)
-- [Step 3: Create and configure config.json](#step-3-create-and-configure-config-json)
-- [parent-pom/pom.xml Sample](#parent-pom-pom-xml-sample)
-- [pom.xml Sample](#pom-xml-sample)
-- [Config.json Sample](#config-json-sample)
+  - [Step 1: Create a maven compatible file structure](#step-1-create-a-maven-compatible-file-structure)
+  - [Step 2: Create and configure pom files](#step-2-create-and-configure-pom-files)
+  - [Step 3: Create and configure config.json](#step-3-create-and-configure-config-json)
+- Samples
+  - [parent-pom/pom.xml Sample](#parent-pom-pom-xml-sample)
+  - [pom.xml Sample](#pom-xml-sample)
+  - [Config.json Sample](#config-json-sample)
 - [Commands](#commands-for-deploying-the-proxy-using-maven)
+- [OAuth and MFA](#OAuth-and-MFA)
 - [Node.js Application Support](#deploying-api-proxies-with-nodejs-apps)
 
 # Getting Started
@@ -55,16 +57,13 @@ Often the most difficult and confusing aspect of application development is figu
 
 Apigee bundles can be described as a zipped file system composed of configuration, scripts and code. The file system when extracted is composed of the following structure.
 
-|-apiproxy
-
-  |---proxies
-
-  |---resources
-
-  |---policies
-
-  |---targets
-
+```
+ |-apiproxy/
+   |-proxies
+   |-resources
+   |-policies
+   |-targets
+```
 
 ### Create a new API
 
@@ -91,59 +90,37 @@ Follow below steps to set up your local development environment
 And you are ready for deploy to Apigee Edge using the plugin
 
 
-###Step 1 Create a Maven compatible file structure
+### Step 1 Create a Maven compatible file structure
 
 
 Below is the recommended structure for the project. However only the folder structure below the folder gateway is mandatory
 
-|-name-of-root (typically company name)
-
- |---archive
-
- |-----docs
-
- |-----src
-
- |---binaries
-
- |---build-artifacts
-
- |---docs
-
- |-----customer
-
- |-----reference
-
- |-----solution
-
- |---src
-
- |-----analytics
-
- |-----gateway
-
-** |-------parent-pom**
-
- |-------test-app
-
- |---------apiproxy
-
- |-----------proxies
-
- |-----------resources
-
- |-------------py
-
- |-----------policies
-
- |-----------targets
-
- |-----java
-
- |-----portal
-
- |---test
-
+```
+  |-name-of-root (typically company name)
+    |-archive/
+      |-docs
+      |-src
+    |-binaries/
+    |-build-artifacts/
+    |-docs/
+      |-customer
+      |-reference
+      |-solution
+    |-src/
+      |-analytics
+      |-gateway/ ***
+        |-parent-pom
+        |-test-app/
+          |-apiproxy/
+            |-proxies
+            |-resources/
+              |-py
+            |-policies
+            |-targets
+      |-java
+      |-portal
+    |-test
+```
 
 #### Decompress API Bundle
 
@@ -152,16 +129,13 @@ The API bundle will come zipped, use the unarchiving utility of your choice to u
 Once unzipped you will have a folder named apiproxy, this folder contains all of the configuration for your proxy and the folder structure needed for re-importing of the configuration.
 
 The composition of the folder can be described as below.
-
-{ApiName}.xml - A file that contains descriptors for the content
-
-policies - A folder that contains xml policies
-
-proxies - A folder that contains information about your proxy configurations (inbound)
-
-targets - A folder that contains information about target configurations (outbound)
-
-resources - A folder that contains any scripts (java, jsc, py, node)
+File/Folder | Purpose
+---|---
+{ApiName}.xml | A file that contains descriptors for the content
+policies | A folder that contains xml policies
+proxies | A folder that contains information about your proxy configurations (inbound)
+targets | A folder that contains information about target configurations (outbound)
+resources | A folder that contains any scripts (java, jsc, py, node)
 
 Note: when creating scripts, place your script/jar files in the proper folders based on the script type (e.g. javascript in jsc, node.js in node, java in java).
 
@@ -177,9 +151,8 @@ Parent-pom: The contents of the parent pom folder will contain a single pom.xml 
 
 Refer parent-pom template [parent-pom] (https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/forecastweatherapi-recommended/src/gateway/shared-pom.xml)
 
-**groupId** element's content should be set to client's company name.  Here you see it as apigee.
-
-**artifactId** element's content be left as parent-pom.
+ * **groupId** element's content should be set to client's company name.  Here you see it as apigee.
+ * **artifactId** element's content be left as parent-pom.
 
 Child-pom: Here we configure all the details specific to the particular proxy.
 
@@ -187,13 +160,10 @@ Child-pom: Here we configure all the details specific to the particular proxy.
 
 Refer child-pom template [child-pom](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/forecastweatherapi-recommended/src/gateway/forecastweatherapi/pom.xml).
 
-**groupId** element's content should match that of the same element in the parent pom.xml.
-
-**artifactId** element's content should be a unique name, typically set to the name of the API.
-
-**name** element's content should match the artifactId above (typically set to the name of the API).
-
-**side-note** groupId and artifactId, combined, define the artifact living quarters within a repository.
+ * **groupId** element's content should match that of the same element in the parent pom.xml.
+ * **artifactId** element's content should be a unique name, typically set to the name of the API.
+ * **name** element's content should match the artifactId above (typically set to the name of the API).
+ * **side-note** groupId and artifactId, combined, define the artifact living quarters within a repository.
 
 ### Step 3 Create and configure config-json
 
@@ -201,50 +171,9 @@ The config.json acts as your build time configuration modification descriptor. T
 
 For instance in the example below you have two configurations one for the test profile and one for the production profile. This example also shows how you can use xpath to replace environment specific settings.
 
-
-
 #### Config-json Sample
 
-Refer config.json template [config.json] (https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/forecastweatherapi-recommended/src/gateway/forecastweatherapi/config.json)
-
-     **configuration** - an array of API definitions
-
-        **name** - Name of the maven profile
-
-        **proxies** - Array of proxy definitions, directly correlates to the proxies folder in your API Bundle
-
-           **name** - Name of file to configure
-
-           **tokens** - Array of Actions to Invoke on Elements
-
-              **xpath** - Path to element that your want to change the value of
-
-              **value** - The replacement value
-
-        **policies** - Array of proxy definitions, directly correlates to the policies or step definition folder in your API Bundle
-
-           **name** - Name of file to configure
-
-           **tokens** - Array of Actions to Invoke on Elements
-
-              **xpath** - Path to element that your want to change the value of
-
-              **value** - The replacement value
-
-        **targets** - Array of proxy definitions, directly correlates to the proxies folder in your API Bundle
-
-           **name** - Name of file to configure
-
-           **tokens** - Array of Actions to Invoke on Elements
-
-              **xpath** - Path to element that your want to change the value of
-
-              **value** - The replacement value
-
-
-Deploy and run the scripts
-
-
+Refer config.json template [config.json](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/forecastweatherapi-recommended/src/gateway/forecastweatherapi/config.json)
 
 ## Commands for deploying the proxy using maven
 
@@ -263,21 +192,6 @@ mvn apigee-enterprise:deploy -P prod -Dusername=admin@toopowerful.com -Dpassword
 
 **mvn install -P  <profile_name> -Dusername=<username> -Dpassword=<password>**
 
-##MFA - Optional
-Apigee protects its management APIs using OAuth tokens as an alternative to the 
-Basic Auth security. Additionally MFA using TOTP can also be configured as an 
-additional layer of security for acquiring OAuth tokens. The plugin has the 
-capability to acquire OAuth tokens and invoke management API calls.
-
-The following parameters can be used to configure OAuth token acquistion.
-### OAuth token (defaults to cloud version)
-```mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Dorg=testmyapi -Dmgmttokenurl='https://login.apigee.com/oauth/token'```
-
-### OAuth token with MFA
-```mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Dorg=testmyapi -Dmgmttokenurl='https://login.apigee.com/oauth/token' -Dmfatoken=$mfa_token```
-Refer to [How to get OAuth2 tokens](http://docs.apigee.com/api-services/content/using-oauth2-security-apigee-edge-management-api#howtogetoauth2tokens) for details
-mfatoken.js provides an example.
-
 ## Advanced Configuration Options
 
 **Note 1:** The following entries in some XML file elements could be changed to match the customer's environment: "groupId", "id" (for each profile sections), "apigee.profile", "apigee.env", "apigee.hosturl", "apigee.org". The contents of "apigee.profile", "apigee.env", and "id" elements should match the profile the customer wants to use and is matched with environment name. The value of the "apigee.hosturl" element should match the value in the example if the customer is an enterprise cloud user. If the customer is an on premise user, this url would be the location of the customer management servers host and port. The port is 8080 by default. The value of the "apigee.org" element should match the organization provided when Customer environment was initially setup, in most cases this includes the name of the company. For on premise installations, the org is setup when you run installation scripts. The Maven group id is malleable and is also marked in red for both pom examples, the only thing you should note when changing this is that they need to be consistent between applications.
@@ -286,13 +200,26 @@ mfatoken.js provides an example.
 
 **Note 3:** The "apigee.options" element can have the following values: **clean** (this option will delete the last deployed revision in an environment), **validate** (this option will validate a bundle before importing. Thus if you want strict validation then its required), **inactive** (this option will import the bundle without activating the bundle), **override** (this option is used for seamless deployment and should be supplied with apigee.override.delay parameter. The apigee.override.delay expects delay to be given in seconds), **update** (this option will update the revision). This is similar to import with validation but no new revision is created. If there are any errors in the bundle, an error is thrown and the existing bundle is left intact. In case the revision they are trying to update is deployed, it will internally trigger undeployment and deployment. It is completely in the background and not visible in the response.
 
-**Note3a** . The “apigee.revision” element can be used **when using the update option only**. The update option will be executed on the provided revision.
+**Note 3a** . The “apigee.revision” element can be used **when using the update option only**. The update option will be executed on the provided revision.
 
 
 **Note 4:** The "apigee.options" combination could be given with comma separated values. The precedence order of options are -> override, update, (clean, inactive, validate, force).
 
 **Note 5:** Flow without "apigee.options":import –> undeploy (lastactive) –> deploy (new revision)
 
+## OAuth and MFA
+Apigee management APIs are secured using OAuth tokens as an alternative to the Basic Auth security. Additionally MFA using TOTP can also be configured as an additional layer of security. This plugin has the capability to acquire OAuth tokens and invoke management API calls.
+
+Refer to [How to get OAuth2 tokens](http://docs.apigee.com/api-services/content/using-oauth2-security-apigee-edge-management-api#howtogetoauth2tokens) for details. 
+
+The following parameters can be used to configure OAuth token acquistion.
+### OAuth token endpoint (optional: defaults to Apigee cloud)
+```mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Dorg=testmyapi -Dmgmttokenurl='https://login.apigee.com/oauth/token'```
+
+### OAuth token with MFA
+```mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Dorg=testmyapi -Dmgmttokenurl='https://login.apigee.com/oauth/token' -Dmfatoken=$mfa_token```
+
+To generate MFA token for use in CI bots, refer to mfatoken.js for a sample implementation using node.js.
 
 ## Deploying API Proxies with Node.js apps
 
@@ -302,14 +229,15 @@ will compress the ```node_modules``` directory contained in ```apiproxy/resource
 The plugin also supports moving node.js application source into ```apiproxy/resources/node``` if the source exists
 outside of the API proxy structure itself.  An example structure when node.js application source is beside ```apiproxy```:
 
-
-    |--name-of-root (typically proxy name)
-      |---apiproxy
-        |-----proxies
-        |-----resources
-          |-------node (where root/node gets moved to)
-        |-----targets
-      |---node (where node.js application source exists)
+```
+    |-name-of-root (typically proxy name)
+      |-apiproxy
+        |-proxies
+        |-resources
+          |-node (where root/node gets moved to)
+        |-targets
+      |-node (where node.js application source exists)
+```
  
  Note: In above example, if you have code in ```node/``` and ```apiproxy/resources/node```, the source in ```node/``` takes 
  precedence and any files located in ```apiproxy/resource/node``` will be overwritten.
