@@ -15,10 +15,29 @@
  */
 package io.apigee.buildTools.enterprise4g.rest;
 
-import io.apigee.buildTools.enterprise4g.utils.PrintUtil;
-import io.apigee.buildTools.enterprise4g.utils.ServerProfile;
-import io.apigee.buildTools.enterprise4g.utils.StringToIntComparator;
-import com.google.api.client.http.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
+
+import org.apache.maven.plugin.MojoExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.api.client.http.FileContent;
+import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpHeaders;
+import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpRequestFactory;
+import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.client.http.HttpResponse;
+import com.google.api.client.http.HttpResponseException;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
@@ -27,16 +46,10 @@ import com.google.api.client.util.GenericData;
 import com.google.api.client.util.Key;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import javax.net.ssl.HttpsURLConnection;
-import java.io.File;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import io.apigee.buildTools.enterprise4g.utils.PrintUtil;
+import io.apigee.buildTools.enterprise4g.utils.ServerProfile;
+import io.apigee.buildTools.enterprise4g.utils.StringToIntComparator;
 
 
 public class RestUtil {
@@ -293,7 +306,7 @@ public class RestUtil {
     }
 
     // This function should do -
-    // Return a revision if there is a active revision
+    // Return a revision if there is a active revision, if there are more than one active revisions deployed in an env, the highest revision number is picked
     // Returns "" if there are no active revision
 
     public static String getDeployedRevision(ServerProfile profile)
@@ -322,10 +335,26 @@ public class RestUtil {
             logger.debug(PrintUtil.formatResponse(response, gson.toJson(deployment1).toString()));
 
 
-            if (deployment1 != null) {
+            /*if (deployment1 != null) {
                 for (Environment env : deployment1.environment) {
                     if (env.name.equalsIgnoreCase(profile.getEnvironment()))
                         return env.revision.get(0).name;
+                }
+            }*/
+            //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/53
+            if (deployment1 != null) {
+                for (Environment env : deployment1.environment) {
+                    if (env.name.equalsIgnoreCase(profile.getEnvironment())){
+                    	List<Revision> revisionList = env.revision;
+                    	if(revisionList!=null && revisionList.size()>0){
+                    		List<String> revisions = new ArrayList<String>();
+                    		for (Revision revision : revisionList) {
+                    			revisions.add(revision.name);
+							}
+                    		Collections.sort(revisions, new StringToIntComparator());
+                    		return revisions.get(0);
+                    	}
+                    }
                 }
             }
 
@@ -746,5 +775,6 @@ public class RestUtil {
     public static void setVersionRevision(String versionRevision) {
         RestUtil.versionRevision = versionRevision;
     }
-
+    
+    
 }
