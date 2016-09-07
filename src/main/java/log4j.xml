@@ -56,7 +56,7 @@
             all log messages of level "debug" or higher will be logged, unless defined otherwise 
             all log messages will be logged to the appender "stdout", unless defined otherwise 
         -->
-        <level value="debug" />
+        <level value="info" />
         <appender-ref ref="stdout" />
     </root>
 </log4j:configuration>

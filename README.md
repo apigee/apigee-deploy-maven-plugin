@@ -129,8 +129,9 @@ The API bundle will come zipped, use the unarchiving utility of your choice to u
 Once unzipped you will have a folder named apiproxy, this folder contains all of the configuration for your proxy and the folder structure needed for re-importing of the configuration.
 
 The composition of the folder can be described as below.
+
 File/Folder | Purpose
----|---
+---- | ----
 {ApiName}.xml | A file that contains descriptors for the content
 policies | A folder that contains xml policies
 proxies | A folder that contains information about your proxy configurations (inbound)
