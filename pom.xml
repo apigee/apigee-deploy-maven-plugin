@@ -28,7 +28,7 @@
     <artifactId>apigee-edge-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
     <!-- This is inherited from <version>0.0.15</version> of the the non-opensource plugin -->
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.4</version>
     <name>apigee-edge-maven-plugin maven mojo</name>
     <url>http://maven.apache.org</url>
 
