@@ -246,8 +246,6 @@ public class RestUtil {
         headers.setAccept("application/json");
         restRequest.setHeaders(headers);
 
-        logger.info(PrintUtil.formatRequest(restRequest));
-
         try {
             HttpResponse response = executeAPI(profile, restRequest);
             AppRevision apprev = response.parseAs(AppRevision.class);
@@ -278,8 +276,6 @@ public class RestUtil {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept("application/json");
         restRequest.setHeaders(headers);
-
-        logger.info(PrintUtil.formatRequest(restRequest));
 
         try {
             HttpResponse response = executeAPI(profile, restRequest);
@@ -314,8 +310,6 @@ public class RestUtil {
             headers.setAccept("application/json");
             restRequest.setHeaders(headers);
 
-
-            logger.debug(PrintUtil.formatRequest(restRequest));
             HttpResponse response = executeAPI(profile, restRequest);
             deployment1 = response.parseAs(BundleDeploymentConfig.class);
             logger.debug(PrintUtil.formatResponse(response, gson.toJson(deployment1).toString()));
@@ -368,8 +362,6 @@ public class RestUtil {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept("application/json");
         restRequest.setHeaders(headers);
-
-        logger.info(PrintUtil.formatRequest(restRequest));
 
         try {
             HttpResponse response = executeAPI(profile, restRequest);
@@ -428,8 +420,6 @@ public class RestUtil {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept("application/json");
         restRequest.setHeaders(headers);
-
-        logger.info(PrintUtil.formatRequest(restRequest));
 
         try {
             HttpResponse response = executeAPI(profile, restRequest);
@@ -491,8 +481,6 @@ public class RestUtil {
                 undeployRestRequest.setHeaders(headers);
 
                 HttpResponse response = null;
-
-                logger.info(PrintUtil.formatRequest(undeployRestRequest));
                 response = executeAPI(profile, undeployRestRequest);
                 deployment1 = response.parseAs(BundleActivationConfig.class);
                 logger.info(PrintUtil.formatResponse(response, gson.toJson(deployment1).toString()));
@@ -619,8 +607,6 @@ public class RestUtil {
 
 
             HttpResponse response = null;
-            logger.info(PrintUtil.formatRequest(deployRestRequest));
-
             response = executeAPI(profile, deployRestRequest);
 
             if (Options.override) {
@@ -705,8 +691,6 @@ public class RestUtil {
         deleteRestRequest.setHeaders(headers);
 
         HttpResponse response = null;
-
-        logger.info(PrintUtil.formatRequest(deleteRestRequest));
         response = executeAPI(profile, deleteRestRequest);
 
         //		String deleteResponse = response.parseAsString();
@@ -749,10 +733,12 @@ public class RestUtil {
         String mgmtTokenUrl = profile.getMgmtTokenUrl();
 
         /**** Basic Auth - Backward compatibility ****/
-        if (profile.getMgmtAPIBasicAuth().equalsIgnoreCase("true")) {
-            headers.setBasicAuthentication(profile.getCredential_user(),
-                                            profile.getCredential_pwd());
-            return request.execute();
+        if (profile.getMgmtAPIAuthType() != null &&
+            profile.getMgmtAPIAuthType().equalsIgnoreCase("basic")) {
+                headers.setBasicAuthentication(profile.getCredential_user(),
+                                                profile.getCredential_pwd());
+                logger.info(PrintUtil.formatRequest(request));
+                return request.execute();
         }
 
         /**** OAuth ****/
@@ -760,7 +746,6 @@ public class RestUtil {
             // subsequent calls
             logger.debug("Reusing mgmt API access token");
             headers.setAuthorization("Bearer " + accessToken);
-            return request.execute();
         } else {
             logger.info("Acquiring mgmt API token from " + mgmtTokenUrl);
             try {
@@ -782,12 +767,13 @@ public class RestUtil {
                             profile.getMFAToken());
                 }
                 accessToken = token.getAccess_token();
+                headers.setAuthorization("Bearer " + accessToken);
             } catch (Exception e) {
                 logger.error(e.getMessage());
                 // should we throw something up ??
             }
-
-            return request.execute();
         }
+        logger.info(PrintUtil.formatRequest(request));
+        return request.execute();
     }
 }
