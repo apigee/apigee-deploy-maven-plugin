@@ -34,7 +34,7 @@ Learn more, check out this video! [Ask the Expert](http://academy.apigee.com/ask
   - [pom.xml Sample](#pom-xml-sample)
   - [Config.json Sample](#config-json-sample)
 - [Commands](#commands-for-deploying-the-proxy-using-maven)
-- [OAuth and MFA](#OAuth-and-MFA)
+- [OAuth and Two-Factor Authentication](#oauth-and-two-factor-authentication)
 - [Node.js Application Support](#deploying-api-proxies-with-nodejs-apps)
 
 # Getting Started
@@ -246,7 +246,8 @@ To enable OAuth add the following options to all profiles as required. Refer to 
 
 To invoke, add command line flags to enable OAuth.
 
-    mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Dorg=testmyapi -Dauthtype=oauth -Dtokenurl='https://login.apigee.com/oauth/token'
+    mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password \
+                        -Dorg=testmyapi -Dauthtype=oauth
 
 "tokenurl" is optional and defaults to the cloud version "https://login.apigee.com/oauth/token"
 
@@ -266,7 +267,8 @@ To enable Two-Factor Authentication, add the following options to all profiles a
 
 Provide the token when invoking the plugin.
 
-    mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Dorg=testmyapi  -Dauthtype=oauth -Dmfatoken=123456
+    mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password \
+                        -Dorg=testmyapi -Dauthtype=oauth -Dmfatoken=123456
 
 ## Deploying API Proxies with Node.js apps
 
