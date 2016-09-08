@@ -133,9 +133,9 @@ The composition of the folder can be described as below.
 File/Folder | Purpose
 ---- | ----
 {ApiName}.xml | A file that contains descriptors for the content
-policies | A folder that contains xml policies
-proxies | A folder that contains information about your proxy configurations (inbound)
-targets | A folder that contains information about target configurations (outbound)
+policies/ | A folder that contains all policy xml files
+proxies/ | A folder that contains information about your proxy configurations (inbound)
+targets/ | A folder that contains information about target configurations (outbound)
 resources | A folder that contains any scripts (java, jsc, py, node)
 
 Note: when creating scripts, place your script/jar files in the proper folders based on the script type (e.g. javascript in jsc, node.js in node, java in java).
@@ -146,11 +146,13 @@ Note: when creating scripts, place your script/jar files in the proper folders b
 
 In a standard configuration typically we have parent-pom (pom.xml inside the *parent-pom* directory) and a child pom (pom file at  the peer level as folder *apiproxy*).
 
-Parent-pom: The contents of the parent pom folder will contain a single pom.xml file. This file typically contains most of the configuration of Maven and the plugin, it also contains credentials for the Apigee platform. In case of manual creating a Maven compatible file structure, "parent-pom" directory should be in perr level with customer application folders. Here we configure all the information whch is same acroos multiple apiproxys. Eg: Profile configurations which has the org/env info etc.
+The contents of the parent pom folder will contain a single pom.xml file. This file typically contains most of the configuration of Maven and the plugin, it also contains credentials for the Apigee platform.
+
+In case of manual creation of Maven compatible file structure, "parent-pom" directory should be in peer level with other application folders. Here we configure information that is common across multiple apiproxys. Eg: Profile configurations which has the org/env info etc.
 
 #### parent-pom-pom-xml Sample
 
-Refer parent-pom template [parent-pom] (https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/forecastweatherapi-recommended/src/gateway/shared-pom.xml)
+Refer parent-pom template [parent-pom](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/forecastweatherapi-recommended/src/gateway/shared-pom.xml)
 
  * **groupId** element's content should be set to client's company name.  Here you see it as apigee.
  * **artifactId** element's content be left as parent-pom.
@@ -168,7 +170,9 @@ Refer child-pom template [child-pom](https://github.com/apigee/apigee-deploy-mav
 
 ### Step 3 Create and configure config-json
 
-The config.json acts as your build time configuration modification descriptor. The file's root object is called configurations, configurations is an array of proxy configurations scoped to an environment. Note: it is important that the name of the configurations match the name of the profiles in the parent-pom.
+The config.json contains rules to perform build time configuration update. This JSON file's root object is  "configurations" and is an array of proxy configurations scoped to an environment. 
+
+Note: it is important that the name of the configurations match the name of the profiles in the parent-pom.
 
 For instance in the example below you have two configurations one for the test profile and one for the production profile. This example also shows how you can use xpath to replace environment specific settings.
 
@@ -180,47 +184,89 @@ Refer config.json template [config.json](https://github.com/apigee/apigee-deploy
 
 *To deploy the proxy*
 
+```
 /src/gateway/proxy-dir
 (run the command from the directory same as child pom)
 
-**mvn apigee-enterprise:deploy -P -Dusername=<username> -Dpassword=<password>**
+mvn apigee-enterprise:deploy -P<profile> -Dusername=<username> -Dpassword=<password>
+```
 
 For example:
 
-mvn apigee-enterprise:deploy -P prod -Dusername=admin@toopowerful.com -Dpassword=too\_powerful\_password
+```mvn apigee-enterprise:deploy -P prod -Dusername=admin@toopowerful.com -Dpassword=too\_powerful\_password```
 
 *To deploy the proxy and run jmeter tests*
 
-**mvn install -P  <profile_name> -Dusername=<username> -Dpassword=<password>**
+```mvn install -P  <profile_name> -Dusername=<username> -Dpassword=<password>```
 
 ## Advanced Configuration Options
 
-**Note 1:** The following entries in some XML file elements could be changed to match the customer's environment: "groupId", "id" (for each profile sections), "apigee.profile", "apigee.env", "apigee.hosturl", "apigee.org". The contents of "apigee.profile", "apigee.env", and "id" elements should match the profile the customer wants to use and is matched with environment name. The value of the "apigee.hosturl" element should match the value in the example if the customer is an enterprise cloud user. If the customer is an on premise user, this url would be the location of the customer management servers host and port. The port is 8080 by default. The value of the "apigee.org" element should match the organization provided when Customer environment was initially setup, in most cases this includes the name of the company. For on premise installations, the org is setup when you run installation scripts. The Maven group id is malleable and is also marked in red for both pom examples, the only thing you should note when changing this is that they need to be consistent between applications.
+##### Note 1
+The following entries in some XML file elements could be changed to match the customer's environment: 
+* "groupId"
+* "id" (for each profile sections)
+* "apigee.profile"
+* "apigee.env"
+* "apigee.hosturl"
+* "apigee.org"
 
-**Note 2:** The"apigee.override.delay", "apigee.delay,apigee.options" are optional elements. The "apigee.delay" could be specified (in milliseconds). This will ensure to add a delay between the operations like delete, import, activate, deactivate etc.
+1. The contents of "apigee.profile", "apigee.env", and "id" elements should match the profile the customer wants to use and is matched with environment name. 
+2. The value of the "apigee.hosturl" element should match the value in the example if the customer is an enterprise cloud user. 
+    * If the customer is an private cloud user, this url would be the location of the customer's management server host and port. The port is 8080 by default. 
+3. The value of the "apigee.org" element should match the organization provided when Customer environment was initially setup, in most cases this includes the name of the company. 
+   * For private cloud installations, the org is setup when you run installation scripts. The Maven group id is malleable and is also marked in red for both pom examples, the only thing to note when changing this is that they need to be consistent between applications.
 
-**Note 3:** The "apigee.options" element can have the following values: **clean** (this option will delete the last deployed revision in an environment), **validate** (this option will validate a bundle before importing. Thus if you want strict validation then its required), **inactive** (this option will import the bundle without activating the bundle), **override** (this option is used for seamless deployment and should be supplied with apigee.override.delay parameter. The apigee.override.delay expects delay to be given in seconds), **update** (this option will update the revision). This is similar to import with validation but no new revision is created. If there are any errors in the bundle, an error is thrown and the existing bundle is left intact. In case the revision they are trying to update is deployed, it will internally trigger undeployment and deployment. It is completely in the background and not visible in the response.
+#### Note 2
+The"apigee.override.delay", "apigee.delay,apigee.options" are optional elements. The "apigee.delay" could be specified (in milliseconds). This will ensure to add a delay between the operations like delete, import, activate, deactivate etc.
 
-**Note 3a** . The “apigee.revision” element can be used **when using the update option only**. The update option will be executed on the provided revision.
+#### Note 3
+The "apigee.options" element can have the following values: **clean** (this option will delete the last deployed revision in an environment), **validate** (this option will validate a bundle before importing. Thus if you want strict validation then its required), **inactive** (this option will import the bundle without activating the bundle), **override** (this option is used for seamless deployment and should be supplied with apigee.override.delay parameter. The apigee.override.delay expects delay to be given in seconds), **update** (this option will update the revision). This is similar to import with validation but no new revision is created. If there are any errors in the bundle, an error is thrown and the existing bundle is left intact. In case the revision they are trying to update is deployed, it will internally trigger undeployment and deployment. It is completely in the background and not visible in the response.
 
+#### Note 3a
+The “apigee.revision” element can be used **when using the update option only**. The update option will be executed on the provided revision.
 
-**Note 4:** The "apigee.options" combination could be given with comma separated values. The precedence order of options are -> override, update, (clean, inactive, validate, force).
+#### Note 4
+The "apigee.options" combination could be given with comma separated values. The precedence order of options are -> override, update, (clean, inactive, validate, force).
 
-**Note 5:** Flow without "apigee.options":import –> undeploy (lastactive) –> deploy (new revision)
+#### Note 5
+Flow without "apigee.options":import –> undeploy (lastactive) –> deploy (new revision)
 
-## OAuth and MFA
-Apigee management APIs are secured using OAuth tokens as an alternative to the Basic Auth security. Additionally MFA using TOTP can also be configured as an additional layer of security. This plugin has the capability to acquire OAuth tokens and invoke management API calls.
+## OAuth and Two-Factor Authentication
+Apigee management APIs are secured using OAuth tokens as an alternative to the Basic Auth security. Additionally Two-Factor authentication (MFA) using TOTP can also be configured as an additional layer of security. This plugin has the capability to acquire OAuth tokens and invoke management API calls.
 
-Refer to [How to get OAuth2 tokens](http://docs.apigee.com/api-services/content/using-oauth2-security-apigee-edge-management-api#howtogetoauth2tokens) for details. 
+Refer to [How to get OAuth2 tokens](http://docs.apigee.com/api-services/content/using-oauth2-security-apigee-edge-management-api#howtogetoauth2tokens) and [Two-Factor authentication](http://docs.apigee.com/api-services/content/enable-two-factor-auth-your-apigee-account)for details.
 
-The following parameters can be used to configure OAuth token acquistion.
-### OAuth token endpoint (optional: defaults to Apigee cloud)
-```mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Dorg=testmyapi -Dmgmttokenurl='https://login.apigee.com/oauth/token'```
+### Using OAuth
+OAuth capability when enabled is seamless and the plugin acquires OAuth tokens and uses it subsequently to call management APIs. 
 
-### OAuth token with MFA
-```mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Dorg=testmyapi -Dmgmttokenurl='https://login.apigee.com/oauth/token' -Dmfatoken=$mfa_token```
+To enable OAuth add the following options to all profiles as required. Refer to [shared-pom.xml](https://github.com/apigee/apigee-deploy-maven-plugin/blob/oauth/samples/forecastweatherapi-recommended/src/gateway/shared-pom.xml) example.
 
-To generate MFA token for use in CI bots, refer to mfatoken.js for a sample implementation using node.js.
+    <apigee.tokenurl>${tokenurl}</apigee.tokenurl> <!-- optional: oauth -->
+    <apigee.authtype>${authtype}</apigee.authtype> <!-- optional: oauth|basic(default) -->
+
+To invoke, add command line flags to enable OAuth.
+
+    mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Dorg=testmyapi -Dauthtype=oauth -Dtokenurl='https://login.apigee.com/oauth/token'
+
+"tokenurl" is optional and defaults to the cloud version "https://login.apigee.com/oauth/token"
+
+### Two-Factor Authentication
+[Two-Factor authentication](http://docs.apigee.com/api-services/content/enable-two-factor-auth-your-apigee-account) is based on TOTP tokens. When the apigee account is enabled for Two-Factor Authentication it applies to management APIs as well.
+
+The plugin can accept TOTP tokens generated by an external utility and use it to acquire OAuth tokens.
+
+TOTP can be generated using command line tools for use in CI tools like Jenkins.
+
+### Using Two-Factor Authentication token
+**Note** OAuth needs to be enabled before Two-Factor Authentication can be used. 
+
+To enable Two-Factor Authentication, add the following options to all profiles as required. Refer to [shared-pom.xml](https://github.com/apigee/apigee-deploy-maven-plugin/blob/oauth/samples/forecastweatherapi-recommended/src/gateway/shared-pom.xml) example.
+
+    <apigee.mfatoken>${mfatoken}</apigee.mfatoken> <!-- optional: mfa -->
+
+Provide the token when invoking the plugin.
+
+    mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Dorg=testmyapi  -Dauthtype=oauth -Dmfatoken=123456
 
 ## Deploying API Proxies with Node.js apps
 
@@ -262,10 +308,10 @@ Refer for detailed documentation [Guide for Users Migrating from Apigee repo]
 Recommended Convention for Contributions
 ------------------------------------------
 
-Refer [Guide for Plugin Developers] (https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/PluginDevelopers-Guide.md)
+Refer [Guide for Plugin Developers](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/PluginDevelopers-Guide.md)
 
 
 People Involved
 ------------------------
 
-The plugin is initially developed by [Santany Dey] (sdey@apigee.com). With major contributions from [Rajesh Mishra] (rajesh.mishra@apigee.com), [Manoj Wartikar] (manojwartikar@apigee.com), [Srikanth Seshadri] (sseshadri@apigee.com) and others listed in the pom developer list are the active developers who can be contacted for support. The plugin is open sourced by [Priyanky Thomas] (priyanky@apigee.com).
+The plugin is initially developed by [Santany Dey](sdey@apigee.com). With major contributions from [Rajesh Mishra](rajesh.mishra@apigee.com), [Manoj Wartikar](manojwartikar@apigee.com), [Srikanth Seshadri](sseshadri@apigee.com) and others listed in the pom developer list are the active developers who can be contacted for support. The plugin is open sourced by [Priyanky Thomas](priyanky@apigee.com).

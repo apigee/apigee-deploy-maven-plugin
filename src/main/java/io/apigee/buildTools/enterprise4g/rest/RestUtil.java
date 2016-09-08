@@ -723,18 +723,18 @@ public class RestUtil {
     /**
      * OAuth token acquisition for calling management APIs
      * Access Token expiry 1799 sec = 30 mins long enough to finish any maven task
-     * MFA Token: TOTP expires in 30 secs.
+     * MFA Token: TOTP expires in 30 secs. User needs to give a token with some validity
      */
-    public static HttpResponse executeAPI(ServerProfile profile, HttpRequest request) 
+    private static HttpResponse executeAPI(ServerProfile profile, HttpRequest request) 
             throws IOException {
         HttpHeaders headers = request.getHeaders();
         MgmtAPIClient client = new MgmtAPIClient();
         String mfaToken = profile.getMFAToken();
-        String mgmtTokenUrl = profile.getMgmtTokenUrl();
+        String tokenUrl = profile.getTokenUrl();
 
         /**** Basic Auth - Backward compatibility ****/
-        if (profile.getMgmtAPIAuthType() != null &&
-            profile.getMgmtAPIAuthType().equalsIgnoreCase("basic")) {
+        if (profile.getAuthType() != null &&
+            profile.getAuthType().equalsIgnoreCase("basic")) {
                 headers.setBasicAuthentication(profile.getCredential_user(),
                                                 profile.getCredential_pwd());
                 logger.info(PrintUtil.formatRequest(request));
@@ -747,20 +747,20 @@ public class RestUtil {
             logger.debug("Reusing mgmt API access token");
             headers.setAuthorization("Bearer " + accessToken);
         } else {
-            logger.info("Acquiring mgmt API token from " + mgmtTokenUrl);
+            logger.info("Acquiring mgmt API token from " + tokenUrl);
             try {
                 AccessToken token = null;
                 if (mfaToken == null || mfaToken.length() == 0) {
                     logger.info("MFA token not provided. Skipping.");
                     token = client.getAccessToken(
-                            mgmtTokenUrl,
+                            tokenUrl,
                             mgmtAPIClientId, mgmtAPIClientSecret,
                             profile.getCredential_user(),
                             profile.getCredential_pwd());
                 } else {
-                    logger.info("Making use of the provided MFA token.");
+                    logger.info("Making use of the MFA token provided.");
                     token = client.getAccessToken(
-                            mgmtTokenUrl,
+                            tokenUrl,
                             mgmtAPIClientId, mgmtAPIClientSecret,
                             profile.getCredential_user(),
                             profile.getCredential_pwd(),
