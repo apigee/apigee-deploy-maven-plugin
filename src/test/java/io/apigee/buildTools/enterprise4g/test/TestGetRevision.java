@@ -36,7 +36,7 @@ public class TestGetRevision extends TestCase {
         profile.setEnvironment(System.getProperty("env"));
         profile.setOrg(System.getProperty("org"));
         profile.setApi_version("v1");
-        profile.setMgmtTokenUrl("https://login.apigee.com/oauth/token");
+        profile.setTokenUrl("https://login.apigee.com/oauth/token");
         //profile.setProfileId("PUT-UR-PROFILE");
 
 
