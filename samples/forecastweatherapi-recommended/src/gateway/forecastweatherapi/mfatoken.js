@@ -3,6 +3,7 @@
 //*********************
 // CLI alternative to Google Authenticator or similar mobile apps.
 // Helpful for use with CI bots and automation tools.
+// Reads shared secret from SHARED_SECRET environment variable.
 //
 // INSTALL
 // $ npm install totp-generator
@@ -18,8 +19,9 @@ var totp = require('totp-generator');
 var TOTP_WINDOW = 30000; // TOTP CONSTANT
 
 /////////////// Config/Tweak /////////////////
-var secret = 'OKYMN32T74TEERMX';
-
+// populate from a secure environment variable
+var secret = process.env.SHARED_SECRET; 
+ 
 // usable OTP
 var minOTPValidity = 10000; // ms
 //////////////////////////////////////////////

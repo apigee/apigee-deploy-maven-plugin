@@ -23,9 +23,9 @@ public class ServerProfile {
 	private String credential_pwd; //
 	private String hostURL; // hostname & scheme e.g.,
 							// https://api.enterprise.apigee.com
-	private String mgmtTokenURL; // Mgmt API OAuth token endpoint
+	private String tokenURL; // Mgmt API OAuth token endpoint
 	private String mfaToken; // Mgmt API OAuth MFA - TOTP
-	private String mgmtAPIAuthType; // Mgmt API Auth Type
+	private String authType; // Mgmt API Auth Type oauth|basic
 	private String environment; // prod or test
 	private String api_version; // v2 or v1 in the server url
 	private String bundle_zip_full_path;
@@ -75,12 +75,12 @@ public class ServerProfile {
 		this.hostURL = host;
 	}
 
-	public String getMgmtTokenUrl() {
-		return mgmtTokenURL;
+	public String getTokenUrl() {
+		return tokenURL;
 	}
 
-	public void setMgmtTokenUrl(String url) {
-		this.mgmtTokenURL = url;
+	public void setTokenUrl(String url) {
+		this.tokenURL = url;
 	}
 
 	public String getMFAToken() {
@@ -91,12 +91,12 @@ public class ServerProfile {
 		this.mfaToken = otp;
 	}
 
-	public String getMgmtAPIAuthType() {
-		return mgmtAPIAuthType;
+	public String getAuthType() {
+		return authType;
 	}
 
-	public void setMgmtAPIAuthType(String flag) {
-		this.mgmtAPIAuthType = flag;
+	public void setAuthType(String flag) {
+		this.authType = flag;
 	}
 
 	public String getEnvironment() {

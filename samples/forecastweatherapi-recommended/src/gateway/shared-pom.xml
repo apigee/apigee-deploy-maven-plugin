@@ -73,7 +73,7 @@
             <plugin>
                 <groupId>io.apigee.build-tools.enterprise4g</groupId>
                 <artifactId>apigee-edge-maven-plugin</artifactId>
-                <version>1.0.4-SNAPSHOT</version>
+                <version>1.1.0-SNAPSHOT</version>
                 <executions>
                     <execution>
                         <id>configure-bundle</id>
@@ -109,9 +109,9 @@
                 <apigee.password>${password}</apigee.password>
                 <apigee.options>${options}</apigee.options>
                 <apigee.revision>${revision}</apigee.revision> <!-- used while trying to update revision, use when option=update only -->
-                <!--<apigee.mgmttokenurl>${mgmttokenurl}</apigee.mgmttokenurl>--> <!-- optional: mfa -->
+                <apigee.tokenurl>${tokenurl}</apigee.tokenurl> <!-- optional: oauth -->
                 <apigee.mfatoken>${mfatoken}</apigee.mfatoken> <!-- optional: mfa -->
-                <!--<apigee.mgmtapiauthtype>${mgmtapiauthtype}</apigee.mgmtapiauthtype>--> <!-- optional: default=oauth -->
+                <apigee.authtype>${authtype}</apigee.authtype> <!-- optional: oauth|basic(default) -->
                 <!--apigee.override.delay>10</apigee.override.delay-->
                 <!--apigee.delay>1000</apigee.delay-->
             </properties>
@@ -130,9 +130,9 @@
                 <apigee.password>${password}</apigee.password>
                 <apigee.options>${options}</apigee.options>
                 <apigee.revision>${revision}</apigee.revision> <!-- used while trying to update revision, use when option=update only -->
-                <!--<apigee.mgmttokenurl>${mgmttokenurl}</apigee.mgmttokenurl>--> <!-- optional: mfa -->
-                <apigee.mfatoken>${mfatoken}</apigee.mfatoken> <!-- optional: mfa -->
-                <!--<apigee.mgmtapiauthtype>${mgmtapiauthtype}</apigee.mgmtapiauthtype>--> <!-- optional: default=oauth -->
+                <!--<apigee.tokenurl>${tokenurl}</apigee.tokenurl>--> <!-- optional: oauth -->
+                <!--<apigee.mfatoken>${mfatoken}</apigee.mfatoken>--> <!-- optional: mfa -->
+                <!--<apigee.authtype>${authtype}</apigee.authtype>--> <!-- optional: oauth|basic(default) -->
                 <!--apigee.override.delay>10</apigee.override.delay-->
                 <!--apigee.delay>1000</apigee.delay-->
             </properties>
