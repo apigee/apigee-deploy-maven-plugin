@@ -363,7 +363,7 @@
             <test.env>${env}</test.env>
             <test.username>${username}</test.username>
             <test.password>${password}</test.password>
-            <maven.test.skip>false</maven.test.skip>
+            <maven.test.skip>true</maven.test.skip>
         </properties>
     </profile>
 
