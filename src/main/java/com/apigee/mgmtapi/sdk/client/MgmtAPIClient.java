@@ -147,15 +147,4 @@ public class MgmtAPIClient {
 		return service.getEnvironment();
 	}
 
-	public static void main(String args[]) {
-		MgmtAPIClient client = new MgmtAPIClient();
-		AccessToken token = null;
-		try {
-			token = client.getAccessToken("https://login.apigee.com/oauth/token", "edgecli", "edgeclisecret",
-					"madhansivam@gmail.com", "Welcome1");
-			logger.info(token.toString());
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-		}
-	}
 }
