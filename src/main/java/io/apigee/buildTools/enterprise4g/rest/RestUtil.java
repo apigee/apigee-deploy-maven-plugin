@@ -626,6 +626,11 @@ public class RestUtil {
                     data.set("delay", Options.override_delay);
                 }
                 urlEncodedContent = new UrlEncodedContent(data);
+            } else {
+                // https://github.com/apigee/apigee-deploy-maven-plugin/issues/56
+                GenericData data = new GenericData();
+                data.set("override", "false");
+                urlEncodedContent = new UrlEncodedContent(data);
             }
 
 
