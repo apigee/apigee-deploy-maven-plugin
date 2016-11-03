@@ -266,7 +266,6 @@ public class DeployMojo extends GatewayAbstractMojo
 	public void execute() throws MojoExecutionException, MojoFailureException {
 
 		try {
-			fixOSXNonProxyHosts();
 			
 			init();
 			
