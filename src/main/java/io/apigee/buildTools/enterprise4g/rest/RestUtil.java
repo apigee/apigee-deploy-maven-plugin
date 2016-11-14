@@ -240,6 +240,39 @@ public class RestUtil {
                 }
             });
 
+    public static void initMfa(ServerProfile profile) throws IOException {
+
+    	// any simple get request can be used to - we just need to get an access token
+    	// whilst the mfatoken is still valid
+    	
+        // trying to construct the URL like
+        // https://api.enterprise.apigee.com/v1/organizations/apigee-cs/apis/taskservice/
+        // success response is ignored
+    	if (accessToken == null) {
+			logger.info("=============Initialising MFA================");
+	
+	        HttpRequest restRequest = REQUEST_FACTORY
+	                .buildGetRequest(new GenericUrl(profile.getHostUrl() + "/"
+	                        + profile.getApi_version() + "/organizations/"
+	                        + profile.getOrg() + "/apis/"
+	                        + profile.getApplication() + "/"));
+	        restRequest.setReadTimeout(0);
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.setAccept("application/json");
+	        restRequest.setHeaders(headers);
+	
+	        try {
+	            HttpResponse response = executeAPI(profile, restRequest);            
+	            //ignore response - we just wanted the MFA initialised
+	            logger.info("=============MFA Initialised================");
+	        } catch (HttpResponseException e) {
+	            logger.error(e.getMessage());
+	            //throw error as there is no point in continuing
+	            throw e;
+	        }
+    	}
+    }
+
     public static void getRevision(ServerProfile profile) throws IOException {
 
         // trying to construct the URL like
