@@ -269,6 +269,18 @@ Provide the token when invoking the plugin.
 
     mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password \
                         -Dorg=testmyapi -Dauthtype=oauth -Dmfatoken=123456
+                        
+If the API takes a long time to package up then  it is likely that the token till have expired before it is used.  To mitigate against this, from version 1.1.3, an initmfa goal can be called during the validate phase:
+
+    <execution>
+        <id>initialise-mfa</id>
+        <phase>validate</phase>
+        <goals>
+            <goal>initmfa</goal>
+        </goals>
+    </execution>
+
+Depending on where the plugin is in the order, and how much validation is requird, it is possible that this may still result in token timeout.
 
 ## Deploying API Proxies with Node.js apps
 
