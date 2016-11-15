@@ -273,7 +273,7 @@ Provide the token when invoking the plugin.
 ### Passing the Bearer Token as a parameter
 If you would like to generate the bearer token outside of this plugin and provide it as a command line parameter, you can add the following: 
 
-    <apigee.bearer>${bearer}</apigee.bearer> <!-- optional: mfa -->
+    <apigee.bearer>${bearer}</apigee.bearer>
 
 Provide the token when invoking the plugin.
 
