@@ -270,6 +270,16 @@ Provide the token when invoking the plugin.
     mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password \
                         -Dorg=testmyapi -Dauthtype=oauth -Dmfatoken=123456
 
+### Passing the Bearer Token as a parameter
+If you would like to generate the bearer token outside of this plugin and provide it as a command line parameter, you can add the following: 
+
+  <apigee.bearer>${bearer}</apigee.bearer> <!-- optional: mfa -->
+
+Provide the token when invoking the plugin.
+
+    mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password \
+                        -Dorg=testmyapi -Dbearer=c912eu1201c
+
 ## Deploying API Proxies with Node.js apps
 
 Starting at version 1.0.1 of the plugin, support for API proxies that contain node.js applications is included.  The plugin 
