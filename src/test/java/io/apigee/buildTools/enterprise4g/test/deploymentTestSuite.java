@@ -28,6 +28,7 @@ public class deploymentTestSuite {
 		suite.addTestSuite(TestGetDeployedRevision.class);
 		suite.addTestSuite(TestRefreshBundle.class);
         suite.addTestSuite(TestDeleteDeployedBundle.class);
+		suite.addTestSuite(TestGetRevisionWithBearer.class);
 		//$JUnit-END$
 		return suite;
 	}

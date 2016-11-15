@@ -118,6 +118,13 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 	private String orgName;
 	
 	/**
+	 * Gateway host bearer token
+	 * 
+	 * @parameter expression="${apigee.bearer}"
+	 */
+	private String bearer;
+	
+	/**
 	 * Gateway host username
 	 * 
 	 * @parameter expression="${apigee.username}"
@@ -196,6 +203,7 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 		this.buildProfile.setMFAToken(this.mfaToken);
 		this.buildProfile.setAuthType(this.authType);
 		this.buildProfile.setEnvironment(this.deploymentEnv);
+		this.buildProfile.setBearerToken(this.bearer);
 		this.buildProfile.setCredential_user(this.userName);
 		this.buildProfile.setCredential_pwd(this.password);
 		this.buildProfile.setProfileId(this.id);
