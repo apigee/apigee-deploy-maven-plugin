@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "test",
+            "policies": [
+                {
+                    "name": "QuotaPolicy.xml",
+                    "tokens": [
+                        {
+                            "xpath": "/Quota/Interval",
+                            "value": "2"
+                        }
+                    ]
+                }
+            ],
+            "proxies": [ ],
+            "targets": [ ]
+        }
+    ]
+}
