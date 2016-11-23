@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import io.apigee.buildTools.enterprise4g.utils.ConfigTokens.Policy;
@@ -158,7 +159,9 @@ public class PackageConfigurer {
 
         Node node = (Node) expression.evaluate(xmlDoc, XPathConstants.NODE);
         if (node == null) {
+            Element root = xmlDoc.getDocumentElement();
             node = xmlDoc.createElement("Description");
+            root.appendChild(node);
         }
 
         if (node.hasChildNodes()) {

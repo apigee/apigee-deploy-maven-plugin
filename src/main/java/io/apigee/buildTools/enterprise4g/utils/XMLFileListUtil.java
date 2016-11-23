@@ -141,7 +141,7 @@ public class XMLFileListUtil {
 
 			aList = new ArrayList<File>(Arrays.asList(folder.listFiles(xmlFilter)));
 
-			logger.debug("=============Nuber of files found is================\n{}", aList.size());
+			logger.debug("=============Number of files found is================\n{}", aList.size());
 		} catch (Exception e) {
 			logger.debug("=============Error Encountered in Searching files [" + sFolder + "]================\n" + e);
 		}
