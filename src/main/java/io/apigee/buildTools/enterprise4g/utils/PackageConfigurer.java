@@ -80,6 +80,8 @@ public class PackageConfigurer {
                     xmlDoc = replaceTokens(xmlDoc, configTokens);
                     DOMSource source = new DOMSource(xmlDoc);
                     StreamResult result = new StreamResult(fileList.get(i));
+                    //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/66
+                    result.setSystemId(fileList.get(i).getAbsolutePath());
                     transformer.transform(source, result);
                 }
             } catch (Exception e) {
@@ -107,6 +109,8 @@ public class PackageConfigurer {
                     xmlDoc = replaceTokens(xmlDoc, configTokens);
                     DOMSource source = new DOMSource(xmlDoc);
                     StreamResult result = new StreamResult(fileList.get(i));
+                    //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/66
+                    result.setSystemId(fileList.get(i).getAbsolutePath());
                     transformer.transform(source, result);
                 }
             } catch (Exception e) {
@@ -134,6 +138,8 @@ public class PackageConfigurer {
                     xmlDoc = replaceTokens(xmlDoc, configTokens);
                     DOMSource source = new DOMSource(xmlDoc);
                     StreamResult result = new StreamResult(fileList.get(i));
+                    //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/66
+                    result.setSystemId(fileList.get(i).getAbsolutePath());
                     transformer.transform(source, result);
                 }
             } catch (Exception e) {
@@ -174,6 +180,8 @@ public class PackageConfigurer {
 
         DOMSource source = new DOMSource(xmlDoc);
         StreamResult result = new StreamResult(fileList.get(0));
+        //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/66
+        result.setSystemId(fileList.get(0).getAbsolutePath());
         transformer.transform(source, result);
 
     }
