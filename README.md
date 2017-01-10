@@ -328,4 +328,4 @@ Refer [Guide for Plugin Developers](https://github.com/apigee/apigee-deploy-mave
 People Involved
 ------------------------
 
-The plugin is initially developed by [Santany Dey](sdey@apigee.com). With major contributions from [Rajesh Mishra](rajesh.mishra@apigee.com), [Manoj Wartikar](manojwartikar@apigee.com), [Srikanth Seshadri](sseshadri@apigee.com) and others listed in the pom developer list are the active developers who can be contacted for support. The plugin is open sourced by [Priyanky Thomas](priyanky@apigee.com).
+The plugin is initially developed by [Santany Dey](sdey@apigee.com). With major contributions from [Sai Saran Vaidyanathan](https://github.com/ssvaidyanathan), [Madhan Sadasivam](https://github.com/msadasivam). The plugin is open sourced by [Priyanky Thomas](priyanky@apigee.com). 
