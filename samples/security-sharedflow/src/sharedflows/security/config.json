@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "name": "test",
+            "policies": [],
+            "sharedflows": []
+        },
+        {
+            "name": "prod",
+            "policies": [],
+            "sharedflows": []
+        }
+    ]
+}
