@@ -82,13 +82,13 @@
                             <goal>configure</goal>
                         </goals>
                     </execution>
-                    <!--<execution>
+                    <execution>
                         <id>deploy-bundle</id>
                         <phase>install</phase>
                         <goals>
                             <goal>deploy</goal>
                         </goals>
-                    </execution> -->
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
@@ -108,13 +108,11 @@
                 <apigee.org>${org}</apigee.org>
                 <apigee.username>${username}</apigee.username>
                 <apigee.password>${password}</apigee.password>
-                <apigee.options>${options}</apigee.options>
+                <apigee.options>update</apigee.options> <!-- Shared Flow supports override and update -->
                 <apigee.revision>${revision}</apigee.revision> <!-- used while trying to update revision, use when option=update only -->
                 <apigee.tokenurl>${tokenurl}</apigee.tokenurl> <!-- optional: oauth -->
                 <apigee.mfatoken>${mfatoken}</apigee.mfatoken> <!-- optional: mfa -->
                 <apigee.authtype>${authtype}</apigee.authtype> <!-- optional: oauth|basic(default) -->
-                <!--apigee.override.delay>10</apigee.override.delay-->
-                <!--apigee.delay>1000</apigee.delay-->
             </properties>
         </profile>
         <profile>
@@ -130,13 +128,11 @@
                 <apigee.org>${org}</apigee.org>
                 <apigee.username>${username}</apigee.username>
                 <apigee.password>${password}</apigee.password>
-                <apigee.options>${options}</apigee.options>
+                <apigee.options>${options}</apigee.options> <!-- Shared Flow supports override and update -->
                 <apigee.revision>${revision}</apigee.revision> <!-- used while trying to update revision, use when option=update only -->
                 <apigee.tokenurl>${tokenurl}</apigee.tokenurl> <!-- optional: oauth -->
                 <apigee.mfatoken>${mfatoken}</apigee.mfatoken> <!-- optional: mfa -->
                 <apigee.authtype>${authtype}</apigee.authtype> <!-- optional: oauth|basic(default) -->
-                <!--apigee.override.delay>10</apigee.override.delay-->
-                <!--apigee.delay>1000</apigee.delay-->
             </properties>
         </profile>
     </profiles>
