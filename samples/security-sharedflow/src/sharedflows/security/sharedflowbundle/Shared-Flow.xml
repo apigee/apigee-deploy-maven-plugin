@@ -11,6 +11,7 @@
         <Policy>Quota-1</Policy>
         <Policy>Spike-Arrest-1</Policy>
         <Policy>Verify-API-Key-1</Policy>
+        <Policy>Assign-Message-1</Policy>
     </Policies>
     <Resources/>
     <Spec></Spec>

@@ -103,10 +103,21 @@ public class ConfigureMojo extends GatewayAbstractMojo {
 
 		logger.info("\n\n=============Now zipping the App Bundle================\n\n");
 
+		//Zip package
+		zipDirectory();
+	}
+	
+	private void zipDirectory() throws MojoExecutionException{
 		try {
 			ZipUtils zu = new ZipUtils();
-			zu.zipDir(new File(super.getApplicationBundlePath()),
-					new File(super.getBuildDirectory() + "/apiproxy"), "apiproxy");
+			if(super.getProfile().getApi_type() != null && super.getProfile().getApi_type().equalsIgnoreCase("sharedflow")){
+				zu.zipDir(new File(super.getApplicationBundlePath()),
+						new File(super.getBuildDirectory() + "/sharedflowbundle"), "sharedflowbundle");
+			}
+			else{
+				zu.zipDir(new File(super.getApplicationBundlePath()),
+						new File(super.getBuildDirectory() + "/apiproxy"), "apiproxy");
+			}
 		} catch (Exception e) {
 			throw new MojoExecutionException(e.getMessage());
 		}
@@ -115,7 +126,10 @@ public class ConfigureMojo extends GatewayAbstractMojo {
 	private void configurePackage(Logger logger, File configFile) throws MojoExecutionException {
 		logger.debug("\n\n=============Now updating the configuration values for the App Bundle================\n\n");
 		try {
-			if (super.getProfile().getProfileId() != null && super.getProfile().getProfileId() != "") {
+			if (super.getProfile().getProfileId() != null && super.getProfile().getProfileId() != ""
+					&& super.getProfile().getApi_type() != null && super.getProfile().getApi_type().equalsIgnoreCase("sharedflow")) {
+				PackageConfigurer.configureSharedFlowPackage(super.getProfile().getProfileId(), configFile);
+			}else if (super.getProfile().getProfileId() != null && super.getProfile().getProfileId() != "") {
 				PackageConfigurer.configurePackage(super.getProfile().getProfileId(), configFile);
 			} else {
 				PackageConfigurer.configurePackage(super.getProfile().getEnvironment(), configFile);

@@ -47,8 +47,8 @@ import com.google.gson.GsonBuilder;
  */
 
 public class PackageConfigurer {
-
-    public static void configurePackage(String env, File configFile)
+	
+	public static void configurePackage(String env, File configFile)
             throws Exception {
 
         Logger logger = LoggerFactory.getLogger(PackageConfigurer.class);
@@ -162,6 +162,84 @@ public class PackageConfigurer {
         javax.xml.xpath.XPathFactory factory = javax.xml.xpath.XPathFactory.newInstance();
         javax.xml.xpath.XPath xpath = factory.newXPath();
         javax.xml.xpath.XPathExpression expression = xpath.compile("/APIProxy/Description");
+
+        Node node = (Node) expression.evaluate(xmlDoc, XPathConstants.NODE);
+        if (node == null) {
+            Element root = xmlDoc.getDocumentElement();
+            node = xmlDoc.createElement("Description");
+            root.appendChild(node);
+        }
+
+        if (node.hasChildNodes()) {
+            // sets the description to whatever is in the <proxyname>.xml file
+            node.setTextContent(expression.evaluate(xmlDoc));
+        } else {
+            // if Description is empty, then it reverts back to appending the username, git hash, etc
+            node.setTextContent(getComment(fileList.get(0)));
+        }
+
+        DOMSource source = new DOMSource(xmlDoc);
+        StreamResult result = new StreamResult(fileList.get(0));
+        //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/66
+        result.setSystemId(fileList.get(0).getAbsolutePath());
+        transformer.transform(source, result);
+
+    }
+
+    public static void configureSharedFlowPackage(String env, File configFile)
+            throws Exception {
+
+        Logger logger = LoggerFactory.getLogger(PackageConfigurer.class);
+
+        TransformerFactory transformerFactory = TransformerFactory
+                .newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+
+        // get the list of files in proxies folder
+        XMLFileListUtil listFileUtil = new XMLFileListUtil();
+        FileReader fileutil = new FileReader();
+        ConfigTokens conf = fileutil.getBundleConfigs(configFile);
+        
+        
+        // get the list of files in policies folder
+        List<File> fileList = listFileUtil.getPolicyFiles(configFile, "sharedflowbundle");
+        for (int i = 0; i < fileList.size(); i++) {
+
+            Document xmlDoc = fileutil.getXMLDocument(fileList.get(i));
+
+            try {
+                Policy configTokens = conf.getConfigbyEnv(env)
+                        .getPolicyFileNameMatch(fileList.get(i).getName());
+                if (configTokens != null) {
+                    logger.info(
+                            "=============Replacing config tokens for Environment {}, for policy file name {}================\n",
+                            env, fileList.get(i).getName());
+                    xmlDoc = replaceTokens(xmlDoc, configTokens);
+                    DOMSource source = new DOMSource(xmlDoc);
+                    StreamResult result = new StreamResult(fileList.get(i));
+                    //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/66
+                    result.setSystemId(fileList.get(i).getAbsolutePath());
+                    transformer.transform(source, result);
+                }
+            } catch (Exception e) {
+                logger.error(
+                        "\n\n=============No config tokens found for Environment {}, for proxy file name {}================\n",
+                        env, fileList.get(i).getName());
+                throw e;
+            }
+
+        }
+
+        // update application metadata in the apiproxy folder
+
+        // get the list of files in targets folder
+        fileList = listFileUtil.getSharedFlowFiles(configFile);
+
+        Document xmlDoc = fileutil.getXMLDocument(fileList.get(0)); // there would be only one file, at least one file
+
+        javax.xml.xpath.XPathFactory factory = javax.xml.xpath.XPathFactory.newInstance();
+        javax.xml.xpath.XPath xpath = factory.newXPath();
+        javax.xml.xpath.XPathExpression expression = xpath.compile("/SharedFlowBundle/Description");
 
         Node node = (Node) expression.evaluate(xmlDoc, XPathConstants.NODE);
         if (node == null) {

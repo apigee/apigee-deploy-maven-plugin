@@ -9,4 +9,7 @@
     <Step>
         <Name>Spike-Arrest-1</Name>
     </Step>
+    <Step>
+        <Name>Assign-Message-1</Name>
+    </Step>
 </SharedFlow>

@@ -69,12 +69,16 @@ public class XMLFileListUtil {
 
 	}
 
-	public List<File> getPolicyFiles(File configFile) throws IOException { // assumes the present directory is at
+	public List<File> getPolicyFiles(File configFile) throws IOException {
+		return getPolicyFiles(configFile, "apiproxy");
+	}
+	
+	public List<File> getPolicyFiles(File configFile, String dirName) throws IOException { // assumes the present directory is at
 		// the project pom level.
 
 		List<File> fileNames = new ArrayList<File>();
 
-		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + "apiproxy" + File.separator + "policies";
+		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + dirName + File.separator + "policies";
 
 		fileNames = getXMLFiles(sDirectory);
 
@@ -119,6 +123,19 @@ public class XMLFileListUtil {
 		List<File> fileNames = new ArrayList<File>();
 
 		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + "apiproxy";
+
+		fileNames = getXMLFiles(sDirectory);
+
+		return fileNames;
+
+	}
+	
+	public List<File> getSharedFlowFiles(File configFile) throws IOException { // assumes the present directory is at
+		// the project pom level.
+
+		List<File> fileNames = new ArrayList<File>();
+
+		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + "sharedflowbundle";
 
 		fileNames = getXMLFiles(sDirectory);
 
