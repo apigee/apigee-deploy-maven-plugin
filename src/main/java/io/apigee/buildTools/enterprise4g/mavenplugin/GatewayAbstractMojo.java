@@ -109,6 +109,13 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 	 */
 	private String apiVersion;
 	
+	/**
+	 * Shared Flow api type
+	 * 
+	 * @parameter expression="${apigee.apitype}"
+	 */
+	private String apiType;
+	
 	
 	/**
 	 * Gateway org name
@@ -191,6 +198,7 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 		this.buildProfile.setOrg(this.orgName);
 		this.buildProfile.setApplication(this.projectName);
 		this.buildProfile.setApi_version(this.apiVersion);
+		this.buildProfile.setApi_type(this.apiType);
 		this.buildProfile.setHostUrl(this.hostURL);
 		this.buildProfile.setTokenUrl(this.tokenURL);
 		this.buildProfile.setMFAToken(this.mfaToken);

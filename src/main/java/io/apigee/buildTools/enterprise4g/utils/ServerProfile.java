@@ -28,6 +28,7 @@ public class ServerProfile {
 	private String authType; // Mgmt API Auth Type oauth|basic
 	private String environment; // prod or test
 	private String api_version; // v2 or v1 in the server url
+	private String api_type; // this is for Shared Flows
 	private String bundle_zip_full_path;
 	private String profileId; //Profile id as in parent pom
 	private String options;
@@ -91,6 +92,14 @@ public class ServerProfile {
 		this.mfaToken = otp;
 	}
 
+	public String getApi_type() {
+		return api_type;
+	}
+
+	public void setApi_type(String api_type) {
+		this.api_type = api_type;
+	}
+	
 	public String getAuthType() {
 		return authType;
 	}
