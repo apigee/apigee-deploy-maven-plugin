@@ -195,7 +195,7 @@ public class PackageConfigurer {
                 .newInstance();
         Transformer transformer = transformerFactory.newTransformer();
 
-        // get the list of files in proxies folder
+        // get the list of files in sharedflowbundle folder
         XMLFileListUtil listFileUtil = new XMLFileListUtil();
         FileReader fileutil = new FileReader();
         ConfigTokens conf = fileutil.getBundleConfigs(configFile);
@@ -232,7 +232,7 @@ public class PackageConfigurer {
 
         // update application metadata in the apiproxy folder
 
-        // get the list of files in targets folder
+        // get the list of files in sharedflowbundle folder
         fileList = listFileUtil.getSharedFlowFiles(configFile);
 
         Document xmlDoc = fileutil.getXMLDocument(fileList.get(0)); // there would be only one file, at least one file
