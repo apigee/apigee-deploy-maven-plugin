@@ -25,7 +25,7 @@ Learn more, check out this video! [Ask the Expert](http://apigee.com/about/resou
 
 - [Getting-Started](#getting-started)
 - [Building API bundles](#building-api-bundles)
-- [Building Shared Flow bundles](#building-sharedflow-bundles)
+- [Building Shared Flow bundles](#building-shared-flow-bundles)
 - [Steps to set it up](#steps-to-set-it-up)
   - [Step 1: Create a maven compatible file structure](#step-1-create-a-maven-compatible-file-structure)
   - [Step 2: Create and configure pom files](#step-2-create-and-configure-pom-files)
