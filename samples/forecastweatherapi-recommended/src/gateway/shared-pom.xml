@@ -73,7 +73,7 @@
             <plugin>
                 <groupId>io.apigee.build-tools.enterprise4g</groupId>
                 <artifactId>apigee-edge-maven-plugin</artifactId>
-                <version>1.1.3</version>
+                <version>1.1.4</version>
                 <executions>
                     <execution>
                         <id>configure-bundle</id>
