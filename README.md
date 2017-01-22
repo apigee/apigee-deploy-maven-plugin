@@ -25,6 +25,7 @@ Learn more, check out this video! [Ask the Expert](http://apigee.com/about/resou
 
 - [Getting-Started](#getting-started)
 - [Building API bundles](#building-api-bundles)
+- [Building Shared Flow bundles](#building-sharedflow-bundles)
 - [Steps to set it up](#steps-to-set-it-up)
   - [Step 1: Create a maven compatible file structure](#step-1-create-a-maven-compatible-file-structure)
   - [Step 2: Create and configure pom files](#step-2-create-and-configure-pom-files)
@@ -88,7 +89,6 @@ Follow below steps to set up your local development environment
 3. Create and configure config.json - if there are environment specific configurations (This is an optional step)
 
 And you are ready for deploy to Apigee Edge using the plugin
-
 
 ### Step 1 Create a Maven compatible file structure
 
@@ -304,6 +304,25 @@ outside of the API proxy structure itself.  An example structure when node.js ap
  precedence and any files located in ```apiproxy/resource/node``` will be overwritten.
 
 The above structure follows the same pattern when developing with java source code outside of the ```apiproxy``` bundle working directory.
+
+## Building Shared Flow bundles
+
+### What is a Shared Flow bundle?
+
+Shared Flow bundles can be described as a zipped file system composed of policies, steps and code. The file system when extracted is composed of the following structure.
+
+```
+ |-sharedflowbundle/
+   |-policies
+   |-sharedflows
+```
+The build steps and the options available for building and deploying Shared Flows are the same as API Proxy. Most widely used options are ```override``` and ```update```
+The [samples](https://github.com/apigee/apigee-deploy-maven-plugin/tree/master/samples/security-sharedflow/src/sharedflows) has an example of a standard sharedflow with the folder structure and the parent pom file. The only key difference between the API Proxy and the Shared Flow is a new property as part of the profiles.
+
+`<apigee.apitype>sharedflow</apigee.apitype>`
+
+This is required to differentiate the build and deployment process.
+
 
 ----------------------------------------------------------------
 For the users migrating from Apigee Maven repo to Maven central
