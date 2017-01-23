@@ -150,6 +150,8 @@ public class RestUtil {
         @Key
         public String aPIProxy;
         @Key
+        public String sharedFlow;
+        @Key
         public Configuration configuration;
         @Key
         public String environment;
@@ -170,6 +172,8 @@ public class RestUtil {
     public static class SeamLessDeploymentStatus {
         @Key
         public String aPIProxy;
+        @Key
+        public String sharedFlow;
         @Key
         public List<BundleActivationConfig> environment;
         @Key
@@ -240,6 +244,39 @@ public class RestUtil {
                 }
             });
 
+    public static void initMfa(ServerProfile profile) throws IOException {
+
+    	// any simple get request can be used to - we just need to get an access token
+    	// whilst the mfatoken is still valid
+    	
+        // trying to construct the URL like
+        // https://api.enterprise.apigee.com/v1/organizations/apigee-cs/apis/taskservice/
+        // success response is ignored
+    	if (accessToken == null) {
+			logger.info("=============Initialising MFA================");
+	
+	        HttpRequest restRequest = REQUEST_FACTORY
+	                .buildGetRequest(new GenericUrl(profile.getHostUrl() + "/"
+	                        + profile.getApi_version() + "/organizations/"
+	                        + profile.getOrg() + "/apis/"
+	                        + profile.getApplication() + "/"));
+	        restRequest.setReadTimeout(0);
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.setAccept("application/json");
+	        restRequest.setHeaders(headers);
+	
+	        try {
+	            HttpResponse response = executeAPI(profile, restRequest);            
+	            //ignore response - we just wanted the MFA initialised
+	            logger.info("=============MFA Initialised================");
+	        } catch (HttpResponseException e) {
+	            logger.error(e.getMessage());
+	            //throw error as there is no point in continuing
+	            throw e;
+	        }
+    	}
+    }
+
     public static void getRevision(ServerProfile profile) throws IOException {
 
         // trying to construct the URL like
@@ -308,6 +345,17 @@ public class RestUtil {
 
     public static String getDeployedRevision(ServerProfile profile)
             throws IOException {
+    	if(profile.getApi_type()!=null && profile.getApi_type().equalsIgnoreCase("sharedflow")){
+    		return getDeployedRevision(profile, "sharedflows");
+    	}	
+    	else{
+    		return getDeployedRevision(profile, "apis");
+    	}
+    		
+    }
+    
+    public static String getDeployedRevision(ServerProfile profile, String type)
+            throws IOException {
 
         BundleDeploymentConfig deployment1 = null;
 
@@ -316,7 +364,7 @@ public class RestUtil {
             HttpRequest restRequest = REQUEST_FACTORY
                     .buildGetRequest(new GenericUrl(profile.getHostUrl() + "/"
                             + profile.getApi_version() + "/organizations/"
-                            + profile.getOrg() + "/apis/"
+                            + profile.getOrg() + "/"+type+"/"
                             + profile.getApplication() + "/deployments"));
             restRequest.setReadTimeout(0);
             HttpHeaders headers = new HttpHeaders();
@@ -364,8 +412,17 @@ public class RestUtil {
 
     }
 
-
     public static String uploadBundle(ServerProfile profile, String bundleFile)
+            throws IOException {
+    	if(profile.getApi_type()!=null && profile.getApi_type().equalsIgnoreCase("sharedflow")){
+    		return uploadBundle(profile, bundleFile, "sharedflows");
+    	}	
+    	else{
+    		return uploadBundle(profile, bundleFile, "apis");
+    	}
+    }
+
+    public static String uploadBundle(ServerProfile profile, String bundleFile, String type)
             throws IOException {
 
         FileContent fContent = new FileContent("application/octet-stream",
@@ -379,7 +436,7 @@ public class RestUtil {
         //Forcefully validate before deployment
         String importCmd = profile.getHostUrl() + "/"
                 + profile.getApi_version() + "/organizations/"
-                + profile.getOrg() + "/apis?action=import&name="
+                + profile.getOrg() + "/"+type+"?action=import&name="
                 + profile.getApplication();
         if (Options.validate) {
             importCmd = importCmd + "&validate=true";
@@ -420,8 +477,17 @@ public class RestUtil {
 
     }
 
-
     public static String updateBundle(ServerProfile profile, String bundleFile, String revision)
+            throws IOException {
+    	if(profile.getApi_type()!=null && profile.getApi_type().equalsIgnoreCase("sharedflow")){
+    		return updateBundle(profile, bundleFile, revision, "sharedflows");
+    	}	
+    	else{
+    		return updateBundle(profile, bundleFile, revision, "apis");
+    	}
+    }
+
+    public static String updateBundle(ServerProfile profile, String bundleFile, String revision, String type)
             throws IOException {
 
         FileContent fContent = new FileContent("application/octet-stream",
@@ -435,7 +501,7 @@ public class RestUtil {
         //Forcefully validate before deployment
         String importCmd = profile.getHostUrl() + "/"
                 + profile.getApi_version() + "/organizations/"
-                + profile.getOrg() + "/apis/"
+                + profile.getOrg() + "/"+type+"/"
                 + profile.getApplication() + "/revisions/"
                 + revision+"?validate=true";
 
@@ -475,12 +541,18 @@ public class RestUtil {
 
     }
 
-
     public static String deactivateBundle(ServerProfile profile)
             throws IOException {
-        //JsonHttpContent content = new JsonHttpContent(new JacksonFactory(), "{}") ;
-        MockHttpContent content = new MockHttpContent();
+    	if(profile.getApi_type()!=null && profile.getApi_type().equalsIgnoreCase("sharedflow")){
+    		return deactivateBundle(profile, "sharedflows");
+    	}	
+    	else{
+    		return deactivateBundle(profile, "apis");
+    	}
+    }
 
+    public static String deactivateBundle(ServerProfile profile, String type)
+            throws IOException {
         String existingRevision = "";
         BundleActivationConfig deployment1 = new BundleActivationConfig();
         try {
@@ -495,7 +567,7 @@ public class RestUtil {
                 String undeployCmd = profile.getHostUrl() + "/"
                         + profile.getApi_version() + "/organizations/"
                         + profile.getOrg() + "/environments/"
-                        + profile.getEnvironment() + "/apis/"
+                        + profile.getEnvironment() + "/"+type+"/"
                         + profile.getApplication() + "/revisions/"
                         + existingRevision
                         + "/deployments";
@@ -593,13 +665,19 @@ public class RestUtil {
 
     }
 
-
+    
     public static String activateBundleRevision(ServerProfile profile, String revision)
             throws IOException {
-
-        String state = "";
-
-        //JsonHttpContent content = new JsonHttpContent(new JacksonFactory(), "{}") ;
+    	if(profile.getApi_type()!=null && profile.getApi_type().equalsIgnoreCase("sharedflow")){
+    		return activateBundleRevision(profile, revision, "sharedflows");
+    	}	
+    	else{
+    		return activateBundleRevision(profile, revision, "apis");
+    	}
+    }
+    
+    public static String activateBundleRevision(ServerProfile profile, String revision, String type)
+            throws IOException {
 
         BundleActivationConfig deployment2 = new BundleActivationConfig();
 
@@ -614,7 +692,7 @@ public class RestUtil {
             String deployCmd = profile.getHostUrl() + "/"
                     + profile.getApi_version() + "/organizations/"
                     + profile.getOrg() + "/environments/"
-                    + profile.getEnvironment() + "/apis/"
+                    + profile.getEnvironment() + "/"+type+"/"
                     + profile.getApplication() + "/revisions/" + revision
                     + "/deployments";
 
@@ -655,7 +733,7 @@ public class RestUtil {
                              Thread.sleep(10);
                              if (getDeployedRevision(profile).equalsIgnoreCase(revision))
                              {
-                                 logger.info("\nDeployed revision is: " + getVersionRevision());
+                            	 logger.info("\nDeployed revision is: " + revision);
                                  return "deployed";
                              }
                              else
@@ -672,7 +750,7 @@ public class RestUtil {
 
             deployment2 = response.parseAs(BundleActivationConfig.class);
             logger.info(PrintUtil.formatResponse(response, gson.toJson(deployment2).toString()));
-            logger.info("\nDeployed revision is: "+getVersionRevision());
+            logger.info("\nDeployed revision is: "+deployment2.revision);
 
             //Introduce Delay
             if (Options.delay != 0) {

@@ -69,12 +69,16 @@ public class XMLFileListUtil {
 
 	}
 
-	public List<File> getPolicyFiles(File configFile) throws IOException { // assumes the present directory is at
+	public List<File> getPolicyFiles(File configFile) throws IOException {
+		return getPolicyFiles(configFile, "apiproxy");
+	}
+	
+	public List<File> getPolicyFiles(File configFile, String dirName) throws IOException { // assumes the present directory is at
 		// the project pom level.
 
 		List<File> fileNames = new ArrayList<File>();
 
-		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + "apiproxy" + File.separator + "policies";
+		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + dirName + File.separator + "policies";
 
 		fileNames = getXMLFiles(sDirectory);
 
@@ -125,6 +129,19 @@ public class XMLFileListUtil {
 		return fileNames;
 
 	}
+	
+	public List<File> getSharedFlowFiles(File configFile) throws IOException { // assumes the present directory is at
+		// the project pom level.
+
+		List<File> fileNames = new ArrayList<File>();
+
+		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + "sharedflowbundle";
+
+		fileNames = getXMLFiles(sDirectory);
+
+		return fileNames;
+
+	}
 
 	private List<File> getXMLFiles(String sFolder) { // assumes the present
 		// directory is at the
@@ -141,7 +158,7 @@ public class XMLFileListUtil {
 
 			aList = new ArrayList<File>(Arrays.asList(folder.listFiles(xmlFilter)));
 
-			logger.debug("=============Nuber of files found is================\n{}", aList.size());
+			logger.debug("=============Number of files found is================\n{}", aList.size());
 		} catch (Exception e) {
 			logger.debug("=============Error Encountered in Searching files [" + sFolder + "]================\n" + e);
 		}

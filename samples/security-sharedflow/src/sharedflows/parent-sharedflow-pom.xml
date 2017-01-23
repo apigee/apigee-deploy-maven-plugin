@@ -60,10 +60,10 @@
                             <overwrite>true</overwrite>
                             <encoding>UTF-8</encoding>
                              <echo message="basedir parent : ${basedir}"/>
-                            <outputDirectory>${basedir}/target/apiproxy</outputDirectory>
+                            <outputDirectory>${basedir}/target/sharedflowbundle</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>apiproxy</directory>
+                                    <directory>sharedflowbundle</directory>
                                 </resource>
                             </resources>
                         </configuration>
@@ -104,17 +104,15 @@
                 <apigee.env>test</apigee.env>
                 <apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
                 <apigee.apiversion>v1</apigee.apiversion>
+                <apigee.apitype>sharedflow</apigee.apitype> <!-- This is only for Shared Flows. Not required for deploying proxy -->
                 <apigee.org>${org}</apigee.org>
                 <apigee.username>${username}</apigee.username>
                 <apigee.password>${password}</apigee.password>
-                <apigee.options>${options}</apigee.options>
+                <apigee.options>${options}</apigee.options> <!-- Shared Flow supports override and update -->
                 <apigee.revision>${revision}</apigee.revision> <!-- used while trying to update revision, use when option=update only -->
                 <apigee.tokenurl>${tokenurl}</apigee.tokenurl> <!-- optional: oauth -->
                 <apigee.mfatoken>${mfatoken}</apigee.mfatoken> <!-- optional: mfa -->
                 <apigee.authtype>${authtype}</apigee.authtype> <!-- optional: oauth|basic(default) -->
-                <apigee.bearer>${bearer}</apigee.bearer> <!-- optional: Bearer token override -->
-                <!--apigee.override.delay>10</apigee.override.delay-->
-                <!--apigee.delay>1000</apigee.delay-->
             </properties>
         </profile>
         <profile>
@@ -126,17 +124,15 @@
                 <apigee.env>prod</apigee.env>
                 <apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
                 <apigee.apiversion>v1</apigee.apiversion>
+                <apigee.apitype>sharedflow</apigee.apitype> <!-- This is only for Shared Flows. Not required for deploying proxy -->
                 <apigee.org>${org}</apigee.org>
                 <apigee.username>${username}</apigee.username>
                 <apigee.password>${password}</apigee.password>
-                <apigee.options>${options}</apigee.options>
+                <apigee.options>${options}</apigee.options> <!-- Shared Flow supports override and update -->
                 <apigee.revision>${revision}</apigee.revision> <!-- used while trying to update revision, use when option=update only -->
                 <apigee.tokenurl>${tokenurl}</apigee.tokenurl> <!-- optional: oauth -->
                 <apigee.mfatoken>${mfatoken}</apigee.mfatoken> <!-- optional: mfa -->
                 <apigee.authtype>${authtype}</apigee.authtype> <!-- optional: oauth|basic(default) -->
-                <apigee.bearer>${bearer}</apigee.bearer> <!-- optional: Bearer token override -->
-                <!--apigee.override.delay>10</apigee.override.delay-->
-                <!--apigee.delay>1000</apigee.delay-->
             </properties>
         </profile>
     </profiles>

@@ -31,6 +31,8 @@ import javax.xml.xpath.XPathExpressionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import io.apigee.buildTools.enterprise4g.utils.ConfigTokens.Policy;
@@ -45,8 +47,8 @@ import com.google.gson.GsonBuilder;
  */
 
 public class PackageConfigurer {
-
-    public static void configurePackage(String env, File configFile)
+	
+	public static void configurePackage(String env, File configFile)
             throws Exception {
 
         Logger logger = LoggerFactory.getLogger(PackageConfigurer.class);
@@ -78,6 +80,8 @@ public class PackageConfigurer {
                     xmlDoc = replaceTokens(xmlDoc, configTokens);
                     DOMSource source = new DOMSource(xmlDoc);
                     StreamResult result = new StreamResult(fileList.get(i));
+                    //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/66
+                    result.setSystemId(fileList.get(i).getAbsolutePath());
                     transformer.transform(source, result);
                 }
             } catch (Exception e) {
@@ -105,6 +109,8 @@ public class PackageConfigurer {
                     xmlDoc = replaceTokens(xmlDoc, configTokens);
                     DOMSource source = new DOMSource(xmlDoc);
                     StreamResult result = new StreamResult(fileList.get(i));
+                    //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/66
+                    result.setSystemId(fileList.get(i).getAbsolutePath());
                     transformer.transform(source, result);
                 }
             } catch (Exception e) {
@@ -132,6 +138,8 @@ public class PackageConfigurer {
                     xmlDoc = replaceTokens(xmlDoc, configTokens);
                     DOMSource source = new DOMSource(xmlDoc);
                     StreamResult result = new StreamResult(fileList.get(i));
+                    //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/66
+                    result.setSystemId(fileList.get(i).getAbsolutePath());
                     transformer.transform(source, result);
                 }
             } catch (Exception e) {
@@ -154,22 +162,106 @@ public class PackageConfigurer {
         javax.xml.xpath.XPathFactory factory = javax.xml.xpath.XPathFactory.newInstance();
         javax.xml.xpath.XPath xpath = factory.newXPath();
         javax.xml.xpath.XPathExpression expression = xpath.compile("/APIProxy/Description");
-    	NodeList nodes = (NodeList) expression.evaluate(xmlDoc,
-                XPathConstants.NODESET);
-    	if(nodes !=null && nodes.getLength()>0){
-    		if (nodes.item(0).hasChildNodes()) {
-                // sets the description to whatever is in the <proxyname>.xml file
-                nodes.item(0).setTextContent(expression.evaluate(xmlDoc));
-            } else {
-                // if Description is empty, then it reverts back to appending the username, git hash, etc
-                nodes.item(0).setTextContent(getComment(fileList.get(0)));
-            }
-        	
-            DOMSource source = new DOMSource(xmlDoc);
-            StreamResult result = new StreamResult(fileList.get(0));
-            transformer.transform(source, result);
-    	}
+
+        Node node = (Node) expression.evaluate(xmlDoc, XPathConstants.NODE);
+        if (node == null) {
+            Element root = xmlDoc.getDocumentElement();
+            node = xmlDoc.createElement("Description");
+            root.appendChild(node);
+        }
+
+        if (node.hasChildNodes()) {
+            // sets the description to whatever is in the <proxyname>.xml file
+            node.setTextContent(expression.evaluate(xmlDoc));
+        } else {
+            // if Description is empty, then it reverts back to appending the username, git hash, etc
+            node.setTextContent(getComment(fileList.get(0)));
+        }
+
+        DOMSource source = new DOMSource(xmlDoc);
+        StreamResult result = new StreamResult(fileList.get(0));
+        //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/66
+        result.setSystemId(fileList.get(0).getAbsolutePath());
+        transformer.transform(source, result);
+
+    }
+
+    public static void configureSharedFlowPackage(String env, File configFile)
+            throws Exception {
+
+        Logger logger = LoggerFactory.getLogger(PackageConfigurer.class);
+
+        TransformerFactory transformerFactory = TransformerFactory
+                .newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+
+        // get the list of files in sharedflowbundle folder
+        XMLFileListUtil listFileUtil = new XMLFileListUtil();
+        FileReader fileutil = new FileReader();
+        ConfigTokens conf = fileutil.getBundleConfigs(configFile);
         
+        
+        // get the list of files in policies folder
+        List<File> fileList = listFileUtil.getPolicyFiles(configFile, "sharedflowbundle");
+        for (int i = 0; i < fileList.size(); i++) {
+
+            Document xmlDoc = fileutil.getXMLDocument(fileList.get(i));
+
+            try {
+                Policy configTokens = conf.getConfigbyEnv(env)
+                        .getPolicyFileNameMatch(fileList.get(i).getName());
+                if (configTokens != null) {
+                    logger.info(
+                            "=============Replacing config tokens for Environment {}, for policy file name {}================\n",
+                            env, fileList.get(i).getName());
+                    xmlDoc = replaceTokens(xmlDoc, configTokens);
+                    DOMSource source = new DOMSource(xmlDoc);
+                    StreamResult result = new StreamResult(fileList.get(i));
+                    //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/66
+                    result.setSystemId(fileList.get(i).getAbsolutePath());
+                    transformer.transform(source, result);
+                }
+            } catch (Exception e) {
+                logger.error(
+                        "\n\n=============No config tokens found for Environment {}, for proxy file name {}================\n",
+                        env, fileList.get(i).getName());
+                throw e;
+            }
+
+        }
+
+        // update application metadata in the apiproxy folder
+
+        // get the list of files in sharedflowbundle folder
+        fileList = listFileUtil.getSharedFlowFiles(configFile);
+
+        Document xmlDoc = fileutil.getXMLDocument(fileList.get(0)); // there would be only one file, at least one file
+
+        javax.xml.xpath.XPathFactory factory = javax.xml.xpath.XPathFactory.newInstance();
+        javax.xml.xpath.XPath xpath = factory.newXPath();
+        javax.xml.xpath.XPathExpression expression = xpath.compile("/SharedFlowBundle/Description");
+
+        Node node = (Node) expression.evaluate(xmlDoc, XPathConstants.NODE);
+        if (node == null) {
+            Element root = xmlDoc.getDocumentElement();
+            node = xmlDoc.createElement("Description");
+            root.appendChild(node);
+        }
+
+        if (node.hasChildNodes()) {
+            // sets the description to whatever is in the <proxyname>.xml file
+            node.setTextContent(expression.evaluate(xmlDoc));
+        } else {
+            // if Description is empty, then it reverts back to appending the username, git hash, etc
+            node.setTextContent(getComment(fileList.get(0)));
+        }
+
+        DOMSource source = new DOMSource(xmlDoc);
+        StreamResult result = new StreamResult(fileList.get(0));
+        //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/66
+        result.setSystemId(fileList.get(0).getAbsolutePath());
+        transformer.transform(source, result);
+
     }
 
     public static Document replaceTokens(Document doc, Policy configTokens)

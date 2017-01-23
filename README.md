@@ -25,6 +25,7 @@ Learn more, check out this video! [Ask the Expert](http://apigee.com/about/resou
 
 - [Getting-Started](#getting-started)
 - [Building API bundles](#building-api-bundles)
+- [Building Shared Flow bundles](#building-shared-flow-bundles)
 - [Steps to set it up](#steps-to-set-it-up)
   - [Step 1: Create a maven compatible file structure](#step-1-create-a-maven-compatible-file-structure)
   - [Step 2: Create and configure pom files](#step-2-create-and-configure-pom-files)
@@ -88,7 +89,6 @@ Follow below steps to set up your local development environment
 3. Create and configure config.json - if there are environment specific configurations (This is an optional step)
 
 And you are ready for deploy to Apigee Edge using the plugin
-
 
 ### Step 1 Create a Maven compatible file structure
 
@@ -269,6 +269,18 @@ Provide the token when invoking the plugin.
 
     mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password \
                         -Dorg=testmyapi -Dauthtype=oauth -Dmfatoken=123456
+                        
+If the API takes a long time to package up then  it is likely that the token till have expired before it is used.  To mitigate against this, from version 1.1.3, an initmfa goal can be called during the validate phase:
+
+    <execution>
+        <id>initialise-mfa</id>
+        <phase>validate</phase>
+        <goals>
+            <goal>initmfa</goal>
+        </goals>
+    </execution>
+
+Depending on where the plugin is in the order, and how much validation is requird, it is possible that this may still result in token timeout.
 
 ### Passing the Bearer Token as a parameter
 If you would like to generate the bearer token outside of this plugin and provide it as a command line parameter, you can add the following: 
@@ -303,6 +315,25 @@ outside of the API proxy structure itself.  An example structure when node.js ap
 
 The above structure follows the same pattern when developing with java source code outside of the ```apiproxy``` bundle working directory.
 
+## Building Shared Flow bundles
+
+### What is a Shared Flow bundle?
+
+Shared Flow bundles can be described as a zipped file system composed of policies, steps and code. The file system when extracted is composed of the following structure.
+
+```
+ |-sharedflowbundle/
+   |-policies
+   |-sharedflows
+```
+The build steps and the options available for building and deploying Shared Flows are the same as API Proxy. Most widely used options are ```override``` and ```update```
+The [samples](https://github.com/apigee/apigee-deploy-maven-plugin/tree/master/samples/security-sharedflow/src/sharedflows) has an example of a standard sharedflow with the folder structure and the parent pom file. The only key difference between the API Proxy and the Shared Flow is a new property as part of the profiles.
+
+`<apigee.apitype>sharedflow</apigee.apitype>`
+
+This is required to differentiate the build and deployment process.
+
+
 ----------------------------------------------------------------
 For the users migrating from Apigee Maven repo to Maven central
 ----------------------------------------------------------------
@@ -326,4 +357,4 @@ Refer [Guide for Plugin Developers](https://github.com/apigee/apigee-deploy-mave
 People Involved
 ------------------------
 
-The plugin is initially developed by [Santany Dey](sdey@apigee.com). With major contributions from [Rajesh Mishra](rajesh.mishra@apigee.com), [Manoj Wartikar](manojwartikar@apigee.com), [Srikanth Seshadri](sseshadri@apigee.com) and others listed in the pom developer list are the active developers who can be contacted for support. The plugin is open sourced by [Priyanky Thomas](priyanky@apigee.com).
+The plugin is initially developed by [Santany Dey](sdey@apigee.com). With major contributions from [Sai Saran Vaidyanathan](https://github.com/ssvaidyanathan), [Madhan Sadasivam](https://github.com/msadasivam). The plugin is open sourced by [Priyanky Thomas](priyanky@apigee.com). 
