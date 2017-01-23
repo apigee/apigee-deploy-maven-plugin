@@ -278,7 +278,7 @@ If you would like to generate the bearer token outside of this plugin and provid
 Provide the token when invoking the plugin.
 
     mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password \
-                        -Dorg=testmyapi -Dbearer=c912eu1201c
+                        -Dorg=testmyapi -Dauthtype=oauth -Dbearer=c912eu1201c
 
 ## Deploying API Proxies with Node.js apps
 

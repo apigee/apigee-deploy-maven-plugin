@@ -778,6 +778,7 @@ public class RestUtil {
         /**** OAuth ****/
         if (profile.getBearerToken() != null) {
             accessToken = profile.getBearerToken();
+            headers.setAuthorization("Bearer " + accessToken);
         }
         else if (accessToken != null) {
             // subsequent calls
