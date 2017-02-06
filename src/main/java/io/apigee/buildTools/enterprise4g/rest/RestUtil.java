@@ -854,7 +854,11 @@ public class RestUtil {
         }
 
         /**** OAuth ****/
-        if (accessToken != null) {
+        if (profile.getBearerToken() != null) {
+            accessToken = profile.getBearerToken();
+            headers.setAuthorization("Bearer " + accessToken);
+        }
+        else if (accessToken != null) {
             // subsequent calls
             logger.debug("Reusing mgmt API access token");
             headers.setAuthorization("Bearer " + accessToken);

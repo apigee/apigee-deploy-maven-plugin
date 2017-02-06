@@ -282,6 +282,16 @@ If the API takes a long time to package up then  it is likely that the token til
 
 Depending on where the plugin is in the order, and how much validation is requird, it is possible that this may still result in token timeout.
 
+### Passing the Bearer Token as a parameter
+If you would like to generate the bearer token outside of this plugin and provide it as a command line parameter, you can add the following: 
+
+    <apigee.bearer>${bearer}</apigee.bearer>
+
+Provide the token when invoking the plugin.
+
+    mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password \
+                        -Dorg=testmyapi -Dauthtype=oauth -Dbearer=c912eu1201c
+
 ## Deploying API Proxies with Node.js apps
 
 Starting at version 1.0.1 of the plugin, support for API proxies that contain node.js applications is included.  The plugin 
