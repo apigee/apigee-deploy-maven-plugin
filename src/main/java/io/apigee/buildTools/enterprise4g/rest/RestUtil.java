@@ -932,7 +932,7 @@ public class RestUtil {
     
     
     /**
-     * This method is used to validate the Bearer token. It validates the source and the expiration
+     * This method is used to validate the Bearer token. It validates the source and the expiration and if the token is about to expire in 30 seconds, set as invalid token
      * @param accessToken
      * @param profile
      * @param clientId
