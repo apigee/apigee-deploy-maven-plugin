@@ -125,11 +125,32 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 	private String orgName;
 	
 	/**
-	 * Gateway host bearer token
+	 * Gateway bearer token
 	 * 
 	 * @parameter expression="${apigee.bearer}"
 	 */
 	private String bearer;
+	
+	/**
+	 * Gateway refresh token
+	 * 
+	 * @parameter expression="${apigee.refresh}"
+	 */
+	private String refresh;
+	
+	/**
+	 * Gateway OAuth clientId
+	 * 
+	 * @parameter expression="${apigee.clientid}"
+	 */
+	private String clientid;
+	
+	/**
+	 * Gateway OAuth clientSecret
+	 * 
+	 * @parameter expression="${apigee.clientsecret}"
+	 */
+	private String clientsecret;
 	
 	/**
 	 * Gateway host username
@@ -212,8 +233,11 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 		this.buildProfile.setAuthType(this.authType);
 		this.buildProfile.setEnvironment(this.deploymentEnv);
 		this.buildProfile.setBearerToken(this.bearer);
+		this.buildProfile.setRefreshToken(this.refresh);
 		this.buildProfile.setCredential_user(this.userName);
 		this.buildProfile.setCredential_pwd(this.password);
+		this.buildProfile.setClientId(this.clientid);
+		this.buildProfile.setClientSecret(this.clientsecret);
 		this.buildProfile.setProfileId(this.id);
 		this.buildProfile.setOptions(this.options);
 		this.buildProfile.setDelay(this.delay);
