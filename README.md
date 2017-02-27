@@ -300,7 +300,10 @@ If you would like to generate the refresh token outside of this plugin and provi
 Provide the token when invoking the plugin.
 
     mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password \
-                        -Dorg=testmyapi -Dauthtype=oauth -Drefresh=d023fv2312d
+                        -Dorg=testmyapi -Dauthtype=oauth -Dbearer=c912eu1201c -Drefresh=d023fv2312d
+                        
+  
+*NOTE: If you are providing refresh token, you need to provide the bearer token as well*
 
 ## Deploying API Proxies with Node.js apps
 
