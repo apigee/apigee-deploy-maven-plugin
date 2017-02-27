@@ -29,6 +29,7 @@ public class deploymentTestSuite {
 		suite.addTestSuite(TestRefreshBundle.class);
         suite.addTestSuite(TestDeleteDeployedBundle.class);
 		suite.addTestSuite(TestGetRevisionWithBearer.class);
+		suite.addTestSuite(TestGetRevisionWithMFA.class);
 		suite.addTestSuite(TestGetRevisionWithRefresh.class);
 		//$JUnit-END$
 		return suite;
