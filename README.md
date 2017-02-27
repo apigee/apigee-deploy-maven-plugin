@@ -291,6 +291,16 @@ Provide the token when invoking the plugin.
 
     mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password \
                         -Dorg=testmyapi -Dauthtype=oauth -Dbearer=c912eu1201c
+                        
+### Passing the Refresh Token as a parameter
+If you would like to generate the refresh token outside of this plugin and provide it as a command line parameter, you can add the following: 
+
+    <apigee.refresh>${refresh}</apigee.refresh>
+
+Provide the token when invoking the plugin.
+
+    mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password \
+                        -Dorg=testmyapi -Dauthtype=oauth -Drefresh=d023fv2312d
 
 ## Deploying API Proxies with Node.js apps
 

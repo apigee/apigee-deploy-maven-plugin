@@ -25,7 +25,10 @@ public class ServerProfile {
 							// https://api.enterprise.apigee.com
 	private String tokenURL; // Mgmt API OAuth token endpoint
 	private String mfaToken; // Mgmt API OAuth MFA - TOTP
+	private String clientId; //Mgmt API OAuth Client Id (optional)
+	private String clientSecret; //Mgmt API OAuth Client Secret (optional)
 	private String bearerToken; //Mgmt API OAuth Token
+	private String refreshToken; //Mgmt API OAuth Refresh Token
 	private String authType; // Mgmt API Auth Type oauth|basic
 	private String environment; // prod or test
 	private String api_version; // v2 or v1 in the server url
@@ -92,6 +95,22 @@ public class ServerProfile {
 	public void setMFAToken(String otp) {
 		this.mfaToken = otp;
 	}
+	
+	public String getClientId() {
+		return this.clientId;
+	}
+
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
+	
+	public String getClientSecret() {
+		return this.clientSecret;
+	}
+
+	public void setClientSecret(String clientSecret) {
+		this.clientSecret = clientSecret;
+	}
 
 	public String getBearerToken() {
 		return this.bearerToken;
@@ -99,6 +118,14 @@ public class ServerProfile {
 
 	public void setBearerToken(String token) {
 		this.bearerToken = token;
+	}
+	
+	public String getRefreshToken() {
+		return this.refreshToken;
+	}
+
+	public void setRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
 	}
 
 	public String getApi_type() {

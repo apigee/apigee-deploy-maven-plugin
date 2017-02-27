@@ -126,6 +126,44 @@ public class MgmtAPIClient {
 		return token;
 
 	}
+	
+	/**
+	 * To get the Access Token from Refresh Token
+	 * 
+	 * @param url
+	 * @param clientId
+	 * @param client_secret
+	 * @param username
+	 * @param password
+	 * @return
+	 * @throws Exception
+	 */
+	public AccessToken getAccessTokenFromRefreshToken(String url, String clientId, String client_secret, String refreshToken) throws Exception {
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		AccessToken token = new AccessToken();
+		ResponseEntity<String> result = null;
+		try {
+			headers.add("Authorization", "Basic "
+					+ new String(Base64.encode((clientId + ":" + client_secret).getBytes()), Charset.forName("UTF-8")));
+			headers.add("Content-Type", "application/x-www-form-urlencoded");
+			MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+			map.add("refresh_token", refreshToken);
+			map.add("grant_type", "refresh_token");
+			HttpEntity<Object> request = new HttpEntity<Object>(map, headers);
+			result = restTemplate.postForEntity(url, request, String.class);
+			if (result.getStatusCode().equals(HttpStatus.OK)) {
+				Gson gson = new Gson();
+				token = gson.fromJson(result.getBody(), AccessToken.class);
+
+			}
+		} catch (Exception e) {
+			logger.error("Refresh Token could be invalid or expired: "+e.getMessage());
+			throw e;
+		}
+		return token;
+
+	}
 
 	/**
 	 * Fetch the properties from the property file passed as system argument (-DconfigFile.path)
@@ -146,5 +184,4 @@ public class MgmtAPIClient {
 		}
 		return service.getEnvironment();
 	}
-
 }

@@ -113,6 +113,10 @@
                 <apigee.tokenurl>${tokenurl}</apigee.tokenurl> <!-- optional: oauth -->
                 <apigee.mfatoken>${mfatoken}</apigee.mfatoken> <!-- optional: mfa -->
                 <apigee.authtype>${authtype}</apigee.authtype> <!-- optional: oauth|basic(default) -->
+                <apigee.bearer>${bearer}</apigee.bearer> <!-- optional: Bearer token override -->
+                <apigee.refresh>${refresh}</apigee.refresh> <!-- optional: Refresh token override -->
+                <apigee.clientid>${clientId}</apigee.clientid> <!-- optional: Oauth Client Id - Default is edgecli-->
+                <apigee.clientsecret>${clientSecret}</apigee.clientsecret> <!-- optional: Oauth Client Secret Default is edgeclisecret-->
             </properties>
         </profile>
         <profile>
@@ -133,6 +137,10 @@
                 <apigee.tokenurl>${tokenurl}</apigee.tokenurl> <!-- optional: oauth -->
                 <apigee.mfatoken>${mfatoken}</apigee.mfatoken> <!-- optional: mfa -->
                 <apigee.authtype>${authtype}</apigee.authtype> <!-- optional: oauth|basic(default) -->
+                <apigee.bearer>${bearer}</apigee.bearer> <!-- optional: Bearer token override -->
+                <apigee.refresh>${refresh}</apigee.refresh> <!-- optional: Refresh token override -->
+                <apigee.clientid>${clientId}</apigee.clientid> <!-- optional: Oauth Client Id - Default is edgecli-->
+                <apigee.clientsecret>${clientSecret}</apigee.clientsecret> <!-- optional: Oauth Client Secret Default is edgeclisecret-->
             </properties>
         </profile>
     </profiles>
