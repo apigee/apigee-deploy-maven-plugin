@@ -947,7 +947,7 @@ public class RestUtil {
 		    long jwtExpiresAt = jwt.getExpiresAt().getTime()/1000;
 		    long difference = jwtExpiresAt - (System.currentTimeMillis()/1000);
 		    if(jwt!= null && jwtClientId!=null && jwtClientId.equals(clientId)
-	    		&& jwtEmailId!=null && jwtEmailId.equals(profile.getCredential_user())
+	    		&& jwtEmailId!=null && jwtEmailId.equalsIgnoreCase(profile.getCredential_user())
 	    		&& profile.getTokenUrl().contains(jwt.getIssuer())
 	    		&& difference >= 30){
 		    	isValid = true;
