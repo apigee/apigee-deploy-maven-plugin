@@ -13,29 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.apigee.buildTools.enterprise4g.mavenplugin;
-
-import io.apigee.buildTools.enterprise4g.rest.RestClient;
-import org.apache.maven.plugin.MojoExecutionException;
+package io.apigee.buildTools.enterprise4g.rest;
 
 /**
- * Goal to initialise multifactor authentication / oauth token
- *
- * @author dpickard
- * @execute phase="validate"
- * @goal initmfa
- * @phase validate
+ * Action flags that can determine how the rest client will process bundles.
  */
+public enum ActionFlags {
 
-public class InitMfaMojo extends GatewayAbstractMojo {
+	VALIDATE,
+	UPDATE,
+	CLEAN,
+	INACTIVE,
+	OVERRIDE,
+	FORCE;
 
-	public void execute() throws MojoExecutionException {
-		try {
-			RestClient client = new RestClient(createProfile());
-			client.initMfa();
-		} catch (Throwable e) {
-			throw new MojoExecutionException("Failed to execute mfa flow.", e);
-		}
+	public static ActionFlags valueOfIgnoreCase(String flag) {
+		return ActionFlags.valueOf(flag.toUpperCase());
 	}
+
 
 }
