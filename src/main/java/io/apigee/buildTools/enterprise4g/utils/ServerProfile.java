@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2014 Apigee Corporation
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,14 +15,20 @@
  */
 package io.apigee.buildTools.enterprise4g.utils;
 
+import io.apigee.buildTools.enterprise4g.rest.ActionFlags;
+import org.apache.http.client.HttpClient;
+
+import java.util.EnumSet;
+
 public class ServerProfile {
 
-	private String application; // application name
+	// general configuration
+	private String hostURL; // hostname & scheme e.g. https://api.enterprise.apigee.com
 	private String org;
-	private String credential_user;
-	private String credential_pwd; //
-	private String hostURL; // hostname & scheme e.g.,
-							// https://api.enterprise.apigee.com
+	private String environment; // prod or test
+	private String api_version; // v2 or v1 in the server url
+
+	// authentication bits
 	private String tokenURL; // Mgmt API OAuth token endpoint
 	private String mfaToken; // Mgmt API OAuth MFA - TOTP
 	private String clientId; //Mgmt API OAuth Client Id (optional)
@@ -30,23 +36,18 @@ public class ServerProfile {
 	private String bearerToken; //Mgmt API OAuth Token
 	private String refreshToken; //Mgmt API OAuth Refresh Token
 	private String authType; // Mgmt API Auth Type oauth|basic
-	private String environment; // prod or test
-	private String api_version; // v2 or v1 in the server url
-	private String api_type; // this is for Shared Flows
+	private String credential_user;
+	private String credential_pwd; //
+
+	// packaging configuration
 	private String bundle_zip_full_path;
 	private String profileId; //Profile id as in parent pom
-	private String options;
-	private Long delay;
-	private Long overridedelay;
-	private Long revision;
-	
-	public String getApplication() {
-		return application;
-	}
 
-	public void setApplication(String application) {
-		this.application = application;
-	}
+	private EnumSet<ActionFlags> actions = EnumSet.noneOf(ActionFlags.class);
+
+	private Long delay;
+	private Long delayOverride;
+	private HttpClient apacheHttpClient;
 
 	public String getOrg() {
 		return org;
@@ -95,7 +96,7 @@ public class ServerProfile {
 	public void setMFAToken(String otp) {
 		this.mfaToken = otp;
 	}
-	
+
 	public String getClientId() {
 		return this.clientId;
 	}
@@ -103,7 +104,7 @@ public class ServerProfile {
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
 	}
-	
+
 	public String getClientSecret() {
 		return this.clientSecret;
 	}
@@ -119,7 +120,7 @@ public class ServerProfile {
 	public void setBearerToken(String token) {
 		this.bearerToken = token;
 	}
-	
+
 	public String getRefreshToken() {
 		return this.refreshToken;
 	}
@@ -128,14 +129,6 @@ public class ServerProfile {
 		this.refreshToken = refreshToken;
 	}
 
-	public String getApi_type() {
-		return api_type;
-	}
-
-	public void setApi_type(String api_type) {
-		this.api_type = api_type;
-	}
-	
 	public String getAuthType() {
 		return authType;
 	}
@@ -182,18 +175,6 @@ public class ServerProfile {
 		this.profileId = id;
 	}
 
-	/**
-	 * @param options the options to set
-	 */
-	
-	public String getOptions() {
-		return options;
-	}
-
-	public void setOptions(String options) {
-		this.options = options;
-	}
-
 	public Long getDelay() {
 		return delay;
 	}
@@ -202,20 +183,76 @@ public class ServerProfile {
 		this.delay = delay;
 	}
 
-	public Long getOverridedelay() {
-		return overridedelay;
+	public Long getDelayOverride() {
+		return delayOverride;
 	}
 
-	public void setOverridedelay(Long overridedelay) {
-		this.overridedelay = overridedelay;
+	public void setDelayOverride(Long delayOverride) {
+		this.delayOverride = delayOverride;
 	}
 
-	public Long getRevision() {
-		return revision;
+	/**
+	 * Enum set of actions configured for the profile.
+	 *
+	 * @return action set representing configuration of the options parameter
+	 */
+	public EnumSet<ActionFlags> getActions() {
+		return actions;
 	}
 
-	public void setRevision(Long revision) {
-		this.revision = revision;
+	/**
+	 * Set the actions that the rest client needds to yield to. The operation will clear the
+	 * current configuration and replaces it with collection passed.
+	 *
+	 * @param actions an enum set of action flags
+	 */
+	public void setActions(EnumSet<ActionFlags> actions) {
+		this.actions.clear();
+		this.actions.addAll(actions);
 	}
 
+	/**
+	 * Add an action to the profile.
+	 *
+	 * @param actions the action(s) to add
+	 */
+	public void addAction(ActionFlags... actions) {
+		for (ActionFlags action : actions) {
+			if (!this.actions.contains(action)) {
+				this.actions.add(action);
+			}
+		}
+	}
+
+	public boolean isOverride() {
+		return actions.contains(ActionFlags.OVERRIDE);
+	}
+
+	public boolean isValidate() {
+		return actions.contains(ActionFlags.VALIDATE);
+	}
+
+	public boolean isForce() {
+		return actions.contains(ActionFlags.FORCE);
+	}
+
+	public boolean isUpdate() {
+		return actions.contains(ActionFlags.UPDATE);
+	}
+
+	public boolean isClean() {
+		return actions.contains(ActionFlags.CLEAN);
+	}
+
+	public boolean isInactive() {
+		return actions.contains(ActionFlags.INACTIVE);
+	}
+
+	public void setApacheHttpClient(HttpClient apacheHttpClient) {
+		this.apacheHttpClient = apacheHttpClient;
+	}
+
+	public HttpClient getApacheHttpClient() {
+		return apacheHttpClient;
+	}
 }

@@ -15,432 +15,502 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+				 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <parent>
-      <groupId>org.sonatype.oss</groupId>
-      <artifactId>oss-parent</artifactId>
-      <version>7</version>
-    </parent>
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.apigee.build-tools.enterprise4g</groupId>
-    <artifactId>apigee-edge-maven-plugin</artifactId>
-    <packaging>maven-plugin</packaging>
-    <!-- This is inherited from <version>0.0.15</version> of the the non-opensource plugin -->
-    <version>1.1.6-SNAPSHOT</version>
-    <name>apigee-edge-maven-plugin maven mojo</name>
-    <url>http://maven.apache.org</url>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
-            <distribution>repo</distribution>
-            <comments>
-                Copyright (C) 2014 Apigee Corporation
+	<groupId>io.apigee.build-tools.enterprise4g</groupId>
+	<artifactId>apigee-edge-maven-plugin</artifactId>
+	<packaging>maven-plugin</packaging>
+	<!-- This is inherited from <version>0.0.15</version> of the the non-opensource plugin -->
+	<version>1.1.6-SNAPSHOT</version>
+	<name>apigee-edge-maven-plugin maven mojo</name>
+	<url>http://maven.apache.org</url>
 
-                Licensed under the Apache License, Version 2.0 (the "License");
-                you may not use this file except in compliance with the License.
-                You may obtain a copy of the License at
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+			<distribution>repo</distribution>
+			<comments>
+				Copyright (C) 2014 Apigee Corporation
 
-                http://www.apache.org/licenses/LICENSE-2.0
+				Licensed under the Apache License, Version 2.0 (the "License");
+				you may not use this file except in compliance with the License.
+				You may obtain a copy of the License at
 
-                Unless required by applicable law or agreed to in writing, software
-                distributed under the License is distributed on an "AS IS" BASIS,
-                WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-                See the License for the specific language governing permissions and
-                limitations under the License.
-            </comments>
-        </license>
-    </licenses>
-    <scm>
-        <url>git@github.com:apigee/apigee-deploy-maven-plugin.git</url>
-        <connection>scm:git:https://github.com/apigee/apigee-deploy-maven-plugin.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/apigee/apigee-deploy-maven-plugin.git</developerConnection>
-        <tag>apigee-edge-maven-plugin-1.0.0</tag>
-    </scm>
-    <developers>
-        <developer>
-            <id>craigmwarren</id>
-            <name>Craig Warren</name>
-        </developer>
-        <developer>
-            <id>santanu-dey</id>
-            <name>Santanu Dey</name>
-        </developer>
-        <developer>
-            <id>mwartikar</id>
-            <name>Manoj Wartikar</name>
-        </developer>
-        <developer>
-            <id>rajeshm7910</id>
-            <name>Rajesh Mishra</name>
-        </developer>
+				http://www.apache.org/licenses/LICENSE-2.0
 
-        <developer>
-            <id>rajanishgj</id>
-            <name>Rajanish GL</name>
-        </developer>
+				Unless required by applicable law or agreed to in writing, software
+				distributed under the License is distributed on an "AS IS" BASIS,
+				WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+				See the License for the specific language governing permissions and
+				limitations under the License.
+			</comments>
+		</license>
+	</licenses>
+	<scm>
+		<url>git@github.com:apigee/apigee-deploy-maven-plugin.git</url>
+		<connection>scm:git:https://github.com/apigee/apigee-deploy-maven-plugin.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/apigee/apigee-deploy-maven-plugin.git</developerConnection>
+		<tag>apigee-edge-maven-plugin-1.0.0</tag>
+	</scm>
+	<developers>
+		<developer>
+			<id>craigmwarren</id>
+			<name>Craig Warren</name>
+		</developer>
+		<developer>
+			<id>santanu-dey</id>
+			<name>Santanu Dey</name>
+		</developer>
+		<developer>
+			<id>mwartikar</id>
+			<name>Manoj Wartikar</name>
+		</developer>
+		<developer>
+			<id>rajeshm7910</id>
+			<name>Rajesh Mishra</name>
+		</developer>
+		<developer>
+			<id>rajanishgj</id>
+			<name>Rajanish GL</name>
+		</developer>
+		<developer>
+			<id>rajanishgj</id>
+			<name>Srikanth Seshadri</name>
+		</developer>
+		<developer>
+			<id>rajanishgj</id>
+			<name>Srikanth Seshadri</name>
+		</developer>
+		<developer>
+			<id>rajanishgj</id>
+			<name>Srikanth Seshadri</name>
+		</developer>
+		<developer>
+			<id>sriki77</id>
+			<name>Srikanth Seshadri</name>
+		</developer>
+		<developer>
+			<id>priyanky</id>
+			<name>Priyanky Thomas</name>
+		</developer>
+		<developer>
+			<id>richarst</id>
+			<name>Steve Richardson</name>
+		</developer>
+		<developer>
+			<id>michaelarusso</id>
+			<name>Michael Russo</name>
+		</developer>
+		<developer>
+			<id>mikedunker-apigee</id>
+			<name>Mike Dunker</name>
+		</developer>
+		<developer>
+			<id>seantdg</id>
+			<name>Sean 'Handsome' Davis</name>
+		</developer>
+	</developers>
 
-        <developer>
-            <id>rajanishgj</id>
-            <name>Srikanth Seshadri</name>
-        </developer>
+	<!-- mgmt-api-java-sdk -->
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<slf4j.version>1.6.6</slf4j.version>
+		<log4j.version>1.2.17</log4j.version>
+		<maven.version>3.1.0</maven.version>
+		<maven.api.version>3.5</maven.api.version>
+		<google.http.client.version>1.22.0</google.http.client.version>
+		<apache.http.client>4.0.3</apache.http.client>
+		<spring.version>3.2.17.RELEASE</spring.version>
+	</properties>
+	<!-- mgmt-api-java-sdk -->
 
-        <developer>
-            <id>rajanishgj</id>
-            <name>Srikanth Seshadri</name>
-        </developer>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-plugin-plugin</artifactId>
+			</plugin>
+			<!--  The below plugin is used for applying/updating license info-->
+			<!--<plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>2.3</version>
+          <configuration>
+              <header>src/license/license_header.txt</header>
+              <properties>
+                  <project.inceptionYear>2014</project.inceptionYear>
+                  <owner>Apigee Corporation</owner>
+                  <email></email>
+              </properties>
+              <excludes>
+                  <exclude>**/README</exclude>
+                  <exclude>src/test/resources/**</exclude>
+                  <exclude>src/main/resources/**</exclude>
+              </excludes>
+          </configuration>
+          <executions>
+              <execution>
+                  <goals>
+                      <goal>check</goal>
+                  </goals>
+              </execution>
+          </executions>
+      </plugin>  -->
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.6.1</version>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-plugin-plugin</artifactId>
+					<version>${maven.api.version}</version>
+					<configuration>
+						<goalPrefix>apigee-enterprise</goalPrefix>
+						<skipErrorNoDescriptorsFound>false</skipErrorNoDescriptorsFound>
+					</configuration>
+					<executions>
+						<execution>
+							<id>mojo-descriptor</id>
+							<phase>process-classes</phase>
+							<goals>
+								<goal>descriptor</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 
-        <developer>
-            <id>rajanishgj</id>
-            <name>Srikanth Seshadri</name>
-        </developer>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-plugin-api</artifactId>
+				<version>${maven.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-core</artifactId>
+				<version>${maven.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven.plugin-tools</groupId>
+				<artifactId>maven-plugin-annotations</artifactId>
+				<version>${maven.api.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<!-- excluding commons logging by declaring it in the provided scope -->
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${apache.http.client}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>com.google.http-client</groupId>
+				<artifactId>google-http-client</artifactId>
+				<version>${google.http.client.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.http-client</groupId>
+				<artifactId>google-http-client-gson</artifactId>
+				<version>${google.http.client.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.5</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.1</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.10</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>12.0</version>
+			</dependency>
+			<!-- Gson: Java to Json conversion -->
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>2.2.2</version>
+			</dependency>
+			<dependency>
+				<groupId>xalan</groupId>
+				<artifactId>xalan</artifactId>
+				<version>2.7.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jgit</groupId>
+				<artifactId>org.eclipse.jgit</artifactId>
+				<version>3.3.2.201404171909-r</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-crypto</artifactId>
+				<version>3.2.9.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib</artifactId>
+				<version>2.2.2</version>
+			</dependency>
+			<dependency>
+				<groupId>com.auth0</groupId>
+				<artifactId>java-jwt</artifactId>
+				<version>3.1.0</version>
+			</dependency>
 
-        <developer>
-            <id>sriki77</id>
-            <name>Srikanth Seshadri</name>
-        </developer>
+			<!-- test dependencies -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.11</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>${slf4j.version}</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
-        <developer>
-            <id>priyanky</id>
-            <name>Priyanky Thomas</name>
-        </developer>
-
-        <developer>
-            <id>richarst</id>
-            <name>Steve Richardson</name>
-        </developer>
-
-        <developer>
-            <id>michaelarusso</id>
-            <name>Michael Russo</name>
-        </developer>
-
-        <developer>
-            <id>mikedunker-apigee</id>
-            <name>Mike Dunker</name>
-        </developer>
-
-        <developer>
-            <id>seantdg</id>
-            <name>Sean 'Handsome' Davis</name>
-        </developer>
-
-
-
-
-    </developers>
-
-    <!-- mgmt-api-java-sdk -->
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>3.2.17.RELEASE</spring.version>
-        <log4j.version>1.2.17</log4j.version>
-    </properties>
-    <!-- mgmt-api-java-sdk -->
-
-    <build>
-
-        <resources>
-
-            <resource>
-                <directory>${basedir}/src/main/java</directory>
-                <includes>
-                    <include>log4j.xml</include>
-                </includes>
-            </resource>
-        </resources>
-        <plugins>
-            <plugin>
-                <artifactId>maven-plugin-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <goalPrefix>apigee-enterprise</goalPrefix>
-                </configuration>
-            </plugin>
-
-
-
-
-
-             <!--  The below plugin is used for applying/updating license info-->
-            <!--<plugin>
-                <groupId>com.mycila</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <header>src/license/license_header.txt</header>
-                    <properties>
-                        <project.inceptionYear>2014</project.inceptionYear>
-                        <owner>Apigee Corporation</owner>
-                        <email></email>
-                    </properties>
-                    <excludes>
-                        <exclude>**/README</exclude>
-                        <exclude>src/test/resources/**</exclude>
-                        <exclude>src/main/resources/**</exclude>
-                    </excludes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>  -->
-        </plugins>
-    </build>
-
-    <!-- <build> <plugins> <plugin> <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId> <version>2.3.2</version> <configuration>
-        <source>1.5</source> <target>1.5</target> </configuration> </plugin> <plugin>
-        <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-plugin-plugin</artifactId>
-        <version>2.9</version> </plugin> </plugins> </build> -->
-
-    <dependencies>
-
-
-
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-plugin-api</artifactId>
-            <version>2.0</version>
-        </dependency>
-
-        <!-- using google http client for http rest protocols. supposed to be better
-            than all -->
-        <dependency>
-            <groupId>com.google.http-client</groupId>
-            <artifactId>google-http-client</artifactId>
-            <version>1.10.3-beta</version>
-        </dependency>
-        <!-- using sl4j logging wrapping lg4j -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.6.6</version>
-        </dependency>
-        <!-- excluding commons logging by declaring it in the provided scope -->
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>12.0</version>
-        </dependency>
-        <!-- Gson: Java to Json conversion -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.2.2</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>xalan</groupId>
-            <artifactId>xalan</artifactId>
-            <version>2.7.1</version>
-        </dependency>
-
-        <dependency>
-             <groupId>org.eclipse.jgit</groupId>
-             <artifactId>org.eclipse.jgit</artifactId>
-            <version>3.3.2.201404171909-r</version>
-             <!--<version>1.0.0.201106090707-r</version> -->
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.apache.axis2</groupId>
-            <artifactId>axis2-kernel</artifactId>
-            <version>1.3</version>
-            <type>jar</type>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>jakarta-httpcore-niossl</artifactId>
-                    <groupId>httpcomponents-httpcore</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>httpcore</artifactId>
-                    <groupId>org.apache.httpcomponents</groupId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>org.apache.httpcomponents</groupId>
-                    <artifactId>httpcore-niossl</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.httpcomponents</groupId>
-                    <artifactId>httpcore-nio</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>woden</artifactId>
-                    <groupId>org.apache.woden</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.axis2</groupId>
-            <artifactId>axis2-metadata</artifactId>
-            <version>1.3</version>
-            <type>jar</type>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>woden</artifactId>
-                    <groupId>org.apache.woden</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!--<dependency>
-            <groupId>com.apigee.cs</groupId>
-            <artifactId>apigee-util</artifactId>
-            <version>1.0.18</version>
-        </dependency>
-        <dependency>
-            <groupId>com.apigee.cs</groupId>
-            <artifactId>apigee-scripting-tool</artifactId>
-            <version>1.0.17</version>
-        </dependency>  -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- mgmt-api-java-sdk -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-crypto</artifactId>
-            <version>3.2.9.RELEASE</version>
-        </dependency>
-
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
-            <version>2.2.2</version>
-        </dependency>       
-        
-        <dependency>
-   		 	<groupId>com.auth0</groupId>
-    		<artifactId>java-jwt</artifactId>
-    		<version>3.1.0</version>
+	<dependencies>
+		<!-- apis -->
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
 		</dependency>
-         
-        <!-- mgmt-api-java-sdk --> 
-    </dependencies>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugin-tools</groupId>
+			<artifactId>maven-plugin-annotations</artifactId>
+		</dependency>
+		<!-- logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
 
-    <profiles>
-    <profile>
-        <id>default</id>
+		<!-- using google http client for http rest protocols. supposed to be better than all -->
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client-gson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+		<!-- Gson: Java to Json conversion -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>xalan</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jgit</groupId>
+			<artifactId>org.eclipse.jgit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<!-- mgmt-api-java-sdk -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+		</dependency>
+		<!-- mgmt-api-java-sdk -->
+	</dependencies>
 
-        <activation>
-            <activeByDefault>true</activeByDefault>
-        </activation>
-        <properties>
-            <test.org>${org}</test.org>
-            <test.env>${env}</test.env>
-            <test.username>${username}</test.username>
-            <test.password>${password}</test.password>
-            <maven.test.skip>true</maven.test.skip>
-        </properties>
-    </profile>
-
-
-     <profile>
-                <id>release-sign-artifacts</id>
-                <activation>
-                    <property>
-                        <name>performRelease</name>
-                        <value>true</value>
-                    </property>
-                </activation>
-         <properties>
-             <test.org>${org}</test.org>
-             <test.env>${env}</test.env>
-             <test.username>${username}</test.username>
-             <test.password>${password}</test.password>
-             <maven.test.skip>true</maven.test.skip>
-         </properties>
-                <build>
-                    <plugins>
-
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-source-plugin</artifactId>
-                            <executions>
-                                <execution>
-                                    <id>attach-sources</id>
-                                    <goals>
-                                        <goal>jar</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-javadoc-plugin</artifactId>
-                            <executions>
-                                <execution>
-                                    <id>attach-javadocs</id>
-                                    <goals>
-                                        <goal>jar</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-gpg-plugin</artifactId>
-                            <version>1.4</version>
-                            <executions>
-                                <execution>
-                                    <id>sign-artifacts</id>
-                                    <phase>verify</phase>
-                                    <goals>
-                                        <goal>sign</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </build>
-            </profile>
-        </profiles>
-
-
+	<profiles>
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<test.org>${org}</test.org>
+				<test.env>${env}</test.env>
+				<test.username>${username}</test.username>
+				<test.password>${password}</test.password>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+		</profile>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<test.org>${org}</test.org>
+				<test.env>${env}</test.env>
+				<test.username>${username}</test.username>
+				<test.password>${password}</test.password>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

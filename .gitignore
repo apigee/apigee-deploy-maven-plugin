@@ -3,6 +3,8 @@ samples/forecastweatherapi/target/apiproxy/proxies/default.xml
 samples/forecastweatherapi/target/apiproxy/targets/default.xml
 .idea
 *.iml
+.settings
 target
 /.classpath
 /.project
+.DS_Store
