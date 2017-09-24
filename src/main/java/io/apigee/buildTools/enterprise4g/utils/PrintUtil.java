@@ -15,8 +15,11 @@
  */
 package io.apigee.buildTools.enterprise4g.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.api.client.http.HttpHeaders;
-import com.google.api.client.http.HttpMethod;
+import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpResponse;
 
@@ -24,16 +27,16 @@ import java.io.ByteArrayOutputStream;
 import java.util.Iterator;
 import java.util.Set;
 
-
 public class PrintUtil {
+
+	private static Logger log = LoggerFactory.getLogger(PrintUtil.class);
 
     public static String formatRequest(HttpRequest request) {
 
-        String prettyRequest = "\n\n\nRequest prepared for the server \n **************************\n";
+        String prettyRequest = "Request prepared for the server \n **************************\n";
 
         // Print all headers except auth
-
-        prettyRequest = prettyRequest + request.getMethod() + "  " + request.getUrl();
+        prettyRequest = prettyRequest + request.getRequestMethod() + "  " + request.getUrl();
 
         HttpHeaders headers = request.getHeaders();
 
@@ -54,13 +57,13 @@ public class PrintUtil {
                                     "authorization" + ": " + prefix + " [Not shown in log]";
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
 
         }
 
         try {
-        if (request.getMethod().compareTo(HttpMethod.POST) == 0  ){
+        if (request.getRequestMethod().compareTo(HttpMethods.POST) == 0  ){
 
             if (request.getContent()!=null && request.getContent().getType() !=null)
             {
@@ -78,7 +81,7 @@ public class PrintUtil {
 
         }
         }catch (Exception e){
-            e.printStackTrace();
+			log.error(e.getMessage(), e);
         }
 
         return  prettyRequest;
@@ -87,7 +90,7 @@ public class PrintUtil {
 
     public static String formatResponse(HttpResponse response, String body) {
 
-        String prettyString = "\n\n\nResponse returned by the server \n **************************\n";
+        String prettyString = "Response returned by the server \n **************************\n";
 
         // Print all headers except auth
 
@@ -107,7 +110,7 @@ public class PrintUtil {
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
+				log.error(e.getMessage(), e);
             }
 
         }
