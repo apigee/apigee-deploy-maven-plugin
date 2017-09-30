@@ -15,13 +15,14 @@
  */
 package io.apigee.buildTools.enterprise4g.mavenplugin;
 
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.commons.io.FileUtils;
+
 import io.apigee.buildTools.enterprise4g.rest.Bundle;
 import io.apigee.buildTools.enterprise4g.utils.PackageConfigurer;
 import io.apigee.buildTools.enterprise4g.utils.ServerProfile;
 import io.apigee.buildTools.enterprise4g.utils.ZipUtils;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 
@@ -34,7 +35,6 @@ import java.io.File;
  */
 
 public class ConfigureMojo extends GatewayAbstractMojo {
-
 
 	public void execute() throws MojoExecutionException, MojoFailureException {
 
@@ -99,10 +99,10 @@ public class ConfigureMojo extends GatewayAbstractMojo {
 				}
 			}
 		}
-		zipDirectory(profile, bundle);
+		zipDirectory(bundle);
 	}
 
-	private void zipDirectory(ServerProfile profile, Bundle bundle) throws MojoExecutionException {
+	private void zipDirectory(Bundle bundle) throws MojoExecutionException {
 		try {
 			File bundleFile = new File(getApplicationBundlePath());
 			getLog().info("Create Apigee App Bundle " + bundleFile.getAbsolutePath());
