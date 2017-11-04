@@ -29,7 +29,6 @@ import java.io.IOException;
 /**                                                                                                                                     ¡¡
  * Goal to upload 4g gateway  bundle on server
  * @author rmishra
- * @execute phase="package"
  * @goal deploy
  * @phase package
  * 
