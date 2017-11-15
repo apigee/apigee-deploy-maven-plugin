@@ -156,7 +156,12 @@ public class RestUtil {
       HttpResponse response = executeAPI(profile, restRequest);
       AppRevision apprev = response.parseAs(AppRevision.class);
       Collections.sort(apprev.revision, new StringToIntComparator());
-      revision = apprev.revision.get(0);
+
+      if (apprev.revision.isEmpty()) // Case there is no revision availlable
+        revision = "";
+      else
+        revision = apprev.revision.get(0);
+
       logger.info(PrintUtil.formatResponse(response, gson.toJson(apprev).toString()));
     } catch (HttpResponseException e) {
       logger.error(e.getMessage());
