@@ -226,7 +226,7 @@ public class DeployMojo extends GatewayAbstractMojo {
 
   public void doDelete(String revision) throws IOException, MojoFailureException, Exception {
     try {
-      logger.info("/n/n=============Deleting App================/n/n");
+      logger.info("\n\n=============Deleting App================\n\n");
       state = State.DELETING;
       RestUtil.deleteBundle(this.getProfile(), revision);
 
@@ -333,7 +333,7 @@ public class DeployMojo extends GatewayAbstractMojo {
               this.bundleRevision = latestRevision;
               doActivateBundle();
             } else {
-              logger.info("No existing revision for " + this.getProfile().getEnvironment() + " environment. Nothing to redeploy.");
+              logger.info("No existing revision for " + this.getProfile().getEnvironment() + " environment. Nothing to deploy.");
             }
           } else {
             doImport();
