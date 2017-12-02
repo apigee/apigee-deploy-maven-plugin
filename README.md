@@ -15,7 +15,7 @@ The [samples folder](https://github.com/apigee/apigee-deploy-maven-plugin/tree/m
 Video
 ------------
 
-Learn more, check out this video! [Ask the Expert](http://apigee.com/about/resources/webcasts/ask-expert-managing-code-and-deployments-maven)
+Learn more, check out this video! [Ask the Expert](https://apigee.com/api-management/#/webcast/516)
 
 -------------------------------------------
 ## Detailed documentation on the use of plugin
