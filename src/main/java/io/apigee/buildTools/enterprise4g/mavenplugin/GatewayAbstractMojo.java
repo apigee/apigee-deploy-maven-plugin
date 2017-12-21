@@ -259,7 +259,7 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 	}
 
 	public String getApplicationBundlePath() {
-		return this.baseDirectory+File.separator+"target"+File.separator+this.projectName+this.projectVersion+"-"+this.id+".zip";
+		return this.baseDirectory+File.separator+"target"+File.separator+this.projectName+"-"+this.projectVersion+".zip";
 	}
 	
 	public String getBaseDirectoryPath(){
