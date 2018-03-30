@@ -49,6 +49,7 @@ import com.google.api.client.util.GenericData;
 import com.google.api.client.util.Key;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
 import io.apigee.buildTools.enterprise4g.utils.PrintUtil;
 import io.apigee.buildTools.enterprise4g.utils.ServerProfile;
@@ -679,7 +680,7 @@ public class RestUtil {
             throws IOException {
 
         BundleActivationConfig deployment2 = new BundleActivationConfig();
-
+        HttpResponse response = null;
         try {
 
             UrlEncodedContent urlEncodedContent = null;
@@ -716,12 +717,20 @@ public class RestUtil {
             deployRestRequest.setReadTimeout(0);
             deployRestRequest.setHeaders(headers);
 
-
-            HttpResponse response = null;
             response = executeAPI(profile, deployRestRequest);
-
+            String responseString = response.parseAsString();
+            SeamLessDeploymentStatus deployment3 = null;
+            try{
+            	deployment3 = new Gson().fromJson(responseString, SeamLessDeploymentStatus.class);
+            }catch (JsonSyntaxException e){
+            	// https://github.com/apigee/apigee-deploy-maven-plugin/issues/92
+            	// Whenever an existing API is deployed with option as override and in the new revision, the proxy basepath is changed,
+            	// the Mgmt API response is different. It does not return the usual response if the proxy has no changes to the basepath
+            	// So catching the exception from above and setting the override flag to false so that it doesnt go that section of code below
+            	Options.override = false;
+            }
             if (Options.override) {
-                SeamLessDeploymentStatus deployment3 = response.parseAs(SeamLessDeploymentStatus.class);
+                //SeamLessDeploymentStatus deployment3 = response.parseAs(SeamLessDeploymentStatus.class);
                 Iterator<BundleActivationConfig> iter =   deployment3.environment.iterator();
                 while (iter.hasNext()){
                     BundleActivationConfig config = iter.next();
@@ -746,8 +755,8 @@ public class RestUtil {
                 }
 
             }
-
-            deployment2 = response.parseAs(BundleActivationConfig.class);
+            //deployment2 = response.parseAs(BundleActivationConfig.class);
+            deployment2 = new Gson().fromJson(responseString, BundleActivationConfig.class);
             logger.info(PrintUtil.formatResponse(response, gson.toJson(deployment2).toString()));
             logger.info("\nDeployed revision is: "+deployment2.revision);
 
