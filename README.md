@@ -226,7 +226,7 @@ The "apigee.options" element can have the following values: **clean** (this opti
 The “apigee.revision” element can be used **when using the update option only**. The update option will be executed on the provided revision.
 
 #### Note 4
-The "apigee.options" combination could be given with comma separated values. The precedence order of options are -> override, update, (clean, inactive, validate, force).
+The "apigee.options" combination could be given with comma separated values. The precedence order of options are -> override, update, (clean, inactive, validate).
 
 #### Note 5
 Flow without "apigee.options":import –> undeploy (lastactive) –> deploy (new revision)
