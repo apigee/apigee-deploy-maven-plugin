@@ -203,7 +203,15 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 	 * @parameter expression="${apigee.revision}"
 	 */
 	private Long revision;
+
+	/**
+	 * Gateway options
+	 * 
+	 * @parameter expression="${apigee.applicationBundle}"
+	 */
+	private String applicationBundle;
 	
+
 	
 	/**
 	* Skip running this plugin.
@@ -259,7 +267,7 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 	}
 
 	public String getApplicationBundlePath() {
-		return this.baseDirectory+File.separator+"target"+File.separator+this.projectName+"-"+this.projectVersion+".zip";
+		return new File(getBuildDirectory(),applicationBundle!=null?applicationBundle:this.projectName+"-"+this.projectVersion+".zip").getAbsolutePath();
 	}
 	
 	public String getBaseDirectoryPath(){
