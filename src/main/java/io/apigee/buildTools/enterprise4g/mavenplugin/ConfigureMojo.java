@@ -36,6 +36,13 @@ import java.io.File;
 
 public class ConfigureMojo extends GatewayAbstractMojo {
 
+	/**
+	 * Configuration
+	 * 
+	 * @parameter expression="${project.configFilePath}"
+	 */
+	private String configFilePath;
+	
 
 	public void execute() throws MojoExecutionException, MojoFailureException {
 
@@ -101,7 +108,7 @@ public class ConfigureMojo extends GatewayAbstractMojo {
 
         }
 
-		logger.info("\n\n=============Now zipping the App Bundle================\n\n");
+		logger.info("\n\n=============Now zipping the App Bundle================" + super.getApplicationBundlePath() + "\n\n");
 
 		//Zip package
 		zipDirectory();
@@ -128,11 +135,11 @@ public class ConfigureMojo extends GatewayAbstractMojo {
 		try {
 			if (super.getProfile().getProfileId() != null && super.getProfile().getProfileId() != ""
 					&& super.getProfile().getApi_type() != null && super.getProfile().getApi_type().equalsIgnoreCase("sharedflow")) {
-				PackageConfigurer.configureSharedFlowPackage(super.getProfile().getProfileId(), configFile);
+				PackageConfigurer.configureSharedFlowPackage(super.getBuildDirectory(),super.getProfile().getProfileId(), configFile);
 			}else if (super.getProfile().getProfileId() != null && super.getProfile().getProfileId() != "") {
-				PackageConfigurer.configurePackage(super.getProfile().getProfileId(), configFile);
+				PackageConfigurer.configurePackage(super.getBuildDirectory(),super.getProfile().getProfileId(), configFile);
 			} else {
-				PackageConfigurer.configurePackage(super.getProfile().getEnvironment(), configFile);
+				PackageConfigurer.configurePackage(super.getBuildDirectory(),super.getProfile().getEnvironment(), configFile);
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -141,13 +148,18 @@ public class ConfigureMojo extends GatewayAbstractMojo {
 	}
 
 	private File findConfigFile(Logger logger) throws MojoExecutionException {
-		File configFile = new File(super.getBaseDirectoryPath() + File.separator + "config.json");
+        if (configFilePath == null)
+            configFilePath = super.getBaseDirectoryPath() + File.separator + "config.json";
+
+		File configFile = new File(configFilePath);
+
+		logger.info("looking for " + configFilePath);
 
 		if (configFile.exists()) {
 			return configFile;
 		}
 
-		logger.info("No config.json found. Skipping package configuration.");
+		logger.warn("No " + configFilePath + " found. Skipping package configuration.");
 		return null;
 	}
 }

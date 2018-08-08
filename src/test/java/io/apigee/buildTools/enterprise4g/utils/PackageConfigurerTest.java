@@ -11,7 +11,7 @@ public class PackageConfigurerTest extends TestCase {
 
     public void testConfigurePackage() throws Exception {
         File configFile = new File(getClass().getClassLoader().getResource("configTest/config.json").toURI());
-        PackageConfigurer.configurePackage("test", configFile);
+        PackageConfigurer.configurePackage("", "test", configFile);
 
         File policyFile = new File(getClass().getClassLoader().getResource("configTest/target/apiproxy/policies/QuotaPolicy.xml").toURI());
         Document xmlDocument = fileReader.getXMLDocument(policyFile);
