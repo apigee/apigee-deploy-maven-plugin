@@ -65,7 +65,13 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 	 * @parameter expression="${apigee.profile}"
 	 */
 	private String id;
-	
+
+	/**
+	 * Proxy Name
+	 *
+	 * @parameter expression="${apigee.proxyname}" default-value="${project.name}"
+	 */
+	private String proxyName;
 
 	/**
 	 * Gateway host URL
@@ -224,7 +230,7 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 	public ServerProfile getProfile() {
 		this.buildProfile = new ServerProfile();
 		this.buildProfile.setOrg(this.orgName);
-		this.buildProfile.setApplication(this.projectName);
+		this.buildProfile.setApplication(this.proxyName);
 		this.buildProfile.setApi_version(this.apiVersion);
 		this.buildProfile.setApi_type(this.apiType);
 		this.buildProfile.setHostUrl(this.hostURL);
@@ -259,7 +265,7 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 	}
 
 	public String getApplicationBundlePath() {
-		return this.baseDirectory+File.separator+"target"+File.separator+this.projectName+"-"+this.projectVersion+".zip";
+		return this.baseDirectory+File.separator+"target"+File.separator+this.proxyName+"-"+this.projectVersion+".zip";
 	}
 	
 	public String getBaseDirectoryPath(){
