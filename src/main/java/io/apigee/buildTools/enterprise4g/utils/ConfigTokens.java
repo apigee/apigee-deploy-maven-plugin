@@ -101,11 +101,25 @@ public class ConfigTokens { // represents configuration files containing all
 
 	public class Token {
 
+		public static final String MODE_APPEND = "append";
+		public static final String MODE_REPLACE_VALUE = "replace_value";
+		public static final String MODE_REPLACE_ELEMENT = "replace_element";
 		@Key
 		public String xpath;
 
 		@Key
 		public String value;
+
+		@Key
+		public String mode = MODE_REPLACE_VALUE;
+
+		public String getMode() {
+			return mode;
+		}
+
+		public void setMode(String mode) {
+			this.mode = mode;
+		}
 
 		public String getXpath() {
 			return xpath;

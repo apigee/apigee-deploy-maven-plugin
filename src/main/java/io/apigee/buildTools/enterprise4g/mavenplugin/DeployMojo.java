@@ -127,6 +127,9 @@ public class DeployMojo extends GatewayAbstractMojo
 						break;
 					case override:
 						Options.override=true;
+						if (this.getRevision() != null) {
+							revisionInArg = String.valueOf(this.getRevision());
+						}
 						break;
 					default:
 						break;	
@@ -221,23 +224,31 @@ public class DeployMojo extends GatewayAbstractMojo
 		} 
 		
 	}
-	
+
 	/**
 	 * Activate a bundle revision.
 	 */
-	
-	public void doActivateBundle()  throws IOException, MojoFailureException{
+
+	public void doActivateBundle(String revision)  throws IOException, MojoFailureException{
 		try {
 			logger.info("\n\n=============Activating Bundle================\n\n");
 			state = State.ACTIVATING;
-			RestUtil.activateBundleRevision(super.getProfile(), this.bundleRevision);
+			RestUtil.activateBundleRevision(super.getProfile(), revision);
 
 		} catch (IOException e) {
 			throw e ;
 		} catch (RuntimeException e) {
 			throw e;
-		} 
-		
+		}
+
+	}
+
+	/**
+	 * Activate a bundle revision.
+	 */
+	
+	public void doActivateBundle()  throws IOException, MojoFailureException{
+		doActivateBundle(this.bundleRevision);
 	}
 	
 	/**
@@ -278,6 +289,17 @@ public class DeployMojo extends GatewayAbstractMojo
 				case NULL:
 
 						if (Options.override) {
+
+							// If revision to be overridden is passed in the maven command as an argument, only override
+							// and activate that revision
+							if(revisionInArg.length()>0){
+								logger.info("Overriding to Revision passed: "+ revisionInArg);
+								doActivateBundle(revisionInArg);
+								break;
+							}
+
+							// else import and create a new revision, if there is no existing active revision for given env,
+							// treat as simple import-activate
                             activeRevision=RestUtil.getDeployedRevision(this.getProfile());
                             if (activeRevision.length() > 0) {
                                 doImport();

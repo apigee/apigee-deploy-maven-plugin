@@ -27,6 +27,10 @@
         <VirtualHost>default</VirtualHost>
         <VirtualHost>secure</VirtualHost>
     </HTTPProxyConnection>
+    <RouteRule name="demo-server">
+        <TargetEndpoint>demo-server</TargetEndpoint>
+        <Condition>proxy.pathsuffix MatchesPath &quot;/api/**&quot;</Condition>
+    </RouteRule>
     <RouteRule name="default">
         <TargetEndpoint>default</TargetEndpoint>
     </RouteRule>

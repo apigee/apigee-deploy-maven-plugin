@@ -9,6 +9,12 @@
                         {
                             "xpath": "/AssignMessage/Set/Headers/Header[@name='ENV']",
                             "value": "TEST"
+                        },
+                        {
+                            "xpath": "/AssignMessage/Set/Headers/Header[@name='X-Debug-Mode']",
+                            "mode": "replace_element",
+                            // remove X-Debug-Mode for test env
+                            "value": "<Header name='X-Production-Mode'/>"
                         }
                     ]
                 }
@@ -18,8 +24,15 @@
                     "name": "default.xml",
                     "tokens": [
                         {
+                            // "mode": "replace_value", // default
                             "xpath": "/ProxyEndpoint/HTTPProxyConnection/BasePath",
                             "value": "/weatherapi"
+                        },
+                        {
+                            "xpath": "/ProxyEndpoint/HTTPProxyConnection",
+                            // appends the below XML as is to the HTTPProxyConnection element in default.xml
+                            "mode": "append",
+                            "value": "<VirtualHost>demo-host</VirtualHost>"
                         }
                     ]
                 }
@@ -67,6 +80,20 @@
                         {
                             "xpath": "/TargetEndpoint/HTTPTargetConnection/URL",
                             "value": "http://weather.yahooapis.com"
+                        }
+                    ]
+                },
+                {
+                    "name": "demo-server.xml",
+                    "tokens": [
+                        {
+                            "xpath": "/TargetEndpoint/HTTPTargetConnection/LoadBalancer/Server[@name='replace-me']",
+                            "mode": "replace_element",
+                            // to support multiple services with different targetServers that share the proxy code
+                            // usually the case when working with multiple environments, lower envs can share targets
+                            // but PROD uses specific targets
+                            // replaces the below XML as is to the HTTPTargetConnection LoadBalancer element in demo-server.xml
+                            "value": "<Server name=\"api-v0\"/>"
                         }
                     ]
                 }

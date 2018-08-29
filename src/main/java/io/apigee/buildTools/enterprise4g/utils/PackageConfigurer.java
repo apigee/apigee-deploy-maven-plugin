@@ -20,6 +20,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
@@ -28,6 +30,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.apache.tools.ant.filters.StringInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -37,8 +40,10 @@ import org.w3c.dom.NodeList;
 
 import io.apigee.buildTools.enterprise4g.utils.ConfigTokens.Policy;
 
+import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.xml.sax.SAXException;
 
 /**
  * updates the configuration values of a package
@@ -56,6 +61,8 @@ public class PackageConfigurer {
         TransformerFactory transformerFactory = TransformerFactory
                 .newInstance();
         Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
         // get the list of files in proxies folder
         XMLFileListUtil listFileUtil = new XMLFileListUtil();
@@ -294,6 +301,36 @@ public class PackageConfigurer {
                 	//Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/45
                     //if (nodes.item(j).hasChildNodes()) {
                     if (nodes.item(j).getNodeName() != null && !nodes.item(j).getNodeName().equals("")) {
+                        if (ConfigTokens.Token.MODE_APPEND.equals(configTokens.tokens.get(i).mode)) {
+                            logger.debug(
+                                    "=============Appending {} inside path {}================\n",
+                                    configTokens.tokens.get(i).value,
+                                    configTokens.tokens.get(i).xpath);
+                            Document childDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new StringInputStream(configTokens.tokens.get(i).value));
+                            nodes.item(j).appendChild(doc.importNode(childDoc.getFirstChild(), true));
+
+                            return doc;
+                        } if (ConfigTokens.Token.MODE_REPLACE_ELEMENT.equals(configTokens.tokens.get(i).mode)) {
+                            try {
+                                if (Strings.isNullOrEmpty(configTokens.tokens.get(i).value)) {
+                                    nodes.item(j).getParentNode().removeChild(nodes.item(j));
+                                    return doc;
+                                }
+
+                                Document childDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new StringInputStream(configTokens.tokens.get(i).value));
+                                nodes.item(j).getParentNode().replaceChild(doc.importNode(childDoc.getFirstChild(), true), nodes.item(j));
+
+                                return doc;
+                            } catch (SAXException saxEx) {
+                                logger.warn(
+                                        "=============Failed to apply {} for {}================\n",
+                                        configTokens.tokens.get(i).value,
+                                        "path " + configTokens.tokens.get(i).xpath +
+                                        " mode " + configTokens.tokens.get(i).mode);
+                                logger.warn("Error: ", saxEx);
+                            }
+                        }
+
                         logger.debug(
                                 "=============Updated existing value {} to new value {} ================\n",
                                 nodes.item(j).getTextContent(),
