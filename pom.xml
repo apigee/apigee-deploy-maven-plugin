@@ -136,7 +136,8 @@
     <!-- mgmt-api-java-sdk -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>3.2.17.RELEASE</spring.version>
+        <spring.version>4.3.20.RELEASE</spring.version>
+        <spring.security.version>4.2.9.RELEASE</spring.security.version>
         <log4j.version>1.2.17</log4j.version>
     </properties>
     <!-- mgmt-api-java-sdk -->
@@ -345,7 +346,7 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
-            <version>3.2.9.RELEASE</version>
+            <version>${spring.security.version}</version>
         </dependency>
 
         <dependency>
