@@ -23,6 +23,7 @@ Learn more, check out this video! [Ask the Expert](https://apigee.com/api-manage
 
 ## Contents
 
+- [Prerequisites](#Prerequisites)
 - [Getting-Started](#getting-started)
 - [Building API bundles](#building-api-bundles)
 - [Building Shared Flow bundles](#building-shared-flow-bundles)
@@ -37,6 +38,12 @@ Learn more, check out this video! [Ask the Expert](https://apigee.com/api-manage
 - [Commands](#commands-for-deploying-the-proxy-using-maven)
 - [OAuth and Two-Factor Authentication](#oauth-and-two-factor-authentication)
 - [Node.js Application Support](#deploying-api-proxies-with-nodejs-apps)
+
+# Prerequisites
+You will need the following to run the samples:
+- Apigee Edge developer account. See [docs](http://docs.apigee.com/api-services/content/creating-apigee-edge-account) for more details on how to setup your account..
+- [Java SDK >= 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+- [Maven 3.x](https://maven.apache.org/)
 
 # Getting Started
 
