@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<AssignMessage async="false" continueOnError="false" enabled="true" name="Assign-Message-1">
-    <DisplayName>Assign Message 1</DisplayName>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-Set-Headers">
+    <DisplayName>AM-Set-Headers</DisplayName>
     <Set>
         <Headers>
           <Header name="ENV">ENVIRONMENT</Header>  
         </Headers>
-        <QueryParams/>
-        <FormParams/>
-        <Verb/>
-        <Path/>
     </Set>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
     <AssignTo createNew="false" transport="http" type="request"/>

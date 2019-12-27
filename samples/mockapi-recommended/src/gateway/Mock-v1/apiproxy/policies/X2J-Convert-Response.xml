@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<XMLToJSON async="false" continueOnError="false" enabled="true" name="X2J-Convert-Response">
+    <DisplayName>X2J-Convert-Response</DisplayName>
+    <Properties/>
+    <Options>
+        <StripLevels>1</StripLevels>
+    </Options>
+    <OutputVariable>response</OutputVariable>
+    <Source>calloutResponse</Source>
+</XMLToJSON>

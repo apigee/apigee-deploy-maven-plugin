@@ -1,8 +1,8 @@
 ## Getting Started
 - [Sign up for an Apigee Account!](https://accounts.apigee.com/accounts/sign_up?callback=https://enterprise.apigee.co). Not required if already provided.
-- [Download and install Maven 3.0.*](http://maven.apache.org/download.cgi)
+- [Download and install Maven 3.*](http://maven.apache.org/download.cgi)
 - Clone this repo https://github.com/apigee/apigee-deploy-maven-plugin
-- ```cd samples/forecastweatherapi-recommended/src/gateway/forecastweatherapi``` *Recommended template*
+- ```cd samples/mockapi-recommended/src/gateway/Mock-v1``` *Recommended template*
 - For sharedflow ```cd samples/security-sharedflow/src/sharedflows/security``` *Recommended template*
 - Execute ```mvn install -Ptest -Dusername={apigee-edge-email} -Dpassword={apigee-edge-password} -Dorg={apigee-edge-org}```
 
@@ -18,19 +18,13 @@ That's it! If everything ran smooth, you will see BUILD SUCCESS message at the o
 
 ```mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Doptions=validate,update```
 
-### Delete current bundle deployed
+### Undeploy and delete revision in the environment
 
 ```mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Doptions=clean```
-
-```mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Dorg=testmyapi -Doptions=inactive```
 
 ### Configure and package bundle. Does not import
 
 ```mvn package -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Dorg=testmyapi```
-
-### Run tests only
-
-```mvn jmeter:jmeter -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Dorg=testmyapi -DtestData=weather_test.csv -DthreadNum=5 -DrampUpPeriodSecs=5 -DloopCount=2```
 
 ### The following are available options:
 a. clean - This will delete the last deployed revision in an environment.
