@@ -229,9 +229,6 @@ The"apigee.override.delay", "apigee.delay,apigee.options" are optional elements.
 #### Note 3
 The "apigee.options" element can have the following values: **clean** (this option will delete the last deployed revision in an environment), **validate** (this option will validate a bundle before importing. Thus if you want strict validation then its required), **inactive** (this option will import the bundle without activating the bundle), **override** (this option is used for seamless deployment and should be supplied with apigee.override.delay parameter. The apigee.override.delay expects delay to be given in seconds), **update** (this option will update the revision). This is similar to import with validation but no new revision is created. If there are any errors in the bundle, an error is thrown and the existing bundle is left intact. In case the revision they are trying to update is deployed, it will internally trigger undeployment and deployment. It is completely in the background and not visible in the response.
 
-#### Note 3a
-The “apigee.revision” element can be used **when using the update option only**. The update option will be executed on the provided revision.
-
 #### Note 4
 The "apigee.options" combination could be given with comma separated values. The precedence order of options are -> override, update, (clean, inactive, validate).
 
@@ -342,9 +339,9 @@ The above structure follows the same pattern when developing with java source co
 Shared Flow bundles can be described as a zipped file system composed of policies, steps and code. The file system when extracted is composed of the following structure.
 
 ```
- |-sharedflowbundle/
-   |-policies
-   |-sharedflows
+	 |-sharedflowbundle/
+	   |-policies
+	   |-sharedflows
 ```
 The build steps and the options available for building and deploying Shared Flows are the same as API Proxy. Most widely used options are ```override``` and ```update```
 The [samples](https://github.com/apigee/apigee-deploy-maven-plugin/tree/master/samples/security-sharedflow/src/sharedflows) has an example of a standard sharedflow with the folder structure and the parent pom file. The only key difference between the API Proxy and the Shared Flow is a new property as part of the profiles.
@@ -353,19 +350,6 @@ The [samples](https://github.com/apigee/apigee-deploy-maven-plugin/tree/master/s
 
 This is required to differentiate the build and deployment process.
 
-
-----------------------------------------------------------------
-For the users migrating from Apigee Maven repo to Maven central
-----------------------------------------------------------------
-
-The plugin was hosted in Apigee Maven repo and is now moved to Maven central for public consumption. We advise all the existing users to move to the new repo for latest updates and enhancements.
-(**Repo Apigee URL: ** http://repo.apigee.com:8081/artifactory/repo)
-
-This open source version is taken from the Version **0.0.16** of **4G-gateway-maven-build-pack**.
-All the features available till 0.0.16 is moved on to the open source version and the older one in closed out for any development internally or externally.
-
-Refer for detailed documentation [Guide for Users Migrating from Apigee repo]
-(https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/Migration-Guide.md)
 
 ------------------------------------------
 Recommended Convention for Contributions

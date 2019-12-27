@@ -2,8 +2,8 @@
 - [Sign up for an Apigee Account!](https://accounts.apigee.com/accounts/sign_up?callback=https://enterprise.apigee.co). Not required if already provided.
 - [Download and install Maven 3.*](http://maven.apache.org/download.cgi)
 - Clone this repo https://github.com/apigee/apigee-deploy-maven-plugin
-- ```cd samples/mockapi-recommended/src/gateway/Mock-v1``` *Recommended template*
-- For sharedflow ```cd samples/security-sharedflow/src/sharedflows/security``` *Recommended template*
+- For API Proxy - ```cd samples/mockapi-recommended/src/gateway/Mock-v1``` *Recommended template*
+- For sharedflow - ```cd samples/security-sharedflow/src/sharedflows/security``` *Recommended template*
 - Execute ```mvn install -Ptest -Dusername={apigee-edge-email} -Dpassword={apigee-edge-password} -Dorg={apigee-edge-org}```
 
 That's it! If everything ran smooth, you will see BUILD SUCCESS message at the of the execution of this command. Next steps, learn a bit of Maven to customize the pom.xml.
@@ -39,5 +39,3 @@ e. force - This will recheck the un deployment of bundle before proceeding furth
 
 f. update - It will update the deployed revision .  This is similar to import with validation but no new revision is created. If there any errors in the bundle, error is thrown and the existing bundle is left intact. In case the revision they are trying to update is deployed, it will internally trigger undeployment and deployment. It is completely in the background and not visible in the response. It is advised not to update the deployed revision. (UI could show a warning or something in this case).
 
-## More Documentation
-* [Ask The Expert Presentation](https://community.apigee.com/learn/know-ask-expert-and-office-hours)
