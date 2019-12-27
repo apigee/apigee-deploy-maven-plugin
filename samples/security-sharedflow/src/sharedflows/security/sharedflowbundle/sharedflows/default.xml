@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <SharedFlow name="default">
     <Step>
-        <Name>Verify-API-Key-1</Name>
+        <Name>Verify-API-Key</Name>
     </Step>
     <Step>
-        <Name>Quota-1</Name>
+        <Name>Quota</Name>
     </Step>
     <Step>
-        <Name>Spike-Arrest-1</Name>
+        <Name>Spike-Arrest</Name>
     </Step>
     <Step>
-        <Name>Assign-Message-1</Name>
+        <Name>AM-Set-Headers</Name>
     </Step>
 </SharedFlow>
