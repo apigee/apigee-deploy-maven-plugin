@@ -59,17 +59,12 @@ public class GitUtil {
 		}
 	}
 	public  String getWorkspaceHeadRevisionString() {
-	
-	
 		Ref headRef = getWorkspaceHeadRevision();
-		
 		String headRevision = headRef.getObjectId().getName();
 		return headRevision;
-	
 	}
 	public  Ref getWorkspaceHeadRevision() {
 		Map<String, Ref> refs = git.getRepository().getAllRefs();
-	
 		Ref headRef = refs.get("HEAD");
 		return headRef;
 	
@@ -96,13 +91,22 @@ public class GitUtil {
 						tagName = tagName.substring(lastSlashIndex + 1);
 						return tagName;
 					}
-				
-
 				}
 			}
 
 		}
 		return null;
+	}
+	
+	public  String getBranchName() {
+		String branchName = "local";
+		try {
+			branchName = git.getRepository().getBranch();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return branchName;
+		}
+		return branchName;
 	}
 	
 
