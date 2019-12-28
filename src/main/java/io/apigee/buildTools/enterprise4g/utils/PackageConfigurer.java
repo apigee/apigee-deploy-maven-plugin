@@ -316,41 +316,39 @@ public class PackageConfigurer {
 
     }
 
-    protected static String getComment(File basePath) {
-        try {
-            String hostname = "unknown";
-            String user = System.getProperty("user.name", "unknown");
-            try {
-                hostname = InetAddress.getLocalHost().getHostName();
+    //For an untracked proxy code description will be set to - commit from a local branch. Deployed by ${user}
+    //Otherwise - commit ${commit} from ${branch} branch. Deployed by ${user}
+    protected static String getComment(File file) {
+		try {
+			String user = System.getProperty("user.name", "unknown");
+			/*String hostname = "unknown";
+			try {
+				hostname = InetAddress.getLocalHost().getHostName();
 
-            } catch (UnknownHostException e) {
-            }
-            return user + " " + getScmRevision(basePath) + " " + hostname;
-        } catch (Throwable t) {
-            // If this blows up, continue on....
-            return "";
-        }
-    }
+			} catch (UnknownHostException e) {
+			}
+			return user + " " + getScmRevision(file) + " " + hostname;*/
+			return getScmRevision(file) + " Deployed by " + user;
+		} catch (Throwable t) {
+			// If this blows up, continue on....
+			return "";
+		}
+	}
 
-    protected static String getScmRevision(File basePath ) {
-        String rev = null;
-        try {
-            GitUtil gu = new GitUtil(basePath);
-            String tagName = gu.getTagNameForWorkspaceHeadRevision();
-            rev = "git: ";
-            rev = (tagName == null) ? rev + "" : rev + tagName + " - ";
-            String revNum = gu.getWorkspaceHeadRevisionString();
-            revNum = revNum.substring(0, Math.min(revNum.length(), 8));
-            rev = rev + revNum ;
+	protected static String getScmRevision(File file) {
+		String rev = null;
+		try {
+			GitUtil gu = new GitUtil(file);
+			String branchName = gu.getBranchName();
+			rev = "commit ";
+			String revNum = gu.getWorkspaceHeadRevisionString();
+			revNum = revNum.substring(0, Math.min(revNum.length(), 8));
+			rev = rev + revNum + " from " + branchName + " branch.";
 
-        } catch (Throwable e) {
-            rev = null;
-        }
-        if (rev == null) {
-            rev = "git revision unknown";
-        }
-
-        return rev;
-    }
+		} catch (Throwable e) {
+			rev = "commit from a local branch.";
+		}
+		return rev;
+	}
 
 }
