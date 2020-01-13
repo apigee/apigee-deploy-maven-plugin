@@ -159,7 +159,7 @@ In case of manual creation of Maven compatible file structure, "parent-pom" dire
 
 #### parent-pom-pom-xml Sample
 
-Refer parent-pom template [parent-pom](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/forecastweatherapi-recommended/src/gateway/shared-pom.xml)
+Refer parent-pom template [parent-pom](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/mockapi-recommended/src/gateway/shared-pom.xml)
 
  * **groupId** element's content should be set to client's company name.  Here you see it as apigee.
  * **artifactId** element's content be left as parent-pom.
@@ -168,7 +168,7 @@ Child-pom: Here we configure all the details specific to the particular proxy.
 
 #### pom-xml Sample
 
-Refer child-pom template [child-pom](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/forecastweatherapi-recommended/src/gateway/forecastweatherapi/pom.xml).
+Refer child-pom template [child-pom](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/mockapi-recommended/src/gateway/Mock-v1/pom.xml).
 
  * **groupId** element's content should match that of the same element in the parent pom.xml.
  * **artifactId** element's content should be a unique name, typically set to the name of the API.
@@ -185,7 +185,7 @@ For instance in the example below you have two configurations one for the test p
 
 #### Config-json Sample
 
-Refer config.json template [config.json](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/forecastweatherapi-recommended/src/gateway/forecastweatherapi/config.json)
+Refer config.json template [config.json](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/mockapi-recommended/src/gateway/Mock-v1/config.json)
 
 ## Commands for deploying the proxy using maven
 
@@ -243,7 +243,7 @@ Refer to [How to get OAuth2 tokens](http://docs.apigee.com/api-services/content/
 ### Using OAuth
 OAuth capability when enabled is seamless and the plugin acquires OAuth tokens and uses it subsequently to call management APIs. 
 
-To enable OAuth add the following options to all profiles as required. Refer to [shared-pom.xml](https://github.com/apigee/apigee-deploy-maven-plugin/blob/oauth/samples/forecastweatherapi-recommended/src/gateway/shared-pom.xml) example.
+To enable OAuth add the following options to all profiles as required. Refer to [shared-pom.xml](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/mockapi-recommended/src/gateway/shared-pom.xml) example.
 
     <apigee.tokenurl>${tokenurl}</apigee.tokenurl> <!-- optional: oauth -->
     <apigee.authtype>${authtype}</apigee.authtype> <!-- optional: oauth|basic(default) -->
@@ -265,7 +265,8 @@ TOTP can be generated using command line tools for use in CI tools like Jenkins.
 ### Using Two-Factor Authentication token
 **Note** OAuth needs to be enabled before Two-Factor Authentication can be used. 
 
-To enable Two-Factor Authentication, add the following options to all profiles as required. Refer to [shared-pom.xml](https://github.com/apigee/apigee-deploy-maven-plugin/blob/oauth/samples/forecastweatherapi-recommended/src/gateway/shared-pom.xml) example.
+To enable Two-Factor Authentication, add the following options to all profiles as required. Refer to [shared-pom.xml](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/mockapi-recommended/src/gateway/shared-pom.xml
+) example.
 
     <apigee.mfatoken>${mfatoken}</apigee.mfatoken> <!-- optional: mfa -->
 
