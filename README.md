@@ -48,20 +48,20 @@ You will need the following to run the samples:
 ## Plugin Usage
 
 ### NOTE ###
-- If you want to use this plugin for Apigee Hybrid, please refer to this [link](https://github.com/apigee/apigee-deploy-maven-plugin/tree/hybrid). You should be using the version 2.x
-```xml
-<dependency>
-  <groupId>io.apigee.build-tools.enterprise4g</groupId>
-  <artifactId>apigee-edge-maven-plugin</artifactId>
-  <version>2.x</version>
-</dependency>
-```
-- For Apigee SaaS/Private Cloud, the version of the plugin is 1.x
+- If you want to use this plugin for Apigee SaaS/Private, please refer to this [link](https://github.com/apigee/apigee-deploy-maven-plugin). You should be using the version 1.x
 ```xml
 <dependency>
   <groupId>io.apigee.build-tools.enterprise4g</groupId>
   <artifactId>apigee-edge-maven-plugin</artifactId>
   <version>1.x</version>
+</dependency>
+```
+- For Apigee hybrid, the version of the plugin is 2.x
+```xml
+<dependency>
+  <groupId>io.apigee.build-tools.enterprise4g</groupId>
+  <artifactId>apigee-edge-maven-plugin</artifactId>
+  <version>2.x</version>
 </dependency>
 ```
 
