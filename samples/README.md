@@ -14,4 +14,4 @@ That's it! If everything ran smooth, you will see BUILD SUCCESS message at the o
 `mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Dorg=testmyapi`
 
 ### The following are available options:
-a. override - This is used for seamless deployment. This must be supplied with apigee.override.delay parameter. The apigee.override.delay expects delay to be given in seconds.
+a. override - This is used for seamless deployment
