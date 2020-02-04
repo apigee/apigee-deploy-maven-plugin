@@ -9,7 +9,7 @@ That's it! If everything ran smooth, you will see BUILD SUCCESS message at the o
 
 ## Basic Commands – apigee.options
 
-### Configure, package, import, deploy, and test bundle (default validate apigee.option) – Creates new revision
+### Configure, package, import, deploy, and test bundle – Creates new revision
 
 `mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password -Dorg=testmyapi`
 
