@@ -16,7 +16,6 @@
 package io.apigee.buildTools.enterprise4g.utils;
 
 import com.google.api.client.http.HttpHeaders;
-import com.google.api.client.http.HttpMethod;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpResponse;
 
@@ -33,7 +32,7 @@ public class PrintUtil {
 
         // Print all headers except auth
 
-        prettyRequest = prettyRequest + request.getMethod() + "  " + request.getUrl();
+        prettyRequest = prettyRequest + request.getRequestMethod() + "  " + request.getUrl();
 
         HttpHeaders headers = request.getHeaders();
 
@@ -60,13 +59,13 @@ public class PrintUtil {
         }
 
         try {
-        if (request.getMethod().compareTo(HttpMethod.POST) == 0  ){
+        if (request.getRequestMethod().compareTo("POST") == 0  ){
 
             if (request.getContent()!=null && request.getContent().getType() !=null)
             {
                 prettyRequest = prettyRequest + "\n" + "content-type" + ": " + request.getContent().getType();
 
-                if (!request.getContent().getType().contains("octet"))
+                if (!request.getContent().getType().contains("octet") && !request.getContent().getType().contains("multipart"))
                 {
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 request.getContent().writeTo(out);

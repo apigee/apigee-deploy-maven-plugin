@@ -29,22 +29,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.apigee.mgmtapi.sdk.client.MgmtAPIClient;
-import com.apigee.mgmtapi.sdk.model.AccessToken;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.google.api.client.http.FileContent;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpHeaders;
+import com.google.api.client.http.HttpMediaType;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.MultipartContent;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.GenericData;
 import com.google.api.client.util.Key;
 import com.google.gson.Gson;
@@ -181,6 +180,45 @@ public class RestUtil {
         public String organization;
     }
 
+    public static class DeploymentStatus {
+        @Key
+        public String apiProxy;
+        @Key
+        public String sharedFlow;
+        @Key
+        public String environment;
+        @Key
+        public String revision;
+        @Key
+        public String deployStartTime;
+        @Key
+        public String basePath;
+        @Key
+        public List<PodStatus> pods;
+        @Key
+        public String organization;
+    }
+
+    public static class PodStatus {
+    	@Key
+        public String podName;
+    	@Key
+        public String appVersion;
+    	@Key
+        public String podStatus;
+    	@Key
+        public String podStatusTime;
+    	@Key
+        public String deploymentStatusTime;
+    	@Key
+        public String deploymentTime;
+    	@Key
+        public String deploymentStatus;
+    	@Key
+        public String statusCode;
+    	@Key
+        public String statusCodeDetails;
+    }
 
     public static class AppConfig {
         @Key
@@ -339,7 +377,56 @@ public class RestUtil {
         }
         return revision;
     }
-
+    
+    public static boolean getDeploymentStateForRevision(ServerProfile profile, String revision)
+            throws IOException {
+    	if(profile.getApi_type()!=null && profile.getApi_type().equalsIgnoreCase("sharedflow")){
+    		return getDeploymentStateForRevision(profile, "sharedflows", revision);
+    	}	
+    	else{
+    		return getDeploymentStateForRevision(profile, "apis", revision);
+    	}
+    		
+    }
+    public static boolean getDeploymentStateForRevision(ServerProfile profile, String type, String revision)
+            throws IOException {
+    	DeploymentStatus deploymentStatus = null;
+    	boolean deployed = false;
+    	try {
+    		logger.info("Getting Deployment Info for Revision: "+ revision);
+    		HttpRequest restRequest = REQUEST_FACTORY
+                    .buildGetRequest(new GenericUrl(profile.getHostUrl() + "/"
+                            + profile.getApi_version() + "/organizations/"
+                            + profile.getOrg() + "/environments/"
+                            + profile.getEnvironment() + "/"+type+"/"
+                            + profile.getApplication() + "/revisions/" + revision
+                            + "/deployments"));
+    		restRequest.setReadTimeout(0);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setAccept("application/json");
+            restRequest.setHeaders(headers);
+            HttpResponse response = executeAPI(profile, restRequest);
+            deploymentStatus = response.parseAs(DeploymentStatus.class);
+            if(deploymentStatus!=null && deploymentStatus.pods!=null && deploymentStatus.pods.size()>0) {
+            	for (PodStatus p: deploymentStatus.pods) {
+            		if(p.deploymentStatus!=null && p.deploymentStatus.equals("deployed")) {
+						deployed = true;
+					}else {
+						deployed = false;
+						break;
+					}
+						
+				}
+            }
+    	}catch (HttpResponseException e) {
+            logger.error(e.getMessage());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+    	logger.debug("returning deployed status: "+ deployed);
+    	return deployed;
+    }
+    
     // This function should do -
     // Return a revision if there is a active revision, if there are more than one active revisions deployed in an env, the highest revision number is picked
     // Returns "" if there are no active revision
@@ -426,8 +513,16 @@ public class RestUtil {
     public static String uploadBundle(ServerProfile profile, String bundleFile, String type)
             throws IOException {
 
-        FileContent fContent = new FileContent("application/octet-stream",
-                new File(bundleFile));
+    	MultipartContent content = new MultipartContent().setMediaType(
+    	        new HttpMediaType("multipart/form-data")
+    	                .setParameter("boundary", "__END_OF_PART__"));
+    		 
+    	FileContent fContent = new FileContent("application/octet-stream", new File(bundleFile));
+    	MultipartContent.Part part = new MultipartContent.Part(fContent);
+    	part.setHeaders(new HttpHeaders().set(
+    	        "Content-Disposition", 
+    	        String.format("form-data; name=\"content\"; file=\"%s\"", new File(bundleFile).getName())));
+    	content.addPart(part);
         //testing
         logger.debug("URL parameters API Version{}", (profile.getApi_version()));
         logger.debug("URL parameters URL {}", (profile.getHostUrl()));
@@ -444,7 +539,7 @@ public class RestUtil {
         }
 
         HttpRequest restRequest = REQUEST_FACTORY.buildPostRequest(
-                new GenericUrl(importCmd), fContent);
+                new GenericUrl(importCmd), content);
         restRequest.setReadTimeout(0);
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept("application/json");
@@ -678,6 +773,55 @@ public class RestUtil {
     
     public static String activateBundleRevision(ServerProfile profile, String revision, String type)
             throws IOException {
+    	HttpResponse response = null;
+    	DeploymentStatus deploymentStatus = null;
+    	try {
+    		UrlEncodedContent urlEncodedContent = null;
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setAccept("application/json");
+            //headers.setContentType("application/x-www-form-urlencoded");
+
+            String deployCmd = profile.getHostUrl() + "/"
+                    + profile.getApi_version() + "/organizations/"
+                    + profile.getOrg() + "/environments/"
+                    + profile.getEnvironment() + "/"+type+"/"
+                    + profile.getApplication() + "/revisions/" + revision
+                    + "/deployments";
+
+            if (Options.override) {
+                GenericData data = new GenericData();
+                data.set("override", "true");
+                //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/18
+                if (Options.override_delay != 0) {
+                    data.set("delay", Options.override_delay);
+                }
+                urlEncodedContent = new UrlEncodedContent(data);
+            } else {
+                // https://github.com/apigee/apigee-deploy-maven-plugin/issues/56
+                GenericData data = new GenericData();
+                data.set("override", "false");
+                urlEncodedContent = new UrlEncodedContent(data);
+            }
+            HttpRequest deployRestRequest = REQUEST_FACTORY.buildPostRequest(
+                    new GenericUrl(deployCmd), urlEncodedContent);
+            deployRestRequest.setReadTimeout(0);
+            deployRestRequest.setHeaders(headers);
+
+            response = executeAPI(profile, deployRestRequest);
+            String responseString = response.parseAsString();
+            deploymentStatus = new Gson().fromJson(responseString, DeploymentStatus.class);
+    	}catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new IOException(e);
+        }
+
+    	
+    	return deploymentStatus.revision;
+    }
+    
+    public static String activateBundleRevision1(ServerProfile profile, String revision, String type)
+            throws IOException {
 
         BundleActivationConfig deployment2 = new BundleActivationConfig();
         HttpResponse response = null;
@@ -839,131 +983,34 @@ public class RestUtil {
     public static void setVersionRevision(String versionRevision) {
         RestUtil.versionRevision = versionRevision;
     }
-
-    /**
-     * OAuth token acquisition for calling management APIs
-     * Access Token expiry 1799 sec = 30 mins long enough to finish any maven task
-     * MFA Token: TOTP expires in 30 secs. User needs to give a token with some validity
-     */
-    private static HttpResponse executeAPI(ServerProfile profile, HttpRequest request) 
-            throws IOException {
-        HttpHeaders headers = request.getHeaders();
-        MgmtAPIClient client = new MgmtAPIClient();
-        String mfaToken = profile.getMFAToken();
-        String tokenUrl = profile.getTokenUrl();
-        String mgmtAPIClientId = (profile.getClientId()!=null && !profile.getClientId().equalsIgnoreCase(""))?profile.getClientId():"edgecli";
-        String mgmtAPIClientSecret = (profile.getClientSecret()!=null && !profile.getClientSecret().equalsIgnoreCase(""))?profile.getClientSecret():"edgeclisecret";
-        /**** Basic Auth - Backward compatibility ****/
-        if (profile.getAuthType() != null &&
-            profile.getAuthType().equalsIgnoreCase("basic")) {
-                headers.setBasicAuthentication(profile.getCredential_user(),
-                                                profile.getCredential_pwd());
-                logger.info(PrintUtil.formatRequest(request));
-                return request.execute();
-        }
-
-        /**** OAuth ****/
-        if (profile.getBearerToken() != null && !profile.getBearerToken().equalsIgnoreCase("")){
-        	//Need to validate access token only if refresh token is provided. 
-	        	//If access token is not valid, create a bearer token using the refresh token 
-	        	//If access token is valid, use that 
-        	accessToken = (accessToken!=null)?accessToken:profile.getBearerToken();        	
-        	if(profile.getRefreshToken() != null && !profile.getRefreshToken().equalsIgnoreCase("")){
-        		if(isValidBearerToken(accessToken, profile, mgmtAPIClientId)){
-        			logger.info("Access Token valid");
-        			headers.setAuthorization("Bearer " + accessToken);
-                 }else{
-                	 try{
-                		 AccessToken token = null;
-                		 logger.info("Access token not valid so acquiring new access token using Refresh Token");
-                		 token = client.getAccessTokenFromRefreshToken(
-		     			 			tokenUrl,
-		     			 			mgmtAPIClientId, mgmtAPIClientSecret, 
-		     			 			profile.getRefreshToken());
-                		 logger.info("New Access Token acquired");
-			         	 accessToken = token.getAccess_token();
-			             headers.setAuthorization("Bearer " + accessToken);
-                	 }catch (Exception e) {
-                        logger.error(e.getMessage());
-                        throw new IOException(e.getMessage());
-                     }
-                 }
-        	}
-        	//if refresh token is not passed, validate the access token and use it accordingly
-        	else{
-        		logger.info("Validating the access token passed");
-        		if(isValidBearerToken(profile.getBearerToken(), profile, mgmtAPIClientId)){
-        			logger.info("Access Token valid");
-        			accessToken = profile.getBearerToken();
-                    headers.setAuthorization("Bearer " + accessToken);
-        		}else{
-        			logger.error("Access token not valid");
-        			throw new IOException ("Access token not valid");
-        		}
-        		
-        	}
-        }
-        else if (accessToken != null) {
-            // subsequent calls
-            logger.debug("Reusing mgmt API access token");
-            headers.setAuthorization("Bearer " + accessToken);
-        } else {
-            logger.info("Acquiring mgmt API token from " + tokenUrl);
-            try {
-                AccessToken token = null;
-                if (mfaToken == null || mfaToken.length() == 0) {
-                    logger.info("MFA token not provided. Skipping.");
-                    token = client.getAccessToken(
-                            tokenUrl,
-                            mgmtAPIClientId, mgmtAPIClientSecret,
-                            profile.getCredential_user(),
-                            profile.getCredential_pwd());
-                } else {
-                    logger.info("Making use of the MFA token provided.");
-                    token = client.getAccessToken(
-                            tokenUrl,
-                            mgmtAPIClientId, mgmtAPIClientSecret,
-                            profile.getCredential_user(),
-                            profile.getCredential_pwd(),
-                            profile.getMFAToken());
-                }
-                accessToken = token.getAccess_token();
-                headers.setAuthorization("Bearer " + accessToken);
-            } catch (Exception e) {
-                logger.error(e.getMessage());
-                // should we throw something up ??
-            }
-        }
-        logger.info(PrintUtil.formatRequest(request));
-        return request.execute();
-    }
-    
     
     /**
-     * This method is used to validate the Bearer token. It validates the source and the expiration and if the token is about to expire in 30 seconds, set as invalid token
-     * @param accessToken
+     * 
      * @param profile
-     * @param clientId
+     * @param request
      * @return
      * @throws IOException
      */
-    private static boolean isValidBearerToken(String accessToken, ServerProfile profile, String clientId) throws IOException{
-    	boolean isValid = false;
+    private static HttpResponse executeAPI(ServerProfile profile, HttpRequest request) 
+            throws IOException {
+    	HttpHeaders headers = request.getHeaders();
     	try {
-		    JWT jwt = JWT.decode(accessToken);
-		    String jwtClientId = jwt.getClaim("client_id").asString();
-		    String jwtEmailId = jwt.getClaim("email").asString();
-		    long jwtExpiresAt = jwt.getExpiresAt().getTime()/1000;
-		    long difference = jwtExpiresAt - (System.currentTimeMillis()/1000);
-		    if(jwt!= null && jwtClientId!=null && jwtClientId.equals(clientId)
-	    		&& jwtEmailId!=null && jwtEmailId.equalsIgnoreCase(profile.getCredential_user())
-	    		&& profile.getTokenUrl().contains(jwt.getIssuer())
-	    		&& difference >= 30){
-		    	isValid = true;
-		    }
-		} catch (JWTDecodeException exception){
-		   throw new IOException(exception.getMessage());
-		}
-    	return isValid;
+    		MgmtAPIClient client = new MgmtAPIClient();
+    		if (profile.getServiceAccountJSONFile() == null || profile.getServiceAccountJSONFile().equalsIgnoreCase("")) {
+				logger.error("Service Account file is missing");
+				throw new IOException("Service Account file is missing");
+			}
+            File serviceAccountJSON = new File(profile.getServiceAccountJSONFile());
+            accessToken = client.getGoogleAccessToken(serviceAccountJSON);
+            logger.debug("**Access Token** "+ accessToken);
+    		headers.setAuthorization("Bearer " + accessToken);
+    	}catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new IOException(e.getMessage());
+         }
+        
+    	logger.info(PrintUtil.formatRequest(request));
+        return request.execute();
     }
+
 }

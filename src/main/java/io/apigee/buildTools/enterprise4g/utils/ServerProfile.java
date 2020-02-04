@@ -39,6 +39,15 @@ public class ServerProfile {
 	private Long delay;
 	private Long overridedelay;
 	private Long revision;
+	private String serviceAccountJSONFile;
+	
+	public String getServiceAccountJSONFile() {
+		return serviceAccountJSONFile;
+	}
+
+	public void setServiceAccountJSONFile(String serviceAccountJSONFile) {
+		this.serviceAccountJSONFile = serviceAccountJSONFile;
+	}
 	
 	public String getApplication() {
 		return application;

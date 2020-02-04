@@ -1,5 +1,9 @@
 package com.apigee.mgmtapi.sdk.client;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 import org.apache.log4j.Logger;
@@ -18,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 import com.apigee.mgmtapi.sdk.core.AppConfig;
 import com.apigee.mgmtapi.sdk.model.AccessToken;
 import com.apigee.mgmtapi.sdk.service.FileService;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.gson.Gson;
 
 public class MgmtAPIClient {
@@ -183,5 +188,29 @@ public class MgmtAPIClient {
 			logger.error(e.getMessage());
 		}
 		return service.getEnvironment();
+	}
+	
+	/**
+	 * To get the Google Service Account Access Token
+	 * 
+	 * @param serviceAccountFilePath
+	 * @return
+	 * @throws Exception
+	 */
+	public String getGoogleAccessToken(File serviceAccountJSON) throws Exception {
+		GoogleCredentials credentials;
+		try {
+			credentials = GoogleCredentials.fromStream(new FileInputStream(serviceAccountJSON))
+					.createScoped("https://www.googleapis.com/auth/cloud-platform");
+			credentials.refreshIfExpired();
+			com.google.auth.oauth2.AccessToken token = credentials.getAccessToken();
+			return token.getTokenValue();
+		}catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			throw e;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw e;
+		}
 	}
 }

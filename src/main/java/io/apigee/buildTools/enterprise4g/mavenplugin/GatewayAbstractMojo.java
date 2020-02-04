@@ -204,6 +204,11 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 	 */
 	private Long revision;
 	
+	/**
+	 * service account file
+	 * @parameter expression="${apigee.serviceaccount.file}"
+ 	 */
+	private String serviceAccountFilePath;
 	
 	/**
 	* Skip running this plugin.
@@ -243,6 +248,7 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 		this.buildProfile.setDelay(this.delay);
 		this.buildProfile.setOverridedelay(this.overridedelay);
 		this.buildProfile.setRevision(this.revision);
+		this.buildProfile.setServiceAccountJSONFile(this.serviceAccountFilePath);
 		
 		return buildProfile;
 	}

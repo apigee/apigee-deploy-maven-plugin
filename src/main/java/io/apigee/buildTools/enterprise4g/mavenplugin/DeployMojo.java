@@ -27,7 +27,7 @@ import java.io.IOException;
 
 
 /**                                                                                                                                     ¡¡
- * Goal to upload 4g gateway  bundle on server
+ * Goal to deploy to Apigee
  * @author rmishra
  * @goal deploy
  * @phase package
@@ -59,7 +59,7 @@ public class DeployMojo extends GatewayAbstractMojo
 	}
 	
 	enum OPTIONS {
-		inactive,force,validate,clean,update,override
+		override
 	}
 	
 	State state = State.START;
@@ -106,25 +106,6 @@ public class DeployMojo extends GatewayAbstractMojo
 				String [] opts = options.split(",");
 				for (String opt : opts) {
 					switch (OPTIONS.valueOf(opt)) {
-					case validate :
-                        Options.validate=true;
-                        break;
-					case force:
-						Options.force=true;
-						break;
-					case inactive:
-						Options.inactive=true;
-						break;
-					case clean:
-						Options.clean=true;
-						break;
-					case update:
-						Options.update=true;
-						//set the revision that is passed as argument
-						if (this.getRevision() != null) {
-							revisionInArg = String.valueOf(this.getRevision());
-						}
-						break;
 					case override:
 						Options.override=true;
 						break;
@@ -224,20 +205,26 @@ public class DeployMojo extends GatewayAbstractMojo
 	
 	/**
 	 * Activate a bundle revision.
+	 * @throws InterruptedException 
 	 */
 	
-	public void doActivateBundle()  throws IOException, MojoFailureException{
+	public void doActivateBundle()  throws IOException, MojoFailureException, InterruptedException{
 		try {
 			logger.info("\n\n=============Activating Bundle================\n\n");
 			state = State.ACTIVATING;
-			RestUtil.activateBundleRevision(super.getProfile(), this.bundleRevision);
-
+			String revision = RestUtil.activateBundleRevision(super.getProfile(), this.bundleRevision);
+			boolean deployed = false;
+			//Loop to check the deployment status
+			for (; !deployed; ) {
+				deployed = RestUtil.getDeploymentStateForRevision(super.getProfile(), revision);
+	        	Thread.sleep(5*1000);
+			}
 		} catch (IOException e) {
 			throw e ;
 		} catch (RuntimeException e) {
 			throw e;
 		} 
-		
+		Thread.sleep(5*1000);
 	}
 	
 	/**
@@ -276,70 +263,8 @@ public class DeployMojo extends GatewayAbstractMojo
 			
 			switch (buildOption) {
 				case NULL:
-
-						if (Options.override) {
-                            activeRevision=RestUtil.getDeployedRevision(this.getProfile());
-                            if (activeRevision.length() > 0) {
-                                doImport();
-                                doActivateBundle();
-                            }else {
-                                Options.override=false;
-                                doImport();
-                                doActivateBundle();
-                            }
-						}
-						else if (Options.update) {
-							String latestRev = "";
-							
-							//If revision to be updated is passed in the maven command as an argument, update that revision
-							if(revisionInArg.length()>0){
-								logger.info("Updating Revision passed: "+ revisionInArg);
-								doUpdate(revisionInArg);
-								break;
-							}
-							
-							//Check if there is a revision deployed
-							activeRevision=RestUtil.getDeployedRevision(this.getProfile());
-							if (activeRevision.length() > 0){
-								logger.info("Active Revision: "+ activeRevision);
-								logger.info("Updating Active Revision: "+ activeRevision);
-								doUpdate(activeRevision);
-								break;
-							}else {
-								doImport();
-								doActivateBundle();
-							}
-							
-							/*
-							//Commenting for https://github.com/apigee/apigee-deploy-maven-plugin/issues/46
-							//Check for the latest revision, if not import a new revision
-						    latestRev = RestUtil.getLatestRevision(this.getProfile());
-							if (latestRev.length() >0){
-								logger.info("Latest Revision: "+ latestRev);
-								logger.info("Updating Latest Revision: "+ latestRev);
-								doUpdate(latestRev);
-								break;
-							}
-							
-							else {
-								doImport();
-								doActivateBundle();
-							}*/
-							
-						}else if (Options.clean) {
-                            activeRevision=RestUtil.getDeployedRevision(this.getProfile());
-                                if (this.activeRevision.length() > 0) {
-                                    doDelete(this.activeRevision);
-                                }else {
-                                  logger.info("No active revision for "+this.getProfile().getEnvironment()+"environment. Nothing to delete" );
-                                }
-                        }
-                        else {
-							doImport();
-							if (!Options.inactive)
-								doRefreshBundle();
-                        }
-
+						doImport();
+						doActivateBundle();
 						break;
 				case deployinactive:
                         logger.warn("Note: -Dbuild.option=deploy-inactive   is Deprecated, use -Dapigee.options=inactive instead");
@@ -349,7 +274,6 @@ public class DeployMojo extends GatewayAbstractMojo
                         logger.warn("Note: -Dbuild.option=undeploy is Deprecated, use -Dapigee.options=clean instead");
 						 doDeactivae();
 	                     break;
-				
 				case delete:
 						activeRevision=RestUtil.getDeployedRevision(this.getProfile());
 						doDelete(activeRevision);

@@ -73,7 +73,7 @@
             <plugin>
                 <groupId>io.apigee.build-tools.enterprise4g</groupId>
                 <artifactId>apigee-edge-maven-plugin</artifactId>
-                <version>1.1.6</version>
+                <version>2.0.0</version>
                 <executions>
                     <execution>
                         <id>configure-bundle</id>
@@ -98,49 +98,33 @@
         <profile>
             <id>test</id>
             <properties>
-                <org>testmyapi</org>  <!-- default org, replace with default org to avoid passing parameter e.g. -Dorg testmyapi -->
-                <options>validate</options>  <!-- default org, replace with default org to avoid passing parameter e.g. -Dorg testmyapi -->
                 <apigee.profile>test</apigee.profile>
-                <apigee.env>test</apigee.env>
-                <apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
+                <apigee.hosturl>https://apigee.googleapis.com</apigee.hosturl>
                 <apigee.apiversion>v1</apigee.apiversion>
-                <apigee.apitype>sharedflow</apigee.apitype> <!-- This is only for Shared Flows. Not required for deploying proxy -->
                 <apigee.org>${org}</apigee.org>
+                <apigee.env>${env}</apigee.env>
                 <apigee.username>${username}</apigee.username>
                 <apigee.password>${password}</apigee.password>
-                <apigee.options>${options}</apigee.options> <!-- Shared Flow supports override and update -->
-                <apigee.revision>${revision}</apigee.revision> <!-- used while trying to update revision, use when option=update only -->
-                <apigee.tokenurl>${tokenurl}</apigee.tokenurl> <!-- optional: oauth -->
-                <apigee.mfatoken>${mfatoken}</apigee.mfatoken> <!-- optional: mfa -->
-                <apigee.authtype>${authtype}</apigee.authtype> <!-- optional: oauth|basic(default) -->
-                <apigee.bearer>${bearer}</apigee.bearer> <!-- optional: Bearer token override -->
-                <apigee.refresh>${refresh}</apigee.refresh> <!-- optional: Refresh token override -->
-                <apigee.clientid>${clientId}</apigee.clientid> <!-- optional: Oauth Client Id - Default is edgecli-->
-                <apigee.clientsecret>${clientSecret}</apigee.clientsecret> <!-- optional: Oauth Client Secret Default is edgeclisecret-->
+                <apigee.apitype>sharedflow</apigee.apitype> <!-- This is only for Shared Flows. Not required for deploying proxy -->
+                <apigee.authtype>oauth</apigee.authtype> <!-- optional: oauth|basic(default) -->
+                <apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
+                <apigee.options>override</apigee.options> <!-- overrides is default and the only option -->
             </properties>
         </profile>
         <profile>
             <id>prod</id>
             <properties>
-                <org>testmyapi</org>  <!-- default org, replace with default org to avoid passing parameter e.g. -Dorg testmyapi -->
-                <options>validate</options>  <!-- default org, replace with default org to avoid passing parameter e.g. -Dorg testmyapi -->
                 <apigee.profile>prod</apigee.profile>
-                <apigee.env>prod</apigee.env>
-                <apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
+                <apigee.hosturl>https://apigee.googleapis.com</apigee.hosturl>
                 <apigee.apiversion>v1</apigee.apiversion>
-                <apigee.apitype>sharedflow</apigee.apitype> <!-- This is only for Shared Flows. Not required for deploying proxy -->
                 <apigee.org>${org}</apigee.org>
+                <apigee.env>${env}</apigee.env>
                 <apigee.username>${username}</apigee.username>
                 <apigee.password>${password}</apigee.password>
-                <apigee.options>${options}</apigee.options> <!-- Shared Flow supports override and update -->
-                <apigee.revision>${revision}</apigee.revision> <!-- used while trying to update revision, use when option=update only -->
-                <apigee.tokenurl>${tokenurl}</apigee.tokenurl> <!-- optional: oauth -->
-                <apigee.mfatoken>${mfatoken}</apigee.mfatoken> <!-- optional: mfa -->
-                <apigee.authtype>${authtype}</apigee.authtype> <!-- optional: oauth|basic(default) -->
-                <apigee.bearer>${bearer}</apigee.bearer> <!-- optional: Bearer token override -->
-                <apigee.refresh>${refresh}</apigee.refresh> <!-- optional: Refresh token override -->
-                <apigee.clientid>${clientId}</apigee.clientid> <!-- optional: Oauth Client Id - Default is edgecli-->
-                <apigee.clientsecret>${clientSecret}</apigee.clientsecret> <!-- optional: Oauth Client Secret Default is edgeclisecret-->
+                <apigee.apitype>sharedflow</apigee.apitype> <!-- This is only for Shared Flows. Not required for deploying proxy -->
+                <apigee.authtype>oauth</apigee.authtype> <!-- optional: oauth|basic(default) -->
+                <apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
+                <apigee.options>override</apigee.options> <!-- overrides is default and the only option -->
             </properties>
         </profile>
     </profiles>

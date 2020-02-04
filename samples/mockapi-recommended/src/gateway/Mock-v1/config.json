@@ -4,11 +4,11 @@
             "name": "test",
             "policies": [
                 {
-                    "name": "Assign-Message-1.xml",
+                    "name": "AM-Set-Headers.xml",
                     "tokens": [
                         {
                             "xpath": "/AssignMessage/Set/Headers/Header[@name='ENV']",
-                            "value": "TEST"
+                            "value": "test"
                         }
                     ]
                 }
@@ -19,7 +19,7 @@
                     "tokens": [
                         {
                             "xpath": "/ProxyEndpoint/HTTPProxyConnection/BasePath",
-                            "value": "/weatherapi"
+                            "value": "/v1/mock"
                         }
                     ]
                 }
@@ -30,7 +30,7 @@
                     "tokens": [
                         {
                             "xpath": "/TargetEndpoint/HTTPTargetConnection/URL",
-                            "value": "http://weather.yahooapis.com"
+                            "value": "https://mocktarget.apigee.net"
                         }
                     ]
                 }
@@ -40,11 +40,11 @@
             "name": "prod",
             "policies": [
                 {
-                    "name": "Assign-Message-1.xml",
+                    "name": "AM-Set-Headers.xml",
                     "tokens": [
                         {
                             "xpath": "/AssignMessage/Set/Headers/Header[@name='ENV']",
-                            "value": "PROD"
+                            "value": "prod"
                         }
                     ]
                 }
@@ -55,7 +55,7 @@
                     "tokens": [
                         {
                             "xpath": "/ProxyEndpoint/HTTPProxyConnection/BasePath",
-                            "value": "/weatherapi"
+                            "value": "/v1/mock"
                         }
                     ]
                 }
@@ -66,7 +66,7 @@
                     "tokens": [
                         {
                             "xpath": "/TargetEndpoint/HTTPTargetConnection/URL",
-                            "value": "http://weather.yahooapis.com"
+                            "value": "https://mocktarget.apigee.net"
                         }
                     ]
                 }

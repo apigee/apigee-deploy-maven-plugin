@@ -1,15 +1,15 @@
-----------------
-About the Plugin
-----------------
+----------------------------------------------------------------
+apigee-deploy-maven-plugin (hybrid) - not released yet
+-----------------------------------------------------------
 
-apigee-edge-maven-plugin is a build and deploy utility for building and deploying the Apigee ApiProxy's/Application bundles into Apigee Edge Platform.
+apigee-edge-maven-plugin is a build and deploy utility for building and deploying the Apigee ApiProxy's/Application bundles into Apigee hybrid Edge Platform.
 The code is distributed under the Apache License 2.0.
 
 ------------
 TL;DR
 ------------
 
-The [samples folder](https://github.com/apigee/apigee-deploy-maven-plugin/tree/master/samples) provides a Readme with Getting Started steps and commands to hit the ground quickly.
+The [samples folder](https://github.com/apigee/apigee-deploy-maven-plugin/tree/hybrid/samples) provides a Readme with Getting Started steps and commands to hit the ground quickly.
 
 ------------
 Video
@@ -44,6 +44,26 @@ You will need the following to run the samples:
 - Apigee Edge developer account. See [docs](http://docs.apigee.com/api-services/content/creating-apigee-edge-account) for more details on how to setup your account..
 - [Java SDK >= 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 - [Maven 3.x](https://maven.apache.org/)
+
+## Plugin Usage
+
+### NOTE ###
+- If you want to use this plugin for Apigee Hybrid, please refer to this [link](https://github.com/apigee/apigee-deploy-maven-plugin/tree/hybrid). You should be using the version 2.x
+```xml
+<dependency>
+  <groupId>io.apigee.build-tools.enterprise4g</groupId>
+  <artifactId>apigee-edge-maven-plugin</artifactId>
+  <version>2.x</version>
+</dependency>
+```
+- For Apigee SaaS/Private Cloud, the version of the plugin is 1.x
+```xml
+<dependency>
+  <groupId>io.apigee.build-tools.enterprise4g</groupId>
+  <artifactId>apigee-edge-maven-plugin</artifactId>
+  <version>1.x</version>
+</dependency>
+```
 
 # Getting Started
 
@@ -223,95 +243,6 @@ The following entries in some XML file elements could be changed to match the cu
 3. The value of the "apigee.org" element should match the organization provided when Customer environment was initially setup, in most cases this includes the name of the company. 
    * For private cloud installations, the org is setup when you run installation scripts. The Maven group id is malleable and is also marked in red for both pom examples, the only thing to note when changing this is that they need to be consistent between applications.
 
-#### Note 2
-The"apigee.override.delay", "apigee.delay,apigee.options" are optional elements. The "apigee.delay" could be specified (in milliseconds). This will ensure to add a delay between the operations like delete, import, activate, deactivate etc.
-
-#### Note 3
-The "apigee.options" element can have the following values: **clean** (this option will delete the last deployed revision in an environment), **validate** (this option will validate a bundle before importing. Thus if you want strict validation then its required), **inactive** (this option will import the bundle without activating the bundle), **override** (this option is used for seamless deployment and should be supplied with apigee.override.delay parameter. The apigee.override.delay expects delay to be given in seconds), **update** (this option will update the revision). This is similar to import with validation but no new revision is created. If there are any errors in the bundle, an error is thrown and the existing bundle is left intact. In case the revision they are trying to update is deployed, it will internally trigger undeployment and deployment. It is completely in the background and not visible in the response.
-
-#### Note 3a
-The “apigee.revision” element can be used **when using the update option only**. The update option will be executed on the provided revision.
-
-#### Note 4
-The "apigee.options" combination could be given with comma separated values. The precedence order of options are -> override, update, (clean, inactive, validate).
-
-#### Note 5
-Flow without "apigee.options":import –> undeploy (lastactive) –> deploy (new revision)
-
-## OAuth and Two-Factor Authentication
-Apigee management APIs are secured using OAuth tokens as an alternative to the Basic Auth security. Additionally Two-Factor authentication (MFA) using TOTP can also be configured as an additional layer of security. This plugin has the capability to acquire OAuth tokens and invoke management API calls.
-
-Refer to [How to get OAuth2 tokens](http://docs.apigee.com/api-services/content/using-oauth2-security-apigee-edge-management-api#howtogetoauth2tokens) and [Two-Factor authentication](http://docs.apigee.com/api-services/content/enable-two-factor-auth-your-apigee-account)for details.
-
-### Using OAuth
-OAuth capability when enabled is seamless and the plugin acquires OAuth tokens and uses it subsequently to call management APIs. 
-
-To enable OAuth add the following options to all profiles as required. Refer to [shared-pom.xml](https://github.com/apigee/apigee-deploy-maven-plugin/blob/oauth/samples/forecastweatherapi-recommended/src/gateway/shared-pom.xml) example.
-
-    <apigee.tokenurl>${tokenurl}</apigee.tokenurl> <!-- optional: oauth -->
-    <apigee.authtype>${authtype}</apigee.authtype> <!-- optional: oauth|basic(default) -->
-
-To invoke, add command line flags to enable OAuth.
-
-    mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password \
-                        -Dorg=testmyapi -Dauthtype=oauth
-
-"tokenurl" is optional and defaults to the cloud version "https://login.apigee.com/oauth/token"
-
-### Two-Factor Authentication
-[Two-Factor authentication](http://docs.apigee.com/api-services/content/enable-two-factor-auth-your-apigee-account) is based on TOTP tokens. When the apigee account is enabled for Two-Factor Authentication it applies to management APIs as well.
-
-The plugin can accept TOTP tokens generated by an external utility and use it to acquire OAuth tokens.
-
-TOTP can be generated using command line tools for use in CI tools like Jenkins.
-
-### Using Two-Factor Authentication token
-**Note** OAuth needs to be enabled before Two-Factor Authentication can be used. 
-
-To enable Two-Factor Authentication, add the following options to all profiles as required. Refer to [shared-pom.xml](https://github.com/apigee/apigee-deploy-maven-plugin/blob/oauth/samples/forecastweatherapi-recommended/src/gateway/shared-pom.xml) example.
-
-    <apigee.mfatoken>${mfatoken}</apigee.mfatoken> <!-- optional: mfa -->
-
-Provide the token when invoking the plugin.
-
-    mvn install -Ptest -Dusername=$ae_username -Dpassword=$ae_password \
-                        -Dorg=testmyapi -Dauthtype=oauth -Dmfatoken=123456
-                        
-If the API takes a long time to package up then  it is likely that the token till have expired before it is used.  To mitigate against this, from version 1.1.3, an initmfa goal can be called during the validate phase:
-
-    <execution>
-        <id>initialise-mfa</id>
-        <phase>validate</phase>
-        <goals>
-            <goal>initmfa</goal>
-        </goals>
-    </execution>
-
-Depending on where the plugin is in the order, and how much validation is requird, it is possible that this may still result in token timeout.
-
-### Passing the Bearer Token as a parameter
-If you would like to generate the bearer token outside of this plugin and provide it as a command line parameter, you can add the following: 
-
-    <apigee.bearer>${bearer}</apigee.bearer>
-
-Provide the token when invoking the plugin.
-
-    mvn install -Ptest -Dusername=$ae_username -Dorg=testmyapi \
-                         -Dauthtype=oauth -Dbearer=c912eu1201c
-                        
-### Passing the Refresh Token as a parameter
-If you would like to generate the refresh token outside of this plugin and provide it as a command line parameter, you can add the following: 
-
-    <apigee.refresh>${refresh}</apigee.refresh>
-
-Provide the token when invoking the plugin.
-
-    mvn install -Ptest -Dusername=$ae_username -Dorg=testmyapi \
-                         -Dauthtype=oauth -Dbearer=c912eu1201c -Drefresh=d023fv2312d
-                        
-  
-*NOTE: If you are providing refresh token, you need to provide the bearer token as well*
-
 ## Deploying API Proxies with Node.js apps
 
 Starting at version 1.0.1 of the plugin, support for API proxies that contain node.js applications is included.  The plugin 
@@ -352,20 +283,6 @@ The [samples](https://github.com/apigee/apigee-deploy-maven-plugin/tree/master/s
 `<apigee.apitype>sharedflow</apigee.apitype>`
 
 This is required to differentiate the build and deployment process.
-
-
-----------------------------------------------------------------
-For the users migrating from Apigee Maven repo to Maven central
-----------------------------------------------------------------
-
-The plugin was hosted in Apigee Maven repo and is now moved to Maven central for public consumption. We advise all the existing users to move to the new repo for latest updates and enhancements.
-(**Repo Apigee URL: ** http://repo.apigee.com:8081/artifactory/repo)
-
-This open source version is taken from the Version **0.0.16** of **4G-gateway-maven-build-pack**.
-All the features available till 0.0.16 is moved on to the open source version and the older one in closed out for any development internally or externally.
-
-Refer for detailed documentation [Guide for Users Migrating from Apigee repo]
-(https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/Migration-Guide.md)
 
 ------------------------------------------
 Recommended Convention for Contributions
