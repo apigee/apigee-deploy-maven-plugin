@@ -41,14 +41,14 @@ Learn more, check out this video! [Ask the Expert](https://www.youtube.com/watch
 
 # Prerequisites
 You will need the following to run the samples:
-- Apigee Edge developer account. See [docs](http://docs.apigee.com/api-services/content/creating-apigee-edge-account) for more details on how to setup your account..
+- Apigee Edge developer account. See [docs](http://apigee.google.com) for more details on how to setup your account..
 - [Java SDK >= 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 - [Maven 3.x](https://maven.apache.org/)
 
 ## Plugin Usage
 
 ### NOTE ###
-- If you want to use this plugin for Apigee Hybrid, please refer to this [link](https://github.com/apigee/apigee-deploy-maven-plugin/tree/hybrid). You should be using the version 2.x
+- If you want to use this plugin for Apigee hybrid, please refer to this [link](https://github.com/apigee/apigee-deploy-maven-plugin/tree/hybrid). You should be using the version 2.x
 ```xml
 <dependency>
   <groupId>io.apigee.build-tools.enterprise4g</groupId>
@@ -165,7 +165,7 @@ proxies/ | A folder that contains information about your proxy configurations (i
 targets/ | A folder that contains information about target configurations (outbound)
 resources | A folder that contains any scripts (java, jsc, py, node)
 
-Note: when creating scripts, place your script/jar files in the proper folders based on the script type (e.g. javascript in jsc, node.js in node, java in java).
+Note: when creating scripts, place your script/jar files in the proper folders based on the script type (e.g. JavaScript in jsc, node.js in node, java in java).
 
 
 
@@ -179,7 +179,7 @@ In case of manual creation of Maven compatible file structure, "parent-pom" dire
 
 #### parent-pom-pom-xml Sample
 
-Refer parent-pom template [parent-pom](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/forecastweatherapi-recommended/src/gateway/shared-pom.xml)
+Refer parent-pom template [parent-pom](./samples/mockapi-recommended/src/gateway/shared-pom.xml)
 
  * **groupId** element's content should be set to client's company name.  Here you see it as apigee.
  * **artifactId** element's content be left as parent-pom.
@@ -188,7 +188,7 @@ Child-pom: Here we configure all the details specific to the particular proxy.
 
 #### pom-xml Sample
 
-Refer child-pom template [child-pom](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/forecastweatherapi-recommended/src/gateway/forecastweatherapi/pom.xml).
+Refer child-pom template [child-pom](./samples/mockapi-recommended/src/gateway/forecastweatherapi/pom.xml).
 
  * **groupId** element's content should match that of the same element in the parent pom.xml.
  * **artifactId** element's content should be a unique name, typically set to the name of the API.
@@ -205,7 +205,7 @@ For instance in the example below you have two configurations one for the test p
 
 #### Config-json Sample
 
-Refer config.json template [config.json](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/forecastweatherapi-recommended/src/gateway/forecastweatherapi/config.json)
+Refer config.json template [config.json](./samples/mockapi-recommended/src/gateway/forecastweatherapi/config.json)
 
 ## Commands for deploying the proxy using maven
 
@@ -278,7 +278,7 @@ Shared Flow bundles can be described as a zipped file system composed of policie
    |-sharedflows
 ```
 The build steps and the options available for building and deploying Shared Flows are the same as API Proxy. Most widely used options are ```override``` and ```update```
-The [samples](https://github.com/apigee/apigee-deploy-maven-plugin/tree/master/samples/security-sharedflow/src/sharedflows) has an example of a standard sharedflow with the folder structure and the parent pom file. The only key difference between the API Proxy and the Shared Flow is a new property as part of the profiles.
+The [samples](./samples/security-sharedflow/src/sharedflows) has an example of a standard sharedflow with the folder structure and the parent pom file. The only key difference between the API Proxy and the Shared Flow is a new property as part of the profiles.
 
 `<apigee.apitype>sharedflow</apigee.apitype>`
 
