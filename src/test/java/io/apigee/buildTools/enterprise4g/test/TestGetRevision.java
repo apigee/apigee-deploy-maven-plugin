@@ -35,12 +35,6 @@ public class TestGetRevision extends TestCase {
         profile.setCredential_pwd(System.getProperty("password"));
         profile.setEnvironment(System.getProperty("env"));
         profile.setOrg(System.getProperty("org"));
-        
-        profile.setApplication("httpbin");
-        profile.setCredential_user("ssvaidyanathan@google.com");
-        profile.setCredential_pwd("Tittu54321@");
-        profile.setEnvironment("test");
-        profile.setOrg("saisarantest-eval");
         profile.setApi_version("v1");
         profile.setTokenUrl("https://login.apigee.com/oauth/token");
         //profile.setProfileId("PUT-UR-PROFILE");
