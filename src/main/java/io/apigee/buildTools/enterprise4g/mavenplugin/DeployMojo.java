@@ -155,7 +155,8 @@ public class DeployMojo extends GatewayAbstractMojo
 			
 			logger.info("\n\n=============Importing App================\n\n");
 			state = State.IMPORTING;
-			bundleRevision = RestUtil.uploadBundle(super.getProfile(), super.getApplicationBundlePath());
+			RestUtil restUtil = new RestUtil(super.getProfile());
+			bundleRevision = restUtil.uploadBundle(super.getProfile(), super.getApplicationBundlePath());
 
 		
 		} catch (IOException e) {
@@ -174,7 +175,8 @@ public class DeployMojo extends GatewayAbstractMojo
 			
 			logger.info("\n\n=============Updating App================\n\n");
 			state = State.IMPORTING;
-			bundleRevision = RestUtil.updateBundle(super.getProfile(), super.getApplicationBundlePath(),revision);
+			RestUtil restUtil = new RestUtil(super.getProfile());
+			bundleRevision = restUtil.updateBundle(super.getProfile(), super.getApplicationBundlePath(),revision);
 		
 		} catch (IOException e) {
 			throw e;
@@ -194,7 +196,8 @@ public class DeployMojo extends GatewayAbstractMojo
 		try {
 			logger.info("\n\n=============Deactivating App================\n\n");
 			state = State.DEACTIVATING;
-			RestUtil.deactivateBundle(super.getProfile());
+			RestUtil restUtil = new RestUtil(super.getProfile());
+			restUtil.deactivateBundle(super.getProfile());
 		}
 		catch (IOException e) {
 				throw e ;	
@@ -213,7 +216,8 @@ public class DeployMojo extends GatewayAbstractMojo
 		try {
 			logger.info("\n\n=============Refresh Bundle================\n\n");
 			state = State.ACTIVATING;
-			RestUtil.refreshBundle(super.getProfile(), this.bundleRevision);
+			RestUtil restUtil = new RestUtil(super.getProfile());
+			restUtil.refreshBundle(super.getProfile(), this.bundleRevision);
 		} catch (IOException e) {
 			throw e ;
 		} catch (RuntimeException e) {
@@ -230,7 +234,8 @@ public class DeployMojo extends GatewayAbstractMojo
 		try {
 			logger.info("\n\n=============Activating Bundle================\n\n");
 			state = State.ACTIVATING;
-			RestUtil.activateBundleRevision(super.getProfile(), this.bundleRevision);
+			RestUtil restUtil = new RestUtil(super.getProfile());
+			restUtil.activateBundleRevision(super.getProfile(), this.bundleRevision);
 
 		} catch (IOException e) {
 			throw e ;
@@ -248,7 +253,8 @@ public class DeployMojo extends GatewayAbstractMojo
 		try {
 			logger.info("/n/n=============Deleting App================/n/n");
 			state = State.DELETING;
-			RestUtil.deleteBundle(this.getProfile(), revision);
+			RestUtil restUtil = new RestUtil(super.getProfile());
+			restUtil.deleteBundle(super.getProfile(), revision);
 
 		} catch (IOException e) {
 			throw e ;
@@ -278,7 +284,8 @@ public class DeployMojo extends GatewayAbstractMojo
 				case NULL:
 
 						if (Options.override) {
-                            activeRevision=RestUtil.getDeployedRevision(this.getProfile());
+							RestUtil restUtil = new RestUtil(this.getProfile());
+                            activeRevision=restUtil.getDeployedRevision(this.getProfile());
                             if (activeRevision.length() > 0) {
                                 doImport();
                                 doActivateBundle();
@@ -299,7 +306,8 @@ public class DeployMojo extends GatewayAbstractMojo
 							}
 							
 							//Check if there is a revision deployed
-							activeRevision=RestUtil.getDeployedRevision(this.getProfile());
+							RestUtil restUtil = new RestUtil(this.getProfile());
+							activeRevision=restUtil.getDeployedRevision(this.getProfile());
 							if (activeRevision.length() > 0){
 								logger.info("Active Revision: "+ activeRevision);
 								logger.info("Updating Active Revision: "+ activeRevision);
@@ -327,7 +335,8 @@ public class DeployMojo extends GatewayAbstractMojo
 							}*/
 							
 						}else if (Options.clean) {
-                            activeRevision=RestUtil.getDeployedRevision(this.getProfile());
+							RestUtil restUtil = new RestUtil(this.getProfile());
+                            activeRevision=restUtil.getDeployedRevision(this.getProfile());
                                 if (this.activeRevision.length() > 0) {
                                     doDelete(this.activeRevision);
                                 }else {
@@ -351,7 +360,8 @@ public class DeployMojo extends GatewayAbstractMojo
 	                     break;
 				
 				case delete:
-						activeRevision=RestUtil.getDeployedRevision(this.getProfile());
+						RestUtil restUtil = new RestUtil(super.getProfile());
+						activeRevision=restUtil.getDeployedRevision(this.getProfile());
 						doDelete(activeRevision);
 						break;
 				default:     

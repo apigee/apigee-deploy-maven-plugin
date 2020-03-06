@@ -44,8 +44,9 @@ ServerProfile profile = new ServerProfile();
 	
 	public void testDeleteDeployedBundleCall() throws IOException{
 		try {
-            String revision = RestUtil.getDeployedRevision(profile);
-            String deleted = RestUtil.deleteBundle(profile, revision);
+			RestUtil restUtil = new RestUtil(profile);
+            String revision = restUtil.getDeployedRevision(profile);
+            String deleted = restUtil.deleteBundle(profile, revision);
 			assertNotNull(deleted);
 			System.out.println("deleted revision:: "+ deleted);
 		} catch (Exception e) {

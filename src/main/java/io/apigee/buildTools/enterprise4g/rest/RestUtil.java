@@ -42,6 +42,7 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.UrlEncodedContent;
+import com.google.api.client.http.apache.ApacheHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
@@ -231,8 +232,31 @@ public class RestUtil {
         }
     }
 
+    private ServerProfile profile;
+    private HttpRequestFactory REQUEST_FACTORY;
+    
+    public RestUtil (ServerProfile profile) {
+    	this.profile = profile;
+    	HttpTransport httpTransport;
+    	if(profile.getApacheHttpClient()!=null)
+    		httpTransport = new ApacheHttpTransport(profile.getApacheHttpClient());
+    	else
+    		httpTransport = new NetHttpTransport();
+    	REQUEST_FACTORY = httpTransport.createRequestFactory(new HttpRequestInitializer() {
+            // @Override
+            public void initialize(HttpRequest request) {
+                request.setParser(JSON_FACTORY.createJsonObjectParser());
+                XTrustProvider.install();
+                FakeHostnameVerifier _hostnameVerifier = new FakeHostnameVerifier();
+                // Install the all-trusting host name verifier:
+                HttpsURLConnection.setDefaultHostnameVerifier(_hostnameVerifier);
 
-    static HttpRequestFactory REQUEST_FACTORY = HTTP_TRANSPORT
+            }
+        });
+    	
+    }
+
+    /*static HttpRequestFactory REQUEST_FACTORY = HTTP_TRANSPORT
             .createRequestFactory(new HttpRequestInitializer() {
                 // @Override
                 public void initialize(HttpRequest request) {
@@ -243,9 +267,9 @@ public class RestUtil {
                     HttpsURLConnection.setDefaultHostnameVerifier(_hostnameVerifier);
 
                 }
-            });
+            });*/
 
-    public static void initMfa(ServerProfile profile) throws IOException {
+    public void initMfa(ServerProfile profile) throws IOException {
 
     	// any simple get request can be used to - we just need to get an access token
     	// whilst the mfatoken is still valid
@@ -278,7 +302,7 @@ public class RestUtil {
     	}
     }
 
-    public static void getRevision(ServerProfile profile) throws IOException {
+    public void getRevision(ServerProfile profile) throws IOException {
 
         // trying to construct the URL like
         // https://api.enterprise.apigee.com/v1/organizations/apigee-cs/apis/taskservice/
@@ -308,7 +332,7 @@ public class RestUtil {
         }
     }
     
-    public static String getLatestRevision(ServerProfile profile) throws IOException {
+    public String getLatestRevision(ServerProfile profile) throws IOException {
 
         // trying to construct the URL like
         // https://api.enterprise.apigee.com/v1/organizations/apigee-cs/apis/taskservice/
@@ -344,7 +368,7 @@ public class RestUtil {
     // Return a revision if there is a active revision, if there are more than one active revisions deployed in an env, the highest revision number is picked
     // Returns "" if there are no active revision
 
-    public static String getDeployedRevision(ServerProfile profile)
+    public String getDeployedRevision(ServerProfile profile)
             throws IOException {
     	if(profile.getApi_type()!=null && profile.getApi_type().equalsIgnoreCase("sharedflow")){
     		return getDeployedRevision(profile, "sharedflows");
@@ -355,7 +379,7 @@ public class RestUtil {
     		
     }
     
-    public static String getDeployedRevision(ServerProfile profile, String type)
+    public String getDeployedRevision(ServerProfile profile, String type)
             throws IOException {
 
         BundleDeploymentConfig deployment1 = null;
@@ -413,7 +437,7 @@ public class RestUtil {
 
     }
 
-    public static String uploadBundle(ServerProfile profile, String bundleFile)
+    public String uploadBundle(ServerProfile profile, String bundleFile)
             throws IOException {
     	if(profile.getApi_type()!=null && profile.getApi_type().equalsIgnoreCase("sharedflow")){
     		return uploadBundle(profile, bundleFile, "sharedflows");
@@ -423,7 +447,7 @@ public class RestUtil {
     	}
     }
 
-    public static String uploadBundle(ServerProfile profile, String bundleFile, String type)
+    public String uploadBundle(ServerProfile profile, String bundleFile, String type)
             throws IOException {
 
         FileContent fContent = new FileContent("application/octet-stream",
@@ -478,7 +502,7 @@ public class RestUtil {
 
     }
 
-    public static String updateBundle(ServerProfile profile, String bundleFile, String revision)
+    public String updateBundle(ServerProfile profile, String bundleFile, String revision)
             throws IOException {
     	if(profile.getApi_type()!=null && profile.getApi_type().equalsIgnoreCase("sharedflow")){
     		return updateBundle(profile, bundleFile, revision, "sharedflows");
@@ -488,7 +512,7 @@ public class RestUtil {
     	}
     }
 
-    public static String updateBundle(ServerProfile profile, String bundleFile, String revision, String type)
+    public String updateBundle(ServerProfile profile, String bundleFile, String revision, String type)
             throws IOException {
 
         FileContent fContent = new FileContent("application/octet-stream",
@@ -542,7 +566,7 @@ public class RestUtil {
 
     }
 
-    public static String deactivateBundle(ServerProfile profile)
+    public String deactivateBundle(ServerProfile profile)
             throws IOException {
     	if(profile.getApi_type()!=null && profile.getApi_type().equalsIgnoreCase("sharedflow")){
     		return deactivateBundle(profile, "sharedflows");
@@ -552,7 +576,7 @@ public class RestUtil {
     	}
     }
 
-    public static String deactivateBundle(ServerProfile profile, String type)
+    public String deactivateBundle(ServerProfile profile, String type)
             throws IOException {
         String existingRevision = "";
         BundleActivationConfig deployment1 = new BundleActivationConfig();
@@ -644,7 +668,7 @@ public class RestUtil {
     }
 
 
-    public static String refreshBundle(ServerProfile profile, String revision)
+    public  String refreshBundle(ServerProfile profile, String revision)
             throws IOException {
 
         String state = "";
@@ -666,7 +690,7 @@ public class RestUtil {
     }
 
     
-    public static String activateBundleRevision(ServerProfile profile, String revision)
+    public  String activateBundleRevision(ServerProfile profile, String revision)
             throws IOException {
     	if(profile.getApi_type()!=null && profile.getApi_type().equalsIgnoreCase("sharedflow")){
     		return activateBundleRevision(profile, revision, "sharedflows");
@@ -676,7 +700,7 @@ public class RestUtil {
     	}
     }
     
-    public static String activateBundleRevision(ServerProfile profile, String revision, String type)
+    public String activateBundleRevision(ServerProfile profile, String revision, String type)
             throws IOException {
 
         BundleActivationConfig deployment2 = new BundleActivationConfig();
@@ -782,7 +806,7 @@ public class RestUtil {
     }
 
 
-    public static String deleteBundle(ServerProfile profile, String revision)
+    public String deleteBundle(ServerProfile profile, String revision)
             throws IOException {
         // get the deployed revision
         String deployed_revision = "";
@@ -845,7 +869,7 @@ public class RestUtil {
      * Access Token expiry 1799 sec = 30 mins long enough to finish any maven task
      * MFA Token: TOTP expires in 30 secs. User needs to give a token with some validity
      */
-    private static HttpResponse executeAPI(ServerProfile profile, HttpRequest request) 
+    private HttpResponse executeAPI(ServerProfile profile, HttpRequest request) 
             throws IOException {
         HttpHeaders headers = request.getHeaders();
         MgmtAPIClient client = new MgmtAPIClient();
@@ -947,7 +971,7 @@ public class RestUtil {
      * @return
      * @throws IOException
      */
-    private static boolean isValidBearerToken(String accessToken, ServerProfile profile, String clientId) throws IOException{
+    private boolean isValidBearerToken(String accessToken, ServerProfile profile, String clientId) throws IOException{
     	boolean isValid = false;
     	try {
 		    JWT jwt = JWT.decode(accessToken);

@@ -15,6 +15,8 @@
  */
 package io.apigee.buildTools.enterprise4g.utils;
 
+import org.apache.http.client.HttpClient;
+
 public class ServerProfile {
 
 	private String application; // application name
@@ -39,6 +41,7 @@ public class ServerProfile {
 	private Long delay;
 	private Long overridedelay;
 	private Long revision;
+	private HttpClient apacheHttpClient;
 	
 	public String getApplication() {
 		return application;
@@ -218,4 +221,12 @@ public class ServerProfile {
 		this.revision = revision;
 	}
 
+	public HttpClient getApacheHttpClient() {
+		return apacheHttpClient;
+	}
+
+	public void setApacheHttpClient(HttpClient apacheHttpClient) {
+		this.apacheHttpClient = apacheHttpClient;
+	}
+	
 }
