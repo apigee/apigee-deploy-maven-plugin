@@ -34,6 +34,12 @@ import org.slf4j.LoggerFactory;
 
 public class XMLFileListUtil {
 
+	private String buildDirectory;
+
+    public XMLFileListUtil(String buildDirectory) {
+        this.buildDirectory = buildDirectory;
+    }
+
 	//	public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException, XPathExpressionException {
 	//		XMLFileListUtil util = new XMLFileListUtil();
 	//
@@ -61,7 +67,7 @@ public class XMLFileListUtil {
 		// the project pom level.
 
 		List<File> fileNames = new ArrayList<File>();
-		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + "apiproxy" + File.separator + "proxies";
+		String sDirectory = new File(buildDirectory, "apiproxy" + File.separator + "proxies").getAbsolutePath();
 
 		fileNames = getXMLFiles(sDirectory);
 
@@ -78,7 +84,7 @@ public class XMLFileListUtil {
 
 		List<File> fileNames = new ArrayList<File>();
 
-		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + dirName + File.separator + "policies";
+		String sDirectory = new File(buildDirectory, "apiproxy" + File.separator + "policies").getAbsolutePath();
 
 		fileNames = getXMLFiles(sDirectory);
 
@@ -96,7 +102,7 @@ public class XMLFileListUtil {
 
 		List<File> fileNames = new ArrayList<File>();
 
-		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + "apiproxy" + File.separator + "stepdefinitions";
+		String sDirectory = new File(buildDirectory, "apiproxy" + File.separator + "stepdefinitions").getAbsolutePath();
 
 		fileNames = getXMLFiles(sDirectory);
 
@@ -109,7 +115,7 @@ public class XMLFileListUtil {
 
 		List<File> fileNames = new ArrayList<File>();
 
-		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + "apiproxy" + File.separator + "targets";
+		String sDirectory = new File(buildDirectory, "apiproxy" + File.separator + "targets").getAbsolutePath();
 
 		fileNames = getXMLFiles(sDirectory);
 
@@ -122,7 +128,7 @@ public class XMLFileListUtil {
 
 		List<File> fileNames = new ArrayList<File>();
 
-		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + "apiproxy";
+        String sDirectory = new File(buildDirectory, "apiproxy").getAbsolutePath();
 
 		fileNames = getXMLFiles(sDirectory);
 
@@ -135,7 +141,7 @@ public class XMLFileListUtil {
 
 		List<File> fileNames = new ArrayList<File>();
 
-		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + "sharedflowbundle";
+		String sDirectory = new File(buildDirectory, "apiproxy" + File.separator + "sharedflowbundle").getAbsolutePath();
 
 		fileNames = getXMLFiles(sDirectory);
 

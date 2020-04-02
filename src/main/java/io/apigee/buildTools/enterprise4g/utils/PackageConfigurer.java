@@ -48,7 +48,7 @@ import com.google.gson.GsonBuilder;
 
 public class PackageConfigurer {
 	
-	public static void configurePackage(String env, File configFile)
+	public static void configurePackage(String buildDirectory, String env, File configFile)
             throws Exception {
 
         Logger logger = LoggerFactory.getLogger(PackageConfigurer.class);
@@ -58,7 +58,7 @@ public class PackageConfigurer {
         Transformer transformer = transformerFactory.newTransformer();
 
         // get the list of files in proxies folder
-        XMLFileListUtil listFileUtil = new XMLFileListUtil();
+        XMLFileListUtil listFileUtil = new XMLFileListUtil(buildDirectory);
 
         List<File> fileList = listFileUtil.getProxyFiles(configFile);
         FileReader fileutil = new FileReader();
@@ -186,7 +186,7 @@ public class PackageConfigurer {
 
     }
 
-    public static void configureSharedFlowPackage(String env, File configFile)
+    public static void configureSharedFlowPackage(String buildDirectory, String env, File configFile)
             throws Exception {
 
         Logger logger = LoggerFactory.getLogger(PackageConfigurer.class);
@@ -196,7 +196,7 @@ public class PackageConfigurer {
         Transformer transformer = transformerFactory.newTransformer();
 
         // get the list of files in sharedflowbundle folder
-        XMLFileListUtil listFileUtil = new XMLFileListUtil();
+        XMLFileListUtil listFileUtil = new XMLFileListUtil(buildDirectory);
         FileReader fileutil = new FileReader();
         ConfigTokens conf = fileutil.getBundleConfigs(configFile);
         
