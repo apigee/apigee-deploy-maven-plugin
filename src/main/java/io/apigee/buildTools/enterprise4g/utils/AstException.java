@@ -19,6 +19,9 @@ package io.apigee.buildTools.enterprise4g.utils;
  * AstException is a base RuntimeException that is used for all AST code.  We just wrap
  * checked exceptions with AstException to keep code clean and simple.  Because in 95% of cases
  * checked exceptions suck.
+ *
+ * If checked exceptions suck so bad why is your code littered with catch RuntimeException statements?
+ *
  * @author rob
  *
  */
