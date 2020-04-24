@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <SharedFlowBundle revision="1" name="Shared-Flow">
     <ConfigurationVersion majorVersion="4" minorVersion="0"/>
-    <CreatedAt>1484865229614</CreatedAt>
-    <CreatedBy>ssvaidyanathan@apigee.com</CreatedBy>
-    <Description></Description>
-    <DisplayName>Shared-Flow</DisplayName>
-    <LastModifiedAt>1484865351228</LastModifiedAt>
-    <LastModifiedBy>ssvaidyanathan@apigee.com</LastModifiedBy>
+    <Description>Security SharedFlow</Description>
+    <DisplayName>SF-Security</DisplayName>
     <Policies>
-        <Policy>Quota-1</Policy>
-        <Policy>Spike-Arrest-1</Policy>
-        <Policy>Verify-API-Key-1</Policy>
-        <Policy>Assign-Message-1</Policy>
+        <Policy>Quota</Policy>
+        <Policy>Spike-Arrest</Policy>
+        <Policy>Verify-API-Key</Policy>
+        <Policy>AM-Set-Headers</Policy>
     </Policies>
     <Resources/>
     <Spec></Spec>

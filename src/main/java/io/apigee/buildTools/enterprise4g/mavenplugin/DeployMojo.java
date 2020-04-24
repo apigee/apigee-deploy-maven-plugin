@@ -98,12 +98,12 @@ public class DeployMojo extends GatewayAbstractMojo {
 		// a module with a faulty one.
 
 		// If revision is passed to the module, update that revision
-		if (bundle.getRevsion() != null) {
+		if (bundle.getRevision() != null) {
 
 			getLog().info(format("Updating %s/%s revision %d (current active revision is %d)",
 					bundle.getType().name().toLowerCase(),
 					bundle.getName(),
-					bundle.getRevsion(),
+					bundle.getRevision(),
 					activeRevision == null ? -1 : activeRevision));
 
 			Long updatedRevision = client.updateBundle(getApplicationBundlePath(), bundle);
@@ -123,9 +123,9 @@ public class DeployMojo extends GatewayAbstractMojo {
 						activeRevision));
 
 				Long updatedRevision = client.updateBundle(getApplicationBundlePath(), bundle.clone(activeRevision));
-				if (!profile.isInactive()) {
-					client.activateBundleRevision(bundle.clone(updatedRevision));
-				}
+				//if (!profile.isInactive()) {
+				//	client.activateBundleRevision(bundle.clone(updatedRevision));
+				//}
 
 				getLog().info(format("Updated %s/%s revision %d",
 						bundle.getType().name().toLowerCase(),

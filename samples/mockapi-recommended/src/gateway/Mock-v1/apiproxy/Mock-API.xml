@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="1" name="Mock-API">
+    <Basepaths>/v1/mock</Basepaths>
+    <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+    <Description>Apigee mock target service endpoint</Description>
+    <DisplayName>Mock-API</DisplayName>
+    <Policies>
+        <Policy>AM-Set-Headers</Policy>
+        <Policy>SC-Get-XML</Policy>
+        <Policy>X2J-Convert-Response</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources/>
+    <Spec/>
+    <TargetServers/>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+</APIProxy>

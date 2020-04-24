@@ -15,22 +15,19 @@
  */
 package io.apigee.buildTools.enterprise4g.mavenplugin;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 import java.io.File;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.api.client.http.apache.ApacheHttpTransport;
-import io.apigee.buildTools.enterprise4g.rest.ActionFlags;
-import io.apigee.buildTools.enterprise4g.rest.Bundle;
-import io.apigee.buildTools.enterprise4g.utils.ServerProfile;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
 import org.apache.http.conn.params.ConnRoutePNames;
-import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.DefaultProxyAuthenticationHandler;
 import org.apache.maven.execution.MavenSession;
@@ -49,8 +46,9 @@ import org.codehaus.plexus.context.Context;
 import org.codehaus.plexus.context.ContextException;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Contextualizable;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import io.apigee.buildTools.enterprise4g.rest.ActionFlags;
+import io.apigee.buildTools.enterprise4g.rest.Bundle;
+import io.apigee.buildTools.enterprise4g.utils.ServerProfile;
 
 public abstract class GatewayAbstractMojo extends AbstractMojo implements Contextualizable {
 
@@ -134,7 +132,7 @@ public abstract class GatewayAbstractMojo extends AbstractMojo implements Contex
 	/**
 	 * Profile id
 	 *
-	 * @parameter name="apigee.profile"
+	 * @parameter property="apigee.profile"
 	 */
 	private String id;
 
@@ -155,7 +153,7 @@ public abstract class GatewayAbstractMojo extends AbstractMojo implements Contex
 	/**
 	 * Mgmt API OAuth MFA - TOTP
 	 *
-	 * @parameter name="apigee.mfatoken"
+	 * @parameter property="apigee.mfatoken"
 	 */
 	private String mfaToken;
 
@@ -389,11 +387,11 @@ public abstract class GatewayAbstractMojo extends AbstractMojo implements Contex
 					// basic auth requires both username and password
 					(isBlank(profile.getCredential_user()) || isBlank(profile.getCredential_pwd()))) {
 				throw new MojoExecutionException("Username and password must be provided for basic authentication.");
-			} else if ("oauth".equalsIgnoreCase(profile.getAuthType()) &&
+			} //else if ("oauth".equalsIgnoreCase(profile.getAuthType()) &&
 					// either one is good enough
-					(isBlank(profile.getBearerToken()) && isBlank(profile.getRefreshToken()))) {
-				throw new MojoExecutionException("A bearer or refresh token must be provided for token based authentication.");
-			}
+				//	(isBlank(profile.getBearerToken()) && isBlank(profile.getRefreshToken()))) {
+				//throw new MojoExecutionException("A bearer or refresh token must be provided for token based authentication.");
+			//}
 
 			// process proxy for management api endpoint
 			Proxy mavenProxy = getProxy(settings, hostURL);

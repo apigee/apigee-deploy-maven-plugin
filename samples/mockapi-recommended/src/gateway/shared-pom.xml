@@ -26,7 +26,7 @@
         <pluginRepository>
             <id>central</id>
             <name>Maven Plugin Repository</name>
-            <url>http://repo1.maven.org/maven2</url>
+            <url>https://repo1.maven.org/maven2</url>
             <layout>default</layout>
             <snapshots>
                 <enabled>false</enabled>
@@ -73,7 +73,7 @@
             <plugin>
                 <groupId>io.apigee.build-tools.enterprise4g</groupId>
                 <artifactId>apigee-edge-maven-plugin</artifactId>
-                <version>1.1.6</version>
+                <version>1.1.8</version>
                 <executions>
                     <execution>
                         <id>configure-bundle</id>
@@ -108,7 +108,6 @@
                 <apigee.username>${username}</apigee.username>
                 <apigee.password>${password}</apigee.password>
                 <apigee.options>${options}</apigee.options>
-                <apigee.revision>${revision}</apigee.revision> <!-- used while trying to update revision, use when option=update only -->
                 <apigee.tokenurl>${tokenurl}</apigee.tokenurl> <!-- optional: oauth -->
                 <apigee.mfatoken>${mfatoken}</apigee.mfatoken> <!-- optional: mfa -->
                 <apigee.authtype>${authtype}</apigee.authtype> <!-- optional: oauth|basic(default) -->
@@ -133,7 +132,6 @@
                 <apigee.username>${username}</apigee.username>
                 <apigee.password>${password}</apigee.password>
                 <apigee.options>${options}</apigee.options>
-                <apigee.revision>${revision}</apigee.revision> <!-- used while trying to update revision, use when option=update only -->
                 <apigee.tokenurl>${tokenurl}</apigee.tokenurl> <!-- optional: oauth -->
                 <apigee.mfatoken>${mfatoken}</apigee.mfatoken> <!-- optional: mfa -->
                 <apigee.authtype>${authtype}</apigee.authtype> <!-- optional: oauth|basic(default) -->

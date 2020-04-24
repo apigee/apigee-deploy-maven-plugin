@@ -24,7 +24,7 @@ public class Bundle {
 
 	private Type type;
 
-	private Long revsion;
+	private Long revision;
 
 
 	public Bundle(String name) {
@@ -38,7 +38,7 @@ public class Bundle {
 	public Bundle(String name, Type type, Long revision) {
 		this.name = name;
 		this.type = type;
-		this.revsion = revision;
+		this.revision = revision;
 	}
 
 	@Override
@@ -50,9 +50,9 @@ public class Bundle {
 		Bundle other = (Bundle) obj;
 		return (this.name.equals(other.name) && this.type.equals(other.type))
 				&& (
-				(this.revsion == null && other.revsion == null) ||
-						(this.revsion != null && this.revsion.equals(other.revsion)) ||
-						(other.revsion != null && other.revsion.equals(this.revsion)));
+				(this.revision == null && other.revision == null) ||
+						(this.revision != null && this.revision.equals(other.revision)) ||
+						(other.revision != null && other.revision.equals(this.revision)));
 	}
 
 	public String getName() {
@@ -63,13 +63,13 @@ public class Bundle {
 		return type;
 	}
 
-	public Long getRevsion() {
-		return revsion;
+	public Long getRevision() {
+		return revision;
 	}
 
 	@Override
 	public Bundle clone() {
-		return new Bundle(this.name, this.type, this.revsion);
+		return new Bundle(this.name, this.type, this.revision);
 	}
 
 	public Bundle clone(Long revision) {

@@ -244,7 +244,7 @@ public class RestClient {
 			log.info("initialising MFA");
 
 			GenericUrl url = new GenericUrl(
-					format("%s/%s/o/%s",
+					format("%s/%s/organizations/%s",
 							profile.getHostUrl(),
 							profile.getApi_version(),
 							profile.getOrg()));
@@ -287,7 +287,7 @@ public class RestClient {
 		// }
 
 		GenericUrl url = new GenericUrl(
-				format("%s/%s/o/%s/%s/%s/",
+				format("%s/%s/organizations/%s/%s/%s/",
 						profile.getHostUrl(),
 						profile.getApi_version(),
 						profile.getOrg(),
@@ -331,7 +331,7 @@ public class RestClient {
 		try {
 
 			GenericUrl url = new GenericUrl(
-					format("%s/%s/o/%s/%s/%s/deployments/",
+					format("%s/%s/organizations/%s/%s/%s/deployments/",
 							profile.getHostUrl(),
 							profile.getApi_version(),
 							profile.getOrg(),
@@ -404,7 +404,7 @@ public class RestClient {
 
 		StringBuilder url = new StringBuilder();
 
-		url.append(format("%s/%s/o/%s/%s?action=import&name=%s",
+		url.append(format("%s/%s/organizations/%s/%s?action=import&name=%s",
 				profile.getHostUrl(),
 				profile.getApi_version(),
 				profile.getOrg(),
@@ -475,13 +475,13 @@ public class RestClient {
 
 		StringBuilder url = new StringBuilder();
 
-		url.append(format("%s/%s/o/%s/%s/%s/revisions/%d",
+		url.append(format("%s/%s/organizations/%s/%s/%s/revisions/%d",
 				profile.getHostUrl(),
 				profile.getApi_version(),
 				profile.getOrg(),
 				bundle.getType().getPathName(),
 				bundle.getName(),
-				bundle.getRevsion()));
+				bundle.getRevision()));
 
 		if (getProfile().isValidate()) {
 			url.append("?validate=true");
@@ -519,7 +519,7 @@ public class RestClient {
 				log.info("De-activating Version: " + existingRevision + " For Env Profile: " + profile.getEnvironment());
 
 				GenericUrl url = new GenericUrl(
-						format("%s/%s/o/%s/environments/%s/%s/%s/revisions/%d/deployments",
+						format("%s/%s/organizations/%s/environments/%s/%s/%s/revisions/%d/deployments",
 								profile.getHostUrl(),
 								profile.getApi_version(),
 								profile.getOrg(),
@@ -595,7 +595,7 @@ public class RestClient {
 			throw new IOException("Error in undeploying bundle");
 		}
 
-		log.info("Activating Version: " + bundle.getRevsion() + " For Env Profile: " + profile.getEnvironment());
+		log.info("Activating Version: " + bundle.getRevision() + " For Env Profile: " + profile.getEnvironment());
 		return activateBundleRevision(bundle);
 
 	}
@@ -614,14 +614,14 @@ public class RestClient {
 			HttpHeaders headers = new HttpHeaders();
 			headers.setAccept("application/json");
 
-			GenericUrl url = new GenericUrl(format("%s/%s/o/%s/environments/%s/%s/%s/revisions/%d/deployments",
+			GenericUrl url = new GenericUrl(format("%s/%s/organizations/%s/environments/%s/%s/%s/revisions/%d/deployments",
 					profile.getHostUrl(),
 					profile.getApi_version(),
 					profile.getOrg(),
 					profile.getEnvironment(),
 					bundle.getType().getPathName(),
 					bundle.getName(),
-					bundle.getRevsion()));
+					bundle.getRevision()));
 
 			GenericData data = new GenericData();
 			data.set("override", Boolean.valueOf(getProfile().isOverride()).toString());
@@ -649,8 +649,8 @@ public class RestClient {
 							log.info("Waiting to assert bundle activation.....");
 							Thread.sleep(10);
 							Long deployedRevision = getDeployedRevision(bundle);
-							if (bundle.getRevsion() != null && bundle.getRevsion().equals(deployedRevision)) {
-								log.info("Deployed revision is: " + bundle.getRevsion());
+							if (bundle.getRevision() != null && bundle.getRevision().equals(deployedRevision)) {
+								log.info("Deployed revision is: " + bundle.getRevision());
 								return "deployed";
 							} else
 								log.error("Deployment failed to activate");
@@ -682,17 +682,17 @@ public class RestClient {
 	public Long deleteBundle(Bundle bundle) throws IOException {
 		Long deployedRevision = getDeployedRevision(bundle);
 
-		if (deployedRevision == bundle.getRevsion()) { // the same version is the active bundle deactivate first
+		if (deployedRevision == bundle.getRevision()) { // the same version is the active bundle deactivate first
 			deactivateBundle(bundle);
 		}
 
-		GenericUrl url = new GenericUrl(format("%s/%s/o/%s/%s/%s/revisions/%d",
+		GenericUrl url = new GenericUrl(format("%s/%s/organizations/%s/%s/%s/revisions/%d",
 				profile.getHostUrl(),
 				profile.getApi_version(),
 				profile.getOrg(),
 				bundle.getType().getPathName(),
 				bundle.getName(),
-				bundle.getRevsion()));
+				bundle.getRevision()));
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept("application/json");
