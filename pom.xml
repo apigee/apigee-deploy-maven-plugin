@@ -85,18 +85,6 @@
             <name>Rajanish GL</name>
         </developer>
         <developer>
-            <id>rajanishgj</id>
-            <name>Srikanth Seshadri</name>
-        </developer>
-        <developer>
-            <id>rajanishgj</id>
-            <name>Srikanth Seshadri</name>
-        </developer>
-        <developer>
-            <id>rajanishgj</id>
-            <name>Srikanth Seshadri</name>
-        </developer>
-        <developer>
             <id>sriki77</id>
             <name>Srikanth Seshadri</name>
         </developer>
@@ -119,6 +107,10 @@
         <developer>
             <id>seantdg</id>
             <name>Sean 'Handsome' Davis</name>
+        </developer>
+        <developer>
+            <id>ssvaidyanathan</id>
+            <name>Sai Saran Vaidyanathan</name>
         </developer>
     </developers>
 
