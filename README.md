@@ -36,6 +36,7 @@ Learn more, check out this video! [Ask the Expert](https://www.youtube.com/watch
   - [pom.xml Sample](#pom-xml-sample)
   - [Config.json Sample](#config-json-sample)
 - [Commands](#commands-for-deploying-the-proxy-using-maven)
+- [To configure a proxy](#to-configure-a-proxy)
 - [OAuth and Two-Factor Authentication](#oauth-and-two-factor-authentication)
 - [Node.js Application Support](#deploying-api-proxies-with-nodejs-apps)
 
@@ -193,15 +194,15 @@ Refer child-pom template [child-pom](https://github.com/apigee/apigee-deploy-mav
  * **name** element's content should match the artifactId above (typically set to the name of the API).
  * **side-note** groupId and artifactId, combined, define the artifact living quarters within a repository.
 
-### Step 3 Create and configure config-json
+### Step 3 Create and configure config.json
 
-The config.json contains rules to perform build time configuration update. This JSON file's root object is  "configurations" and is an array of proxy configurations scoped to an environment. 
+The config.json contains rules to perform build time configuration update. This JSON file's root object is  "configurations" and is an array of proxy or sharedflow configurations scoped to an environment. 
 
 Note: it is important that the name of the configurations match the name of the profiles in the parent-pom.
 
 For instance in the example below you have two configurations one for the test profile and one for the production profile. This example also shows how you can use xpath to replace environment specific settings.
 
-#### Config-json Sample
+#### Config.json Sample
 
 Refer config.json template [config.json](https://github.com/apigee/apigee-deploy-maven-plugin/blob/master/samples/mockapi-recommended/src/gateway/Mock-v1/config.json)
 
@@ -250,8 +251,10 @@ The "apigee.options" element can have the following values: **clean** (this opti
 #### Note 4
 The "apigee.options" combination could be given with comma separated values. The precedence order of options are -> override, update, (clean, inactive, validate).
 
-#### Note 5
-Flow without "apigee.options":import –> undeploy (lastactive) –> deploy (new revision)
+## To configure a proxy 
+Supported from v1.2
+
+Please refer to this [doc](http://maven.apache.org/guides/mini/guide-proxies.html) that explains how to setup proxy settings in your settings.xml usually in your $HOME/.m2 directory
 
 ## OAuth and Two-Factor Authentication
 Apigee management APIs are secured using OAuth tokens as an alternative to the Basic Auth security. Additionally Two-Factor authentication (MFA) using TOTP can also be configured as an additional layer of security. This plugin has the capability to acquire OAuth tokens and invoke management API calls.
