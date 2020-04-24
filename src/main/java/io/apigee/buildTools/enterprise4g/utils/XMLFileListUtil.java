@@ -130,12 +130,24 @@ public class XMLFileListUtil {
 
 	}
 	
-	public List<File> getSharedFlowFiles(File configFile) throws IOException { // assumes the present directory is at
+	public List<File> getSharedFlowBundleFiles(File configFile) throws IOException { // assumes the present directory is at
 		// the project pom level.
 
 		List<File> fileNames = new ArrayList<File>();
 
 		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + "sharedflowbundle";
+
+		fileNames = getXMLFiles(sDirectory);
+
+		return fileNames;
+
+	}
+	
+	public List<File> getSharedFlowsFiles(File configFile) throws IOException { // assumes the present directory is at
+		// the project pom level.
+
+		List<File> fileNames = new ArrayList<File>();
+		String sDirectory = configFile.getParent()+File.separator+"target" + File.separator + "sharedflowbundle" + File.separator + "sharedflows";
 
 		fileNames = getXMLFiles(sDirectory);
 

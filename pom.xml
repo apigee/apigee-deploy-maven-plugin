@@ -31,7 +31,7 @@
     <artifactId>apigee-edge-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
     <!-- This is inherited from <version>0.0.15</version> of the the non-opensource plugin -->
-    <version>1.1.8-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
     <name>apigee-edge-maven-plugin maven mojo</name>
     <url>http://maven.apache.org</url>
 
@@ -85,18 +85,6 @@
             <name>Rajanish GL</name>
         </developer>
         <developer>
-            <id>rajanishgj</id>
-            <name>Srikanth Seshadri</name>
-        </developer>
-        <developer>
-            <id>rajanishgj</id>
-            <name>Srikanth Seshadri</name>
-        </developer>
-        <developer>
-            <id>rajanishgj</id>
-            <name>Srikanth Seshadri</name>
-        </developer>
-        <developer>
             <id>sriki77</id>
             <name>Srikanth Seshadri</name>
         </developer>
@@ -120,6 +108,10 @@
             <id>seantdg</id>
             <name>Sean 'Handsome' Davis</name>
         </developer>
+        <developer>
+            <id>ssvaidyanathan</id>
+            <name>Sai Saran Vaidyanathan</name>
+        </developer>
     </developers>
 
     <!-- mgmt-api-java-sdk -->
@@ -132,6 +124,7 @@
         <google.http.client.version>1.22.0</google.http.client.version>
         <apache.http.client>4.3.6</apache.http.client>
         <spring.version>5.2.5.RELEASE</spring.version>
+        <jackson.version>2.11.0.rc1</jackson.version>
     </properties>
     <!-- mgmt-api-java-sdk -->
 
@@ -231,7 +224,7 @@
                 <artifactId>jcl-over-slf4j</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
-            <!-- excluding commons logging by declaring it in the provided scope -->
+            <!-- excluding commons logging by declaring it in the provided scope 
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
@@ -242,6 +235,10 @@
                         <artifactId>commons-logging</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>-->
+            <dependency>
+            	<artifactId>httpcore</artifactId>
+                <groupId>org.apache.httpcomponents</groupId>
             </dependency>
             <dependency>
                 <groupId>com.google.http-client</groupId>
@@ -325,6 +322,21 @@
                 <artifactId>java-jwt</artifactId>
                 <version>3.1.0</version>
             </dependency>
+            <dependency>
+			  <groupId>com.fasterxml.jackson.core</groupId>
+			  <artifactId>jackson-core</artifactId>
+			  <version>${jackson.version}</version>
+			</dependency>
+			<dependency>
+			  <groupId>com.fasterxml.jackson.core</groupId>
+			  <artifactId>jackson-databind</artifactId>
+			  <version>${jackson.version}</version>
+			</dependency>
+			<dependency>
+			  <groupId>com.fasterxml.jackson.core</groupId>
+			  <artifactId>jackson-annotations</artifactId>
+			  <version>${jackson.version}</version>
+			</dependency>
 
             <!-- test dependencies -->
             <dependency>

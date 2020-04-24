@@ -20,6 +20,11 @@ package com.apigee.mgmtapi.sdk;
  */
 public class ConfigurationException extends RuntimeException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2322213933879560509L;
+
 	public ConfigurationException() {
 	}
 

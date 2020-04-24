@@ -1,35 +1,19 @@
 package com.apigee.mgmtapi.sdk.client;
 
-import java.nio.charset.Charset;
+import java.util.Base64;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.apigee.mgmtapi.sdk.ConfigurationException;
-import org.springframework.beans.BeansException;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.codec.Base64;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.apigee.mgmtapi.sdk.core.AppConfig;
 import com.apigee.mgmtapi.sdk.model.AccessToken;
-import com.apigee.mgmtapi.sdk.service.FileService;
 import com.google.gson.Gson;
 
 public class MgmtAPIClient {
-
-	private static final Logger logger = LoggerFactory.getLogger(MgmtAPIClient.class);
-
 
 	/**
 	 * To get the Access Token Management URL, client_id and client_secret needs
@@ -41,12 +25,12 @@ public class MgmtAPIClient {
 	 *
 	 * @return a valid access token
 	 */
-	public AccessToken getAccessToken(String username, String password) {
+	/*public AccessToken getAccessToken(String username, String password) {
 		Environment env = this.getConfigProperties();
 		return getAccessToken(env.getProperty("mgmt.login.url"),
 				env.getProperty("mgmt.login.client.id"),
 				env.getProperty("mgmt.login.client.secret"), username, password);
-	}
+	}*/
 
 	/**
 	 * To get the Access Token Management URL, client_id and client_secret needs
@@ -59,7 +43,7 @@ public class MgmtAPIClient {
 	 *
 	 * @return a valid access token
 	 */
-	public AccessToken getAccessToken(String username, String password, String mfa) {
+	/*public AccessToken getAccessToken(String username, String password, String mfa) {
 		Environment env = getConfigProperties();
 		if (env == null) {
 			logger.error("Config file missing");
@@ -71,7 +55,7 @@ public class MgmtAPIClient {
 		}
 		return getAccessToken(env.getProperty("mgmt.login.mfa.url") + mfa, env.getProperty("mgmt.login.client.id"),
 				env.getProperty("mgmt.login.client.secret"), username, password);
-	}
+	}*/
 
 
 	/**
@@ -117,8 +101,7 @@ public class MgmtAPIClient {
 		AccessToken token = new AccessToken();
 		ResponseEntity<String> result;
 
-		headers.add("Authorization", "Basic "
-				+ new String(Base64.encode((clientId + ":" + client_secret).getBytes()), Charset.forName("UTF-8")));
+		headers.add("Authorization", "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + client_secret).getBytes()));
 		headers.add("Content-Type", "application/x-www-form-urlencoded");
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("username", username);
@@ -151,8 +134,7 @@ public class MgmtAPIClient {
 		HttpHeaders headers = new HttpHeaders();
 		AccessToken token = new AccessToken();
 		ResponseEntity<String> result = null;
-		headers.add("Authorization", "Basic "
-				+ new String(Base64.encode((clientId + ":" + client_secret).getBytes()), Charset.forName("UTF-8")));
+		headers.add("Authorization", "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + client_secret).getBytes()));
 		headers.add("Content-Type", "application/x-www-form-urlencoded");
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("refresh_token", refreshToken);
@@ -175,7 +157,7 @@ public class MgmtAPIClient {
 	 *
 	 * @throws ConfigurationException throws exception when the configuration cannot be retrieved
 	 */
-	public Environment getConfigProperties() {
+	/*public Environment getConfigProperties() {
 
 		if (isBlank(System.getProperty("configFile.path"))) {
 			throw new ConfigurationException("Configuration file system property 'configFile.path' is not configured.");
@@ -193,6 +175,6 @@ public class MgmtAPIClient {
 		} catch (BeansException e) {
 			logger.error(e.getMessage(), e);
 			throw new ConfigurationException("Something went wrong loading configuration", e);
-		}
-	}
+		} 
+	}*/
 }

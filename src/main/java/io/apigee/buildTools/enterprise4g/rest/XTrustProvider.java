@@ -59,7 +59,11 @@ import javax.net.ssl.X509TrustManager;
   
 public final class XTrustProvider extends java.security.Provider
 { 
-    private final static String NAME = "XTrustJSSE"; 
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8629158193872767298L;
+	private final static String NAME = "XTrustJSSE"; 
     private final static String INFO =
         "XTrust JSSE Provider (implements trust factory with truststore validation disabled)"; 
     private final static double VERSION = 1.0D; 
