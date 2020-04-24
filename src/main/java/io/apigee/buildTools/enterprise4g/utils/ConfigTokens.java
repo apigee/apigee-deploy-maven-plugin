@@ -42,6 +42,9 @@ public class ConfigTokens { // represents configuration files containing all
 		public List<Policy> targets; // for listing all target level tokens 
 									 // inside targets folder
 		
+		public List<Policy> sharedflows; // for listing all sharedflow level tokens
+										// inside sharedflowbundle folder
+		
 		public String getName() {
 			return name;
 		}
@@ -60,9 +63,15 @@ public class ConfigTokens { // represents configuration files containing all
 		public void setProxies(List<Policy> proxies) {
 			this.proxies = proxies;
 		}
+		public List<Policy> getSharedflows() {
+			return sharedflows;
+		}
+		public void setSharedflows(List<Policy> sharedflows) {
+			this.sharedflows = sharedflows;
+		}
 		
 		public Policy getPolicyFileNameMatch(String name){
-			for(int i=0;i<this.policies.size();i++)
+			for(int i=0;this.policies!=null && i<this.policies.size();i++)
 				if (this.policies.get(i).name.equals(name)){
 					return this.policies.get(i);
 				}
@@ -71,7 +80,7 @@ public class ConfigTokens { // represents configuration files containing all
 		}
 		
 		public Policy getProxyFileNameMatch(String name){
-			for(int i=0;i<this.proxies.size();i++)
+			for(int i=0;this.proxies!=null && i<this.proxies.size();i++)
 				if (this.proxies.get(i).name.equals(name)){
 					return this.proxies.get(i);
 				}
@@ -80,13 +89,23 @@ public class ConfigTokens { // represents configuration files containing all
 		}
 		
 		public Policy getTargetFileNameMatch(String name){
-			for(int i=0;i<this.targets.size();i++)
+			for(int i=0;this.targets!=null && i<this.targets.size();i++)
 				if (this.targets.get(i).name.equals(name)){
 					return this.targets.get(i);
 				}
 			
 			return null; 
 		}
+		
+		public Policy getSharedFlowFileNameMatch(String name){
+			for(int i=0;this.sharedflows!=null && i<this.sharedflows.size();i++)
+				if (this.sharedflows.get(i).name.equals(name)){
+					return this.sharedflows.get(i);
+				}
+			
+			return null; 
+		}
+		
 		public List<Policy> getTargets() {
 			return targets;
 		}
