@@ -13,29 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.apigee.buildTools.enterprise4g.mavenplugin;
-
-import io.apigee.buildTools.enterprise4g.rest.RestClient;
-import org.apache.maven.plugin.MojoExecutionException;
+package com.apigee.mgmtapi.sdk;
 
 /**
- * Goal to initialise multifactor authentication / oauth token
- *
- * @author dpickard
- * @execute phase="validate"
- * @goal initmfa
- * @phase validate
+ * Exception thrown when retrieving Apigee SDK configuration fails.
  */
+public class ConfigurationException extends RuntimeException {
 
-public class InitMfaMojo extends GatewayAbstractMojo {
-
-	public void execute() throws MojoExecutionException {
-		try {
-			RestClient client = new RestClient(createProfile());
-			client.initMfa();
-		} catch (Throwable e) {
-			throw new MojoExecutionException("Failed to execute mfa flow.", e);
-		}
+	public ConfigurationException() {
 	}
 
+	public ConfigurationException(String message) {
+		super(message);
+	}
+
+	public ConfigurationException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

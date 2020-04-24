@@ -4,7 +4,7 @@
             "name": "test",
             "policies": [
                 {
-                    "name": "Assign-Message-1.xml",
+                    "name": "AM-Set-Headers",
                     "tokens": [
                         {
                             "xpath": "/AssignMessage/Set/Headers/Header[@name='ENV']",
@@ -18,7 +18,7 @@
             "name": "prod",
             "policies": [
                 {
-                    "name": "Assign-Message-1.xml",
+                    "name": "AM-Set-Headers",
                     "tokens": [
                         {
                             "xpath": "/AssignMessage/Set/Headers/Header[@name='ENV']",
