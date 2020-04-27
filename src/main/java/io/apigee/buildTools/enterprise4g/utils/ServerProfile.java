@@ -48,6 +48,12 @@ public class ServerProfile {
 	private Long delay;
 	private Long delayOverride;
 	private HttpClient apacheHttpClient;
+	
+	//For Proxy
+	private boolean hasProxy;
+	private String proxyProtocol;
+	private String proxyServer;
+	private int proxyPort;
 
 	public String getOrg() {
 		return org;
@@ -255,4 +261,62 @@ public class ServerProfile {
 	public HttpClient getApacheHttpClient() {
 		return apacheHttpClient;
 	}
+
+	/**
+	 * @return the proxyProtocol
+	 */
+	public String getProxyProtocol() {
+		return proxyProtocol;
+	}
+
+	/**
+	 * @param proxyProtocol the proxyProtocol to set
+	 */
+	public void setProxyProtocol(String proxyProtocol) {
+		this.proxyProtocol = proxyProtocol;
+	}
+
+	/**
+	 * @return the proxyServer
+	 */
+	public String getProxyServer() {
+		return proxyServer;
+	}
+
+	/**
+	 * @param proxyServer the proxyServer to set
+	 */
+	public void setProxyServer(String proxyServer) {
+		this.proxyServer = proxyServer;
+	}
+
+	/**
+	 * @return the proxyPort
+	 */
+	public int getProxyPort() {
+		return proxyPort;
+	}
+
+	/**
+	 * @param proxyPort the proxyPort to set
+	 */
+	public void setProxyPort(int proxyPort) {
+		this.proxyPort = proxyPort;
+	}
+
+	/**
+	 * @return the hasProxy
+	 */
+	public boolean getHasProxy() {
+		return hasProxy;
+	}
+
+	/**
+	 * @param hasProxy the hasProxy to set
+	 */
+	public void setHasProxy(boolean hasProxy) {
+		this.hasProxy = hasProxy;
+	}
+	
+	
 }

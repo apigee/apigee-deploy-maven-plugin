@@ -1,11 +1,14 @@
 package com.apigee.mgmtapi.sdk.client;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.Base64;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -13,7 +16,23 @@ import org.springframework.web.client.RestTemplate;
 import com.apigee.mgmtapi.sdk.model.AccessToken;
 import com.google.gson.Gson;
 
+import io.apigee.buildTools.enterprise4g.utils.ServerProfile;
+
 public class MgmtAPIClient {
+	
+	private RestTemplate restTemplate;
+	
+	public MgmtAPIClient(ServerProfile profile) {
+		if(profile.getHasProxy()) {
+			SimpleClientHttpRequestFactory clientHttpReq = new SimpleClientHttpRequestFactory();
+			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(profile.getProxyServer(), profile.getProxyPort()));
+			clientHttpReq.setProxy(proxy);
+			restTemplate = new RestTemplate(clientHttpReq);
+		}
+		else {
+			restTemplate = new RestTemplate();
+		}
+	}
 
 	/**
 	 * To get the Access Token Management URL, client_id and client_secret needs
@@ -96,7 +115,7 @@ public class MgmtAPIClient {
 									  String username,
 									  String password) {
 
-		RestTemplate restTemplate = new RestTemplate();
+		//RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		AccessToken token = new AccessToken();
 		ResponseEntity<String> result;
@@ -130,7 +149,7 @@ public class MgmtAPIClient {
 	 * @return a newly issued access token (TODO should also return the new refresh token that was issued alongside)
 	 */
 	public AccessToken getAccessTokenFromRefreshToken(String url, String clientId, String client_secret, String refreshToken) {
-		RestTemplate restTemplate = new RestTemplate();
+		//RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		AccessToken token = new AccessToken();
 		ResponseEntity<String> result = null;

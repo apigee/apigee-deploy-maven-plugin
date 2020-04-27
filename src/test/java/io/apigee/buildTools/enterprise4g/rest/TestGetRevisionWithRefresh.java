@@ -53,7 +53,7 @@ public class TestGetRevisionWithRefresh extends RestClientTestBase {
 	//the client can generate the token using any other plugin they choose
 	private AccessToken generateAccessToken() throws Exception {
 		ServerProfile p = getProfile();
-		MgmtAPIClient client = new MgmtAPIClient();
+		MgmtAPIClient client = new MgmtAPIClient(p);
 		AccessToken token = client.getAccessToken(
 				p.getTokenUrl(),
 				p.getClientId(),
@@ -66,7 +66,7 @@ public class TestGetRevisionWithRefresh extends RestClientTestBase {
 	//the client can generate the token using any other plugin they choose
 	private AccessToken generateAccessTokenFromRefreshToken(String refreshToken) throws Exception {
 		ServerProfile p = getProfile();
-		MgmtAPIClient client = new MgmtAPIClient();
+		MgmtAPIClient client = new MgmtAPIClient(p);
 		AccessToken token = client.getAccessTokenFromRefreshToken(p.getTokenUrl(),
 				p.getClientId(),
 				p.getClientSecret(), refreshToken);
