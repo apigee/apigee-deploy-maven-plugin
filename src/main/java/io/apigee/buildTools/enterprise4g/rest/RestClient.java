@@ -149,7 +149,7 @@ public class RestClient {
 	 */
 	private HttpResponse executeAPI(ServerProfile profile, HttpRequest request) throws IOException {
 		HttpHeaders headers = request.getHeaders();
-		MgmtAPIClient client = new MgmtAPIClient();
+		MgmtAPIClient client = new MgmtAPIClient(profile);
 		String mfaToken = profile.getMFAToken();
 		String tokenUrl = profile.getTokenUrl();
 		String mgmtAPIClientId = isNotBlank(profile.getClientId()) ? profile.getClientId() : "edgecli";

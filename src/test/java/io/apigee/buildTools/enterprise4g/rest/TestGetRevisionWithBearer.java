@@ -15,14 +15,11 @@
  */
 package io.apigee.buildTools.enterprise4g.rest;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
-import com.apigee.mgmtapi.sdk.client.MgmtAPIClient;
-import com.apigee.mgmtapi.sdk.model.AccessToken;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
+
+import org.junit.Test;
 
 public class TestGetRevisionWithBearer extends RestClientTestBase {
 
@@ -37,17 +34,6 @@ public class TestGetRevisionWithBearer extends RestClientTestBase {
 		Long latest = createClient().getLatestRevision(getBundle());
 		log.info("revision number::{}", latest);
 		assertNotNull(latest);
-	}
-
-	//the client can generate the token using any other plugin they choose
-	private String generateAccessToken() throws Exception {
-		MgmtAPIClient client = new MgmtAPIClient();
-		AccessToken token = client.getAccessToken(
-				"https://login.apigee.com/oauth/token",
-				"edgecli", "edgeclisecret",
-				System.getProperty("username"),
-				System.getProperty("password"));
-		return token.getAccess_token();
 	}
 
 }

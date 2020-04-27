@@ -415,6 +415,12 @@ public abstract class GatewayAbstractMojo extends AbstractMojo implements Contex
 					);
 				}
 				profile.setApacheHttpClient(httpClient);
+				
+				//Set Proxy configurations
+				profile.setHasProxy(true);
+				profile.setProxyProtocol(mavenProxy.getProtocol());
+				profile.setProxyServer(mavenProxy.getHost());
+				profile.setProxyPort(mavenProxy.getPort());
 			}
 
 		}
