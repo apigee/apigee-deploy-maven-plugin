@@ -1,5 +1,5 @@
 ----------------------------------------------------------------
-apigee-deploy-maven-plugin (hybrid) - not released yet
+apigee-deploy-maven-plugin (hybrid)
 -----------------------------------------------------------
 
 apigee-edge-maven-plugin is a build and deploy utility for building and deploying the Apigee ApiProxy's/Application bundles into Apigee hybrid Edge Platform.
