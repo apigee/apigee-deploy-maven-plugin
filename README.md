@@ -254,7 +254,7 @@ The "apigee.options" combination could be given with comma separated values. The
 ## To configure a proxy 
 Supported from v1.2
 
-Please refer to this [doc](http://maven.apache.org/guides/mini/guide-proxies.html) that explains how to setup proxy settings in your settings.xml usually in your $HOME/.m2 directory
+Please refer to this [doc](http://maven.apache.org/guides/mini/guide-proxies.html) that explains how to setup proxy settings in your settings.xml usually in your $HOME/.m2 directory. Only `https` protocol is supported
 
 ## OAuth and Two-Factor Authentication
 Apigee management APIs are secured using OAuth tokens as an alternative to the Basic Auth security. Additionally Two-Factor authentication (MFA) using TOTP can also be configured as an additional layer of security. This plugin has the capability to acquire OAuth tokens and invoke management API calls.
