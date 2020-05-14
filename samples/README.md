@@ -10,6 +10,8 @@
 For passing bearer token, you can just run (with gcloud sdk installed on your machine)
 `mvn clean install -Ptest -Dbearer=$(gcloud auth print-access-token)`
 
+NOTE: If you pass both bearer and service account file, the bearer token will take precedence
+
 That's it! If everything ran smooth, you will see BUILD SUCCESS message at the of the execution of this command. Next steps, learn a bit of Maven to customize the pom.xml.
 
 ## Basic Commands – apigee.options
