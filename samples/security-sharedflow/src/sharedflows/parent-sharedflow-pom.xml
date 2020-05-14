@@ -73,7 +73,7 @@
             <plugin>
                 <groupId>io.apigee.build-tools.enterprise4g</groupId>
                 <artifactId>apigee-edge-maven-plugin</artifactId>
-                <version>2.0.0</version>
+                <version>2.0.1</version>
                 <executions>
                     <execution>
                         <id>configure-bundle</id>
@@ -104,7 +104,8 @@
                 <apigee.org>${org}</apigee.org>
                 <apigee.env>${env}</apigee.env>
                 <apigee.apitype>sharedflow</apigee.apitype> <!-- This is only for Shared Flows. Not required for deploying proxy -->
-                <apigee.authtype>oauth</apigee.authtype> <!-- optional: oauth|basic(default) -->
+                <apigee.authtype>oauth</apigee.authtype> <!-- only option -->
+                <apigee.bearer>${bearer}</apigee.bearer> <!-- this takes precedence over service account file -->
                 <apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
                 <apigee.options>override</apigee.options> <!-- overrides is default and the only option -->
             </properties>
@@ -118,7 +119,8 @@
                 <apigee.org>${org}</apigee.org>
                 <apigee.env>${env}</apigee.env>
                 <apigee.apitype>sharedflow</apigee.apitype> <!-- This is only for Shared Flows. Not required for deploying proxy -->
-                <apigee.authtype>oauth</apigee.authtype> <!-- optional: oauth|basic(default) -->
+                <apigee.authtype>oauth</apigee.authtype> <!-- only option -->
+                <apigee.bearer>${bearer}</apigee.bearer> <!-- this takes precedence over service account file -->
                 <apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
                 <apigee.options>override</apigee.options> <!-- overrides is default and the only option -->
             </properties>
