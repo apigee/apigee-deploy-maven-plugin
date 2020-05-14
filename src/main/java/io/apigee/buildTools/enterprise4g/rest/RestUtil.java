@@ -996,12 +996,19 @@ public class RestUtil {
     	HttpHeaders headers = request.getHeaders();
     	try {
     		MgmtAPIClient client = new MgmtAPIClient();
-    		if (profile.getServiceAccountJSONFile() == null || profile.getServiceAccountJSONFile().equalsIgnoreCase("")) {
-				logger.error("Service Account file is missing");
-				throw new IOException("Service Account file is missing");
-			}
-            File serviceAccountJSON = new File(profile.getServiceAccountJSONFile());
-            accessToken = client.getGoogleAccessToken(serviceAccountJSON);
+    		if(profile.getBearerToken()!=null && !profile.getBearerToken().equalsIgnoreCase("")) {
+    			logger.info("Using the bearer token");
+    			accessToken = profile.getBearerToken();
+    		}
+    		else if(profile.getServiceAccountJSONFile()!=null && !profile.getServiceAccountJSONFile().equalsIgnoreCase("")) {
+    			logger.info("Using the service account file to generate a token");
+    			File serviceAccountJSON = new File(profile.getServiceAccountJSONFile());
+                accessToken = client.getGoogleAccessToken(serviceAccountJSON);
+    		}
+    		else {
+    			logger.error("Service Account file or bearer token is missing");
+				throw new IOException("Service Account file or bearer token is missing");
+    		}
             logger.debug("**Access Token** "+ accessToken);
     		headers.setAuthorization("Bearer " + accessToken);
     	}catch (Exception e) {
