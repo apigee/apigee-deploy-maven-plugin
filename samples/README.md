@@ -7,7 +7,7 @@
 	or
 	```mvn install -Ptest -Dorg={apigee-org} -Denv={apigee-env} -Dbearer={accesstoken}```
 	
-For passing bearer token, you can just run (with gcloud sdk installed on your machine)
+For passing bearer token (v2.0.1 or later), you can just run (with gcloud sdk installed on your machine)
 `mvn clean install -Ptest -Dbearer=$(gcloud auth print-access-token)`
 
 NOTE: If you pass both bearer and service account file, the bearer token will take precedence
