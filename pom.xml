@@ -126,6 +126,8 @@
 
 	<!-- mgmt-api-java-sdk -->
 	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>4.3.20.RELEASE</spring.version>
 		<spring.security.version>4.2.9.RELEASE</spring.security.version>
@@ -157,6 +159,7 @@
 						</goals>
 						<configuration> <!-- add this to disable checking -->
 							<additionalparam>-Xdoclint:none</additionalparam>
+							<source>8</source>
 						</configuration>
 					</execution>
 				</executions>
@@ -416,6 +419,9 @@
 								<goals>
 									<goal>jar</goal>
 								</goals>
+								<configuration>
+									<source>8</source>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
