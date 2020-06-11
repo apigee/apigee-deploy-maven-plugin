@@ -59,7 +59,7 @@ public class DeployMojo extends GatewayAbstractMojo
 	}
 	
 	enum OPTIONS {
-		override
+		override,async
 	}
 	
 	State state = State.START;
@@ -105,13 +105,16 @@ public class DeployMojo extends GatewayAbstractMojo
 			if (options != null) {
 				String [] opts = options.split(",");
 				for (String opt : opts) {
+					opt = opt.replace("-", "");
 					switch (OPTIONS.valueOf(opt)) {
 					case override:
 						Options.override=true;
 						break;
+					case async:
+						Options.async=true;
+						break;
 					default:
-						break;	
-					
+						break;
 					}
 				}
 			}
@@ -213,6 +216,12 @@ public class DeployMojo extends GatewayAbstractMojo
 			logger.info("\n\n=============Activating Bundle================\n\n");
 			state = State.ACTIVATING;
 			String revision = RestUtil.activateBundleRevision(super.getProfile(), this.bundleRevision);
+
+			// if user passed -Dapigee.options=async, no need for polling, exit early
+			if (Options.async) {
+				return;
+			}
+
 			boolean deployed = false;
 			//Loop to check the deployment status
 			for (; !deployed; ) {
