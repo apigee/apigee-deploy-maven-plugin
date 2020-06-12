@@ -217,7 +217,7 @@ Refer config.json template [config.json](./samples/mockapi-recommended/src/gatew
 
 mvn apigee-enterprise:deploy -P<profile> -Dfile={file}
 ```
-The default configuration is "override" and in this option, the plugin polls to check if the deployment is complete across all pods. If you do not want the plugin to poll, please pass -Dapigee.options=async
+The default configuration is "override" and in this option, the plugin polls to check if the deployment is complete across all pods. If you do not want the plugin to poll, please pass -Dapigee.options=async. This is available in v2.0.2 and later
 
 ```mvn apigee-enterprise:deploy -P<profile> -Dfile={file} -Dapigee.options=async```
 
