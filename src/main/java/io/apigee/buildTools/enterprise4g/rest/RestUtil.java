@@ -78,6 +78,7 @@ public class RestUtil {
         public static boolean update;
         public static boolean inactive;
         public static boolean override;
+        public static boolean async;
         public static boolean validate;
         public static long delay;
         public static long override_delay;
