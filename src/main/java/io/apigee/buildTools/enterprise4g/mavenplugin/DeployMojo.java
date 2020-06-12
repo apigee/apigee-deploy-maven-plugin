@@ -111,13 +111,15 @@ public class DeployMojo extends GatewayAbstractMojo
 						Options.override=true;
 						break;
 					case async:
+						Options.override=true;
 						Options.async=true;
 						break;
 					default:
 						break;
 					}
 				}
-			}
+			}else
+				Options.override=true;
 			
 			
 			
