@@ -225,6 +225,12 @@ For example:
 
 ```mvn apigee-enterprise:deploy -P prod -Dfile={file}```
 
+You can also pass the bearer token to deploy
+```mvn clean install -P{profile} -Dbearer=${bearer} -Dapigee.config.options={option}```
+
+For example using gcloud
+```mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.config.options={option}```
+
 ## Advanced Configuration Options
 
 ##### Note 1
