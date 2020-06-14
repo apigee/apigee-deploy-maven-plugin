@@ -234,6 +234,7 @@ For example using gcloud
 *To delete the proxy or sharedflow* (v2.0.3 or later)
 
 To delete the entire proxy or sharedflow, pass the options as `clean`
+
 ```mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.options=clean```
 
 ## Advanced Configuration Options
