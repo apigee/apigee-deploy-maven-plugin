@@ -226,10 +226,14 @@ For example:
 ```mvn apigee-enterprise:deploy -P prod -Dfile={file}```
 
 You can also pass the bearer token to deploy (available from v2.0.1 and later)
-```mvn clean install -P{profile} -Dbearer=${bearer} -Dapigee.config.options={option}```
+```mvn clean install -P{profile} -Dbearer=${bearer} -Dapigee.options={option}```
 
 For example using gcloud
-```mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.config.options={option}```
+```mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.options={option}```
+
+*To delete the proxy or sharedflow* (v2.0.3 or later)
+To delete the entire proxy or sharedflow, pass the options as `clean`
+```mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.options=clean```
 
 ## Advanced Configuration Options
 
@@ -282,7 +286,7 @@ Shared Flow bundles can be described as a zipped file system composed of policie
    |-policies
    |-sharedflows
 ```
-The build steps and the options available for building and deploying Shared Flows are the same as API Proxy. Most widely used options are ```override``` and ```update```
+The build steps and the options available for building and deploying Shared Flows are the same as API Proxy.
 The [samples](./samples/security-sharedflow/src/sharedflows) has an example of a standard sharedflow with the folder structure and the parent pom file. The only key difference between the API Proxy and the Shared Flow is a new property as part of the profiles.
 
 `<apigee.apitype>sharedflow</apigee.apitype>`
