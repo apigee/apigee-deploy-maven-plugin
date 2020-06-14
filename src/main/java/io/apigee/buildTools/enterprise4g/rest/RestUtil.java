@@ -873,17 +873,17 @@ public class RestUtil {
 
     }
 
-    public static void deleteBundle(ServerProfile profile)
+    public static String deleteBundle(ServerProfile profile)
             throws IOException {
     	if(profile.getApi_type()!=null && profile.getApi_type().equalsIgnoreCase("sharedflow")){
-    		deleteBundle(profile, "sharedflows");
+    		return deleteBundle(profile, "sharedflows");
     	}	
     	else{
-    		deleteBundle(profile, "apis");
+    		return deleteBundle(profile, "apis");
     	}
     }
     
-    public static void deleteBundle(ServerProfile profile, String type)
+    public static String deleteBundle(ServerProfile profile, String type)
             throws IOException {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept("application/json");
@@ -895,7 +895,8 @@ public class RestUtil {
                         + profile.getApplication()));
         deleteRestRequest.setReadTimeout(0);
         deleteRestRequest.setHeaders(headers);
-        executeAPI(profile, deleteRestRequest);;
+        executeAPI(profile, deleteRestRequest);
+        return null;
     }
 
     public static String getVersionRevision() {
