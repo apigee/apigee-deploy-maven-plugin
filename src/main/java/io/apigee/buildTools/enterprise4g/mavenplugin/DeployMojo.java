@@ -55,11 +55,11 @@ public class DeployMojo extends GatewayAbstractMojo
 	}
 
 	enum BUILDOPTIONS {
-		NULL,deployinactive,undeploy,delete
+		NULL,clean
 	}
 	
 	enum OPTIONS {
-		override,async
+		override,async,clean
 	}
 	
 	State state = State.START;
@@ -113,6 +113,10 @@ public class DeployMojo extends GatewayAbstractMojo
 					case async:
 						Options.override=true;
 						Options.async=true;
+						break;
+					case clean:
+						Options.clean=true;
+						buildOption=BUILDOPTIONS.valueOf("clean");
 						break;
 					default:
 						break;
@@ -239,15 +243,19 @@ public class DeployMojo extends GatewayAbstractMojo
 	}
 	
 	/**
-	 * Activate a bundle revision.
+	 * Delete a bundle.
 	 */
 	
-	public void doDelete(String revision) throws IOException, MojoFailureException,Exception {
-		try {
-			logger.info("/n/n=============Deleting App================/n/n");
+	public void doDelete() throws IOException, MojoFailureException,Exception {
+	try {
+			String status = RestUtil.deactivateBundle(this.getProfile());
+			if(status == null) {
+				logger.info("No bundle to delete");
+				return;
+			}
+			logger.info("\n\n=============Deleting bundle================\n\n");
 			state = State.DELETING;
-			RestUtil.deleteBundle(this.getProfile(), revision);
-
+			RestUtil.deleteBundle(this.getProfile());
 		} catch (IOException e) {
 			throw e ;
 		} catch (RuntimeException e) {
@@ -277,17 +285,8 @@ public class DeployMojo extends GatewayAbstractMojo
 						doImport();
 						doActivateBundle();
 						break;
-				case deployinactive:
-                        logger.warn("Note: -Dbuild.option=deploy-inactive   is Deprecated, use -Dapigee.options=inactive instead");
-						doImport();
-						break;
-				case undeploy:
-                        logger.warn("Note: -Dbuild.option=undeploy is Deprecated, use -Dapigee.options=clean instead");
-						 doDeactivae();
-	                     break;
-				case delete:
-						activeRevision=RestUtil.getDeployedRevision(this.getProfile());
-						doDelete(activeRevision);
+				case clean:
+						doDelete();
 						break;
 				default:     
 						break;

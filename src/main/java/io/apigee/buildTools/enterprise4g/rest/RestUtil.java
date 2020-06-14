@@ -137,14 +137,22 @@ public class RestUtil {
         public List<Revision> revision;
     }
 
+    public static class Deployment {
+    	@Key
+        public String environment;
+    	@Key
+        public String apiProxy;
+        @Key
+        public String revision;
+        @Key
+        public String deployStartTime;
+        @Key
+        public String basePath;
+    }
+    
     public static class BundleDeploymentConfig {
-
         @Key
-        public List<Environment> environment;
-        @Key
-        public String name;
-        @Key
-        public String organization;
+        public List<Deployment> deployments;
     }
 
     public static class BundleActivationConfig {
@@ -446,59 +454,36 @@ public class RestUtil {
     public static String getDeployedRevision(ServerProfile profile, String type)
             throws IOException {
 
-        BundleDeploymentConfig deployment1 = null;
+        BundleDeploymentConfig bundleDeploymentConfig = null;
 
         try {
-
             HttpRequest restRequest = REQUEST_FACTORY
                     .buildGetRequest(new GenericUrl(profile.getHostUrl() + "/"
                             + profile.getApi_version() + "/organizations/"
-                            + profile.getOrg() + "/"+type+"/"
-                            + profile.getApplication() + "/deployments"));
+                            + profile.getOrg() + "/environments/"+profile.getEnvironment()+"/"
+                            + type+"/"+ profile.getApplication() + "/deployments"));
             restRequest.setReadTimeout(0);
             HttpHeaders headers = new HttpHeaders();
             headers.setAccept("application/json");
             restRequest.setHeaders(headers);
 
             HttpResponse response = executeAPI(profile, restRequest);
-            deployment1 = response.parseAs(BundleDeploymentConfig.class);
-            logger.debug(PrintUtil.formatResponse(response, gson.toJson(deployment1).toString()));
-
-
-            /*if (deployment1 != null) {
-                for (Environment env : deployment1.environment) {
-                    if (env.name.equalsIgnoreCase(profile.getEnvironment()))
-                        return env.revision.get(0).name;
-                }
-            }*/
-            //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/53
-            if (deployment1 != null) {
-                for (Environment env : deployment1.environment) {
-                    if (env.name.equalsIgnoreCase(profile.getEnvironment())){
-                    	List<Revision> revisionList = env.revision;
-                    	if(revisionList!=null && revisionList.size()>0){
-                    		List<String> revisions = new ArrayList<String>();
-                    		for (Revision revision : revisionList) {
-                    			revisions.add(revision.name);
-							}
-                    		Collections.sort(revisions, new StringToIntComparator());
-                    		return revisions.get(0);
-                    	}
-                    }
-                }
+            bundleDeploymentConfig = response.parseAs(BundleDeploymentConfig.class);
+            logger.debug(PrintUtil.formatResponse(response, gson.toJson(bundleDeploymentConfig).toString()));
+            if (bundleDeploymentConfig != null && bundleDeploymentConfig.deployments !=null && bundleDeploymentConfig.deployments.size()>0) {
+            	for (Deployment deployment : bundleDeploymentConfig.deployments) {
+					if(deployment.environment.equalsIgnoreCase(profile.getEnvironment())) {
+						logger.info("Deployed revision: "+deployment.revision);
+						return deployment.revision;
+					}
+				}
             }
-
         } catch (HttpResponseException e) {
             logger.error(e.getMessage());
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
-
-        //This is not correct , it will always return the 1st env's deployed revision .
-        //return deployment1.environment.get(0).revision.get(0).name;
         return "";
-
-
     }
 
     public static String uploadBundle(ServerProfile profile, String bundleFile)
@@ -651,7 +636,6 @@ public class RestUtil {
     public static String deactivateBundle(ServerProfile profile, String type)
             throws IOException {
         String existingRevision = "";
-        BundleActivationConfig deployment1 = new BundleActivationConfig();
         try {
 
             existingRevision = getDeployedRevision(profile);
@@ -668,8 +652,6 @@ public class RestUtil {
                         + profile.getApplication() + "/revisions/"
                         + existingRevision
                         + "/deployments";
-
-
                 HttpRequest undeployRestRequest = REQUEST_FACTORY.buildDeleteRequest(
                         new GenericUrl(undeployCmd));
                 undeployRestRequest.setReadTimeout(0);
@@ -679,9 +661,6 @@ public class RestUtil {
 
                 HttpResponse response = null;
                 response = executeAPI(profile, undeployRestRequest);
-                deployment1 = response.parseAs(BundleActivationConfig.class);
-                logger.info(PrintUtil.formatResponse(response, gson.toJson(deployment1).toString()));
-
                 //Introduce Delay
                 if (Options.delay != 0) {
                     try {
@@ -694,49 +673,17 @@ public class RestUtil {
                 }
             } else {
                 //If there are no existing active revisions
-                deployment1.state = STATE_UNDEPLOYED;
+            	logger.info("No active revisions to deactivate");
+                return null;
             }
 
         } catch (HttpResponseException e) {
-            logger.error(e.getMessage());
-            //deployment1.state = "No application was in deployed state";
-            deployment1.state = STATE_ERROR;
+            logger.error(e.getMessage());          
 
         } catch (Exception e) {
             logger.error(e.getMessage());
-            //deployment1.state = "No application was in deployed state";
-            deployment1.state = STATE_ERROR;
-        } finally {
-
-
-            //Rechecking only if we supply force option.  Checking if still any active revision exists
-            if (Options.force) {
-
-                String anyExistingRevision = "";
-
-                try {
-                    logger.info("Checking if any deployed version still exists for Env Profile: " + profile.getEnvironment());
-                    anyExistingRevision = getDeployedRevision(profile);
-
-                } catch (Exception e) {
-                    //deployment1.state = "\nNo application is in deployed state\n";
-                    logger.error("Application couldn't be undeployed :: " + anyExistingRevision);
-                    deployment1.state = STATE_ERROR;
-                }
-                //check  if there is a any other existing revision and throw exception if its there
-                if (anyExistingRevision.length() > 0) // Looks like still some active version exist
-                {
-                    logger.warn("Application couldn't be undeployed :: " + anyExistingRevision);
-                    deployment1.state = STATE_ERROR;
-                }
-
-            }
-
-
         }
-
-        return deployment1.state;
-
+        return STATE_UNDEPLOYED;
     }
 
 
@@ -926,55 +873,29 @@ public class RestUtil {
 
     }
 
-
-    public static String deleteBundle(ServerProfile profile, String revision)
+    public static void deleteBundle(ServerProfile profile)
             throws IOException {
-        // get the deployed revision
-        String deployed_revision = "";
-
-        try {
-            deployed_revision = getDeployedRevision(profile);
-        } catch (Exception e) {
-            throw new IOException("Error fetching deployed revision");
-        }
-
-
-        if (deployed_revision.equals(revision)) // the same version is the active bundle deactivate first
-        {
-            deactivateBundle(profile);
-        }
-
+    	if(profile.getApi_type()!=null && profile.getApi_type().equalsIgnoreCase("sharedflow")){
+    		deleteBundle(profile, "sharedflows");
+    	}	
+    	else{
+    		deleteBundle(profile, "apis");
+    	}
+    }
+    
+    public static void deleteBundle(ServerProfile profile, String type)
+            throws IOException {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept("application/json");
         headers.setContentType("application/octet-stream");
         HttpRequest deleteRestRequest = REQUEST_FACTORY.buildDeleteRequest(
                 new GenericUrl(profile.getHostUrl() + "/"
                         + profile.getApi_version() + "/organizations/"
-                        + profile.getOrg() + "/apis/"
-                        + profile.getApplication() + "/revisions/" + revision));
+                        + profile.getOrg() + "/" + type + "/"
+                        + profile.getApplication()));
         deleteRestRequest.setReadTimeout(0);
         deleteRestRequest.setHeaders(headers);
-
-        HttpResponse response = null;
-        response = executeAPI(profile, deleteRestRequest);
-
-        //		String deleteResponse = response.parseAsString();
-        AppConfig deleteResponse = response.parseAs(AppConfig.class);
-        logger.info(PrintUtil.formatResponse(response, gson.toJson(deleteResponse).toString()));
-
-        //Introduce Delay
-        if (Options.delay != 0) {
-            try {
-                logger.info("Delay of " + Options.delay + " milli second");
-                Thread.sleep(Options.delay);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-
-        return deleteResponse.getRevision();
-
+        executeAPI(profile, deleteRestRequest);;
     }
 
     public static String getVersionRevision() {
