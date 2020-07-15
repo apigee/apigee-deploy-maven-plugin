@@ -20,17 +20,16 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
-
-import com.google.api.client.http.javanet.NetHttpTransport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import com.google.api.client.http.apache.ApacheHttpTransport;
-import com.google.api.client.json.gson.GsonFactory;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.apigee.mgmtapi.sdk.client.MgmtAPIClient;
 import com.apigee.mgmtapi.sdk.model.AccessToken;
@@ -46,11 +45,15 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.UrlEncodedContent;
+import com.google.api.client.http.apache.ApacheHttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.GenericData;
 import com.google.api.client.util.Key;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
 import io.apigee.buildTools.enterprise4g.utils.PrintUtil;
 import io.apigee.buildTools.enterprise4g.utils.ServerProfile;
@@ -638,9 +641,26 @@ public class RestClient {
 
 			HttpResponse response = null;
 			response = executeAPI(profile, deployRestRequest);
+			String responseString = response.parseAsString();
+			SeamLessDeploymentStatus deployment3 = null;
+            try{
+            	deployment3 = new Gson().fromJson(responseString, SeamLessDeploymentStatus.class);
+            }catch (JsonSyntaxException e){
+            	// https://github.com/apigee/apigee-deploy-maven-plugin/issues/92
+            	// https://github.com/apigee/apigee-deploy-maven-plugin/issues/137
+            	// Whenever an existing API is deployed with option as override and in the new revision, the proxy basepath is changed,
+            	// the Mgmt API response is different. It does not return the usual response if the proxy has no changes to the basepath
+            	deployment2 = new Gson().fromJson(responseString, BundleActivationConfig.class);
+            	if (log.isInfoEnabled()) {
+    				log.info(PrintUtil.formatResponse(response, gson.toJson(deployment2)));
+    				log.info("Deployed revision is:{}", deployment2.revision);
+    			}
+    			applyDelay();
+    			return deployment2.state;
+            }
 
 			if (getProfile().isOverride()) {
-				SeamLessDeploymentStatus deployment3 = response.parseAs(SeamLessDeploymentStatus.class);
+				//deployment3 = response.parseAs(SeamLessDeploymentStatus.class);
 				Iterator<BundleActivationConfig> iter = deployment3.environment.iterator();
 				while (iter.hasNext()) {
 					BundleActivationConfig config = iter.next();
@@ -663,7 +683,7 @@ public class RestClient {
 
 			}
 
-			deployment2 = response.parseAs(BundleActivationConfig.class);
+			deployment2 = new Gson().fromJson(responseString, BundleActivationConfig.class);
 			if (log.isInfoEnabled()) {
 				log.info(PrintUtil.formatResponse(response, gson.toJson(deployment2)));
 				log.info("Deployed revision is:{}", deployment2.revision);
