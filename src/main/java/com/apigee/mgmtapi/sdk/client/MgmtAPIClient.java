@@ -1,14 +1,19 @@
 package com.apigee.mgmtapi.sdk.client;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 import java.util.Base64;
 
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -24,11 +29,34 @@ public class MgmtAPIClient {
 	
 	public MgmtAPIClient(ServerProfile profile) {
 		if(profile.getHasProxy()) {
+			
+			HttpClientBuilder clientBuilder = HttpClientBuilder.create();
+			HttpHost proxy = new HttpHost(profile.getProxyServer(), profile.getProxyPort());
+			
+			if(profile.getProxyUsername()!=null && !profile.getProxyUsername().equalsIgnoreCase("")
+					&& profile.getProxyPassword()!=null && !profile.getProxyPassword().equalsIgnoreCase("")) {
+				CredentialsProvider credsProvider = new BasicCredentialsProvider();
+				credsProvider.setCredentials( 
+				        new AuthScope(profile.getProxyServer(), profile.getProxyPort()), 
+				        new UsernamePasswordCredentials(profile.getProxyUsername(), profile.getProxyPassword())
+				    );
+				clientBuilder.setDefaultCredentialsProvider(credsProvider).disableCookieManagement();
+			}
+			
+		    clientBuilder.setProxy(proxy);
+		    
+		    HttpClient httpClient = clientBuilder.build();
+		    HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+		    factory.setHttpClient(httpClient);
+		    
+		    restTemplate = new RestTemplate(factory);
+		}
+		/*if(profile.getHasProxy()) {
 			SimpleClientHttpRequestFactory clientHttpReq = new SimpleClientHttpRequestFactory();
 			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(profile.getProxyServer(), profile.getProxyPort()));
 			clientHttpReq.setProxy(proxy);
 			restTemplate = new RestTemplate(clientHttpReq);
-		}
+		}*/
 		else {
 			restTemplate = new RestTemplate();
 		}

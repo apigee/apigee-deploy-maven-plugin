@@ -122,7 +122,7 @@
 		<maven.version>3.1.0</maven.version>
 		<maven.api.version>3.5</maven.api.version>
 		<google.http.client.version>1.22.0</google.http.client.version>
-		<apache.http.client>4.3.6</apache.http.client>
+		<apache.http.client>4.5.2</apache.http.client>
 		<spring.version>5.2.5.RELEASE</spring.version>
 		<jackson.version>2.11.0.rc1</jackson.version>
 	</properties>
@@ -203,7 +203,7 @@
 				<version>${slf4j.version}</version>
 			</dependency>
 			<!-- excluding commons logging by declaring it in the provided scope -->
-			<!-- <dependency>
+			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
 				<version>${apache.http.client}</version>
@@ -213,7 +213,7 @@
 						<artifactId>commons-logging</artifactId>
 					</exclusion>
 				</exclusions>
-			</dependency>-->
+			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
             	<artifactId>httpcore</artifactId> 

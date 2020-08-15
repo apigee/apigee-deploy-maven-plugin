@@ -54,6 +54,8 @@ public class ServerProfile {
 	private String proxyProtocol;
 	private String proxyServer;
 	private int proxyPort;
+	private String proxyUsername;
+	private String proxyPassword;
 
 	public String getOrg() {
 		return org;
@@ -318,5 +320,32 @@ public class ServerProfile {
 		this.hasProxy = hasProxy;
 	}
 	
+	/**
+	 * @return the proxyUsername
+	 */
+	public String getProxyUsername() {
+		return proxyUsername;
+	}
+
+	/**
+	 * @param proxyUsername the proxyUsername to set
+	 */
+	public void setProxyUsername(String proxyUsername) {
+		this.proxyUsername = proxyUsername;
+	}
+	
+	/**
+	 * @return the proxyPassword
+	 */
+	public String getProxyPassword() {
+		return proxyPassword;
+	}
+
+	/**
+	 * @param proxyPassword the proxyPassword to set
+	 */
+	public void setProxyPassword(String proxyPassword) {
+		this.proxyPassword = proxyPassword;
+	}
 	
 }
