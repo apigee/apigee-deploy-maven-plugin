@@ -247,7 +247,7 @@
 			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
-				<version>12.0</version>
+				<version>[24.1.1,)</version>
 			</dependency>
 			<!-- Gson: Java to Json conversion -->
 			<dependency>
