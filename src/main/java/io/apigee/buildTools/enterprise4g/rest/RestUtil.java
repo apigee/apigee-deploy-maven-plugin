@@ -203,6 +203,8 @@ public class RestUtil {
         @Key
         public String basePath;
         @Key
+        public String state;
+        @Key
         public List<PodStatus> pods;
         @Key
         public String organization;
@@ -416,7 +418,7 @@ public class RestUtil {
             restRequest.setHeaders(headers);
             HttpResponse response = executeAPI(profile, restRequest);
             deploymentStatus = response.parseAs(DeploymentStatus.class);
-            if(deploymentStatus!=null && deploymentStatus.pods!=null && deploymentStatus.pods.size()>0) {
+            /*if(deploymentStatus!=null && deploymentStatus.pods!=null && deploymentStatus.pods.size()>0) {
             	for (PodStatus p: deploymentStatus.pods) {
             		if(p.deploymentStatus!=null && p.deploymentStatus.equals("deployed")) {
 						deployed = true;
@@ -426,6 +428,11 @@ public class RestUtil {
 					}
 						
 				}
+            }*/
+            if(deploymentStatus!=null && deploymentStatus.state != null && deploymentStatus.state.equalsIgnoreCase("READY")) {
+            	deployed = true;
+            }else {
+            	deployed = false;
             }
     	}catch (HttpResponseException e) {
             logger.error(e.getMessage());
