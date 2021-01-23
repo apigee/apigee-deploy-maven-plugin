@@ -53,75 +53,13 @@
 	</scm>
 	<developers>
 		<developer>
-			<id>craigmwarren</id>
-			<name>Craig Warren</name>
+			<id>ssvaidyanathan</id>
+			<name>Sai Saran Vaidyanathan</name>
 		</developer>
 		<developer>
-			<id>santanu-dey</id>
-			<name>Santanu Dey</name>
+			<id>msadasivam</id>
+			<name>Madhan Sadasivam</name>
 		</developer>
-		<developer>
-			<id>mwartikar</id>
-			<name>Manoj Wartikar</name>
-		</developer>
-		<developer>
-			<id>rajeshm7910</id>
-			<name>Rajesh Mishra</name>
-		</developer>
-
-		<developer>
-			<id>rajanishgj</id>
-			<name>Rajanish GL</name>
-		</developer>
-
-		<developer>
-			<id>rajanishgj</id>
-			<name>Srikanth Seshadri</name>
-		</developer>
-
-		<developer>
-			<id>rajanishgj</id>
-			<name>Srikanth Seshadri</name>
-		</developer>
-
-		<developer>
-			<id>rajanishgj</id>
-			<name>Srikanth Seshadri</name>
-		</developer>
-
-		<developer>
-			<id>sriki77</id>
-			<name>Srikanth Seshadri</name>
-		</developer>
-
-		<developer>
-			<id>priyanky</id>
-			<name>Priyanky Thomas</name>
-		</developer>
-
-		<developer>
-			<id>richarst</id>
-			<name>Steve Richardson</name>
-		</developer>
-
-		<developer>
-			<id>michaelarusso</id>
-			<name>Michael Russo</name>
-		</developer>
-
-		<developer>
-			<id>mikedunker-apigee</id>
-			<name>Mike Dunker</name>
-		</developer>
-
-		<developer>
-			<id>seantdg</id>
-			<name>Sean 'Handsome' Davis</name>
-		</developer>
-
-
-
-
 	</developers>
 
 	<!-- mgmt-api-java-sdk -->
