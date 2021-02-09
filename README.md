@@ -56,7 +56,7 @@ You will need the following to run the samples:
   <version>1.x</version>
 </dependency>
 ```
-- For Apigee hybrid, the version of the plugin is 2.x
+- For Apigee X or Apigee hybrid, the version of the plugin is 2.x
 ```xml
 <dependency>
   <groupId>io.apigee.build-tools.enterprise4g</groupId>
