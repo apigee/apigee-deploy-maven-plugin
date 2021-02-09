@@ -47,7 +47,7 @@ You will need the following to run the samples:
 - [Maven 3.x](https://maven.apache.org/)
 
 ### NOTE ###
-- If you want to use this plugin for Apigee Hybrid, please refer to this [link](https://github.com/apigee/apigee-deploy-maven-plugin/tree/hybrid). You should be using the version 2.x
+- If you want to use this plugin for Apigee X or Apigee Hybrid, please refer to this [link](https://github.com/apigee/apigee-deploy-maven-plugin/tree/hybrid). You should be using the version 2.x
 ```xml
 <dependency>
   <groupId>io.apigee.build-tools.enterprise4g</groupId>
