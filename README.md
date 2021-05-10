@@ -1,5 +1,5 @@
 ----------------------------------------------------------------
-apigee-deploy-maven-plugin (hybrid)
+apigee-deploy-maven-plugin (Apigee X or Apigee hybrid)
 -----------------------------------------------------------
 
 apigee-edge-maven-plugin is a build and deploy utility for building and deploying the Apigee ApiProxy's/Application bundles into Apigee hybrid Edge Platform.
@@ -56,7 +56,7 @@ You will need the following to run the samples:
   <version>1.x</version>
 </dependency>
 ```
-- For Apigee hybrid, the version of the plugin is 2.x
+- For Apigee X or Apigee hybrid, the version of the plugin is 2.x
 ```xml
 <dependency>
   <groupId>io.apigee.build-tools.enterprise4g</groupId>
@@ -306,3 +306,12 @@ People Involved
 ------------------------
 
 The plugin is initially developed by [Santany Dey](sdey@apigee.com). With major contributions from [Sai Saran Vaidyanathan](https://github.com/ssvaidyanathan), [Madhan Sadasivam](https://github.com/msadasivam). The plugin is open sourced by [Priyanky Thomas](priyanky@apigee.com). 
+
+## Support
+Issues filed on Github are not subject to service level agreements (SLAs) and responses should be assumed to be on an ad-hoc volunteer basis. The
+[Apigee community board](https://community.apigee.com/) is recommended as for community support and is regularly checked by Apigee experts.
+
+Apigee customers should use [formal support channels](https://cloud.google.com/apigee/support) for Apigee product related concerns.
+
+## Disclaimer
+This is not an officially supported Google product.
