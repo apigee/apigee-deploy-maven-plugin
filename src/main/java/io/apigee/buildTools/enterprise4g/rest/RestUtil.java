@@ -17,10 +17,10 @@ package io.apigee.buildTools.enterprise4g.rest;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -207,6 +207,8 @@ public class RestUtil {
         @Key
         public List<PodStatus> pods;
         @Key
+        public List<Error> errors;
+        @Key
         public String organization;
     }
 
@@ -229,6 +231,22 @@ public class RestUtil {
         public String statusCode;
     	@Key
         public String statusCodeDetails;
+    }
+    
+    public static class Error {
+        @Key
+        public Integer code;
+        @Key
+        public String message;
+        
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
     }
 
     public static class AppConfig {
@@ -418,24 +436,24 @@ public class RestUtil {
             restRequest.setHeaders(headers);
             HttpResponse response = executeAPI(profile, restRequest);
             deploymentStatus = response.parseAs(DeploymentStatus.class);
-            /*if(deploymentStatus!=null && deploymentStatus.pods!=null && deploymentStatus.pods.size()>0) {
-            	for (PodStatus p: deploymentStatus.pods) {
-            		if(p.deploymentStatus!=null && p.deploymentStatus.equals("deployed")) {
-						deployed = true;
-					}else {
-						deployed = false;
-						break;
-					}
-						
-				}
-            }*/
-            if(deploymentStatus!=null && deploymentStatus.state != null && deploymentStatus.state.equalsIgnoreCase("READY")) {
+            //For https://github.com/apigee/apigee-deploy-maven-plugin/issues/158
+            if(deploymentStatus!=null && deploymentStatus.state != null && deploymentStatus.state.equalsIgnoreCase("ERROR")) {
+            	if(deploymentStatus.errors!=null && deploymentStatus.errors.size()>0) {
+            		String errorString = deploymentStatus.errors.stream().map(Error::getMessage)
+                            .collect(Collectors.joining("\n"));
+            		throw new IOException("Deployment error: "+errorString);
+            	}
+            }
+            else if(deploymentStatus!=null && deploymentStatus.state != null && deploymentStatus.state.equalsIgnoreCase("READY")) {
             	deployed = true;
             }else {
             	deployed = false;
             }
     	}catch (HttpResponseException e) {
             logger.error(e.getMessage());
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+            throw e;
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
