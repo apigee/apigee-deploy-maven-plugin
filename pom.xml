@@ -122,7 +122,7 @@
 		<maven.version>3.1.0</maven.version>
 		<maven.api.version>3.5</maven.api.version>
 		<google.http.client.version>1.22.0</google.http.client.version>
-		<apache.http.client>4.5.2</apache.http.client>
+		<apache.http.client>4.5.13</apache.http.client>
 		<spring.version>5.2.5.RELEASE</spring.version>
 		<jackson.version>2.11.0.rc1</jackson.version>
 	</properties>
