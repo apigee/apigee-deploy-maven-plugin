@@ -207,7 +207,7 @@ Refer config.json template [config.json](./samples/mockapi-recommended/src/gatew
 
 ## Commands for deploying the proxy using maven
 
-*To deploy the proxy*
+### To deploy the proxy
 
 ```
 /src/gateway/proxy-dir
@@ -239,7 +239,7 @@ For example using gcloud
 mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.options={option}
 ```
 
-*To delete the proxy or sharedflow* (v2.0.3 or later)
+### To delete the proxy or sharedflow (v2.0.3 or later)
 
 To delete the entire proxy or sharedflow, pass the options as `clean`
 
@@ -247,7 +247,7 @@ To delete the entire proxy or sharedflow, pass the options as `clean`
 mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.options=clean
 ```
 
-*To deploy a proxy that makes requires Apigee to generate the GoogleAccessToken or GoogleIDToken* (v2.1.2 or later) 
+### To deploy a proxy that makes requires Apigee to generate the GoogleAccessToken or GoogleIDToken (v2.1.2 or later) 
 
 **NOTE: This option is available in Apigee X and Apigee hybrid 1.6+**
 
