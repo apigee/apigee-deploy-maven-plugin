@@ -219,23 +219,44 @@ mvn apigee-enterprise:deploy -P<profile> -Dfile={file}
 ```
 The default configuration is "override" and in this option, the plugin polls to check if the deployment is complete across all pods. If you do not want the plugin to poll, please pass -Dapigee.options=async. This is available in v2.0.2 and later
 
-```mvn apigee-enterprise:deploy -P<profile> -Dfile={file} -Dapigee.options=async```
+```
+mvn apigee-enterprise:deploy -P<profile> -Dfile={file} -Dapigee.options=async
+```
 
 For example:
 
-```mvn apigee-enterprise:deploy -P prod -Dfile={file}```
+```
+mvn apigee-enterprise:deploy -P prod -Dfile={file}
+```
 
 You can also pass the bearer token to deploy (available from v2.0.1 and later)
-```mvn clean install -P{profile} -Dbearer=${bearer} -Dapigee.options={option}```
+
+```
+mvn clean install -P{profile} -Dbearer=${bearer} -Dapigee.options={option}
+```
 
 For example using gcloud
-```mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.options={option}```
+
+```
+mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.options={option}
+```
 
 *To delete the proxy or sharedflow* (v2.0.3 or later)
 
 To delete the entire proxy or sharedflow, pass the options as `clean`
 
-```mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.options=clean```
+```
+mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.options=clean
+```
+
+*To deploy a proxy that makes requires Apigee to generate the GoogleAccessToken or GoogleIDToken
+
+If the API Proxy makes a callout to a Google API, Apigee now supports generating the access token or ID Token by just passing the service account email to the deployment API. For more info on the policy and HTTPTargetConnection config, check out Authentication [](https://cloud.google.com/apigee/docs/api-platform/reference/policies/service-callout-policy#authentication). 
+
+```
+mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -DgoogleTokenEmail={ACCOUNT_ID}@{PROJECT}.iam.gserviceaccount.com
+```
+
 
 ## Advanced Configuration Options
 
@@ -253,29 +274,6 @@ The following entries in some XML file elements could be changed to match the cu
     * If the customer is an private cloud user, this url would be the location of the customer's management server host and port. The port is 8080 by default. 
 3. The value of the "apigee.org" element should match the organization provided when Customer environment was initially setup, in most cases this includes the name of the company. 
    * For private cloud installations, the org is setup when you run installation scripts. The Maven group id is malleable and is also marked in red for both pom examples, the only thing to note when changing this is that they need to be consistent between applications.
-
-## Deploying API Proxies with Node.js apps
-
-Starting at version 1.0.1 of the plugin, support for API proxies that contain node.js applications is included.  The plugin 
-will compress the ```node_modules``` directory contained in ```apiproxy/resources/node```.  
-
-The plugin also supports moving node.js application source into ```apiproxy/resources/node``` if the source exists
-outside of the API proxy structure itself.  An example structure when node.js application source is beside ```apiproxy```:
-
-```
-    |-name-of-root (typically proxy name)
-      |-apiproxy
-        |-proxies
-        |-resources
-          |-node (where root/node gets moved to)
-        |-targets
-      |-node (where node.js application source exists)
-```
- 
- Note: In above example, if you have code in ```node/``` and ```apiproxy/resources/node```, the source in ```node/``` takes 
- precedence and any files located in ```apiproxy/resource/node``` will be overwritten.
-
-The above structure follows the same pattern when developing with java source code outside of the ```apiproxy``` bundle working directory.
 
 ## Building Shared Flow bundles
 
