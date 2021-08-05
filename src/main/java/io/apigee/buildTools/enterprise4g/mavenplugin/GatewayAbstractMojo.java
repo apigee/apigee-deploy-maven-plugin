@@ -211,6 +211,12 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 	private String serviceAccountFilePath;
 	
 	/**
+	 * service account file
+	 * @parameter expression="${apigee.googletoken.email}"
+ 	 */
+	private String googleTokenEmail;
+	
+	/**
 	* Skip running this plugin.
 	* Default is false.
 	*
@@ -249,6 +255,7 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 		this.buildProfile.setOverridedelay(this.overridedelay);
 		this.buildProfile.setRevision(this.revision);
 		this.buildProfile.setServiceAccountJSONFile(this.serviceAccountFilePath);
+		this.buildProfile.setGoogleTokenEmail(this.googleTokenEmail);
 		
 		return buildProfile;
 	}

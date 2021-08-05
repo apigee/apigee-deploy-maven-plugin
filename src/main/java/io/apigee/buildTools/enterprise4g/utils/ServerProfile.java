@@ -40,6 +40,16 @@ public class ServerProfile {
 	private Long overridedelay;
 	private Long revision;
 	private String serviceAccountJSONFile;
+	private String googleTokenEmail;
+	
+	public String getGoogleTokenEmail() {
+		return googleTokenEmail;
+	}
+
+	public void setGoogleTokenEmail(String googleTokenEmail) {
+		this.googleTokenEmail = googleTokenEmail;
+	}
+	
 	
 	public String getServiceAccountJSONFile() {
 		return serviceAccountJSONFile;

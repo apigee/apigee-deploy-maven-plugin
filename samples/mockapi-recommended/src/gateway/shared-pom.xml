@@ -73,7 +73,7 @@
             <plugin>
                 <groupId>io.apigee.build-tools.enterprise4g</groupId>
                 <artifactId>apigee-edge-maven-plugin</artifactId>
-                <version>2.1.1</version>
+                <version>2.1.2</version>
                 <executions>
                     <execution>
                         <id>configure-bundle</id>
@@ -107,6 +107,7 @@
                 <apigee.bearer>${bearer}</apigee.bearer> <!-- this takes precedence over service account file -->
                 <apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
                 <apigee.options>override</apigee.options> <!-- override is default. Other options are async|clean-->
+                <apigee.googletoken.email>${googleTokenEmail}</apigee.googletoken.email> <!-- Available in Apigee X and Apigee hybrid 1.6 + -->
             </properties>
         </profile>
         <profile>
@@ -121,6 +122,7 @@
                 <apigee.bearer>${bearer}</apigee.bearer> <!-- this takes precedence over service account file -->
                 <apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
                 <apigee.options>override</apigee.options> <!-- override is default. Other options are async|clean-->
+                <apigee.googletoken.email>${googleTokenEmail}</apigee.googletoken.email> <!-- Available in Apigee X and Apigee hybrid 1.6 + -->
             </properties>
         </profile>
     </profiles>

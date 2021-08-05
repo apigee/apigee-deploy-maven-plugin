@@ -761,9 +761,13 @@ public class RestUtil {
                     + profile.getEnvironment() + "/"+type+"/"
                     + profile.getApplication() + "/revisions/" + revision
                     + "/deployments";
-
+    
+            //Feature for GoogleAccessToken/GoogleIDToken added to Apigee X and Apigee hybrid 1.6 and onwards #165
+            if(profile.getGoogleTokenEmail()!=null && !profile.getGoogleTokenEmail().equals(""))
+            	deployCmd = deployCmd + "?serviceAccount="+profile.getGoogleTokenEmail();
+            
             if (Options.override) {
-                GenericData data = new GenericData();
+            	GenericData data = new GenericData();
                 data.set("override", "true");
                 //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/18
                 if (Options.override_delay != 0) {
@@ -772,7 +776,7 @@ public class RestUtil {
                 urlEncodedContent = new UrlEncodedContent(data);
             } else {
                 // https://github.com/apigee/apigee-deploy-maven-plugin/issues/56
-                GenericData data = new GenericData();
+            	GenericData data = new GenericData();
                 data.set("override", "false");
                 urlEncodedContent = new UrlEncodedContent(data);
             }
@@ -793,111 +797,6 @@ public class RestUtil {
     	return deploymentStatus.revision;
     }
     
-    public static String activateBundleRevision1(ServerProfile profile, String revision, String type)
-            throws IOException {
-
-        BundleActivationConfig deployment2 = new BundleActivationConfig();
-        HttpResponse response = null;
-        try {
-
-            UrlEncodedContent urlEncodedContent = null;
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setAccept("application/json");
-            //headers.setContentType("application/x-www-form-urlencoded");
-
-            String deployCmd = profile.getHostUrl() + "/"
-                    + profile.getApi_version() + "/organizations/"
-                    + profile.getOrg() + "/environments/"
-                    + profile.getEnvironment() + "/"+type+"/"
-                    + profile.getApplication() + "/revisions/" + revision
-                    + "/deployments";
-
-            if (Options.override) {
-                GenericData data = new GenericData();
-                data.set("override", "true");
-                //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/18
-                if (Options.override_delay != 0) {
-                    data.set("delay", Options.override_delay);
-                }
-                urlEncodedContent = new UrlEncodedContent(data);
-            } else {
-                // https://github.com/apigee/apigee-deploy-maven-plugin/issues/56
-                GenericData data = new GenericData();
-                data.set("override", "false");
-                urlEncodedContent = new UrlEncodedContent(data);
-            }
-
-
-            HttpRequest deployRestRequest = REQUEST_FACTORY.buildPostRequest(
-                    new GenericUrl(deployCmd), urlEncodedContent);
-            deployRestRequest.setReadTimeout(0);
-            deployRestRequest.setHeaders(headers);
-
-            response = executeAPI(profile, deployRestRequest);
-            String responseString = response.parseAsString();
-            SeamLessDeploymentStatus deployment3 = null;
-            try{
-            	deployment3 = new Gson().fromJson(responseString, SeamLessDeploymentStatus.class);
-            }catch (JsonSyntaxException e){
-            	// https://github.com/apigee/apigee-deploy-maven-plugin/issues/92
-            	// Whenever an existing API is deployed with option as override and in the new revision, the proxy basepath is changed,
-            	// the Mgmt API response is different. It does not return the usual response if the proxy has no changes to the basepath
-            	// So catching the exception from above and setting the override flag to false so that it doesnt go that section of code below
-            	Options.override = false;
-            }
-            if (Options.override) {
-                //SeamLessDeploymentStatus deployment3 = response.parseAs(SeamLessDeploymentStatus.class);
-                Iterator<BundleActivationConfig> iter =   deployment3.environment.iterator();
-                while (iter.hasNext()){
-                    BundleActivationConfig config = iter.next();
-                    if (config.environment.equalsIgnoreCase(profile.getEnvironment())) {
-                        if (!config.state.equalsIgnoreCase("deployed"))
-                         {
-                             logger.info("\nWaiting to assert bundle activation.....");
-                             Thread.sleep(10);
-                             if (getDeployedRevision(profile).equalsIgnoreCase(revision))
-                             {
-                            	 logger.info("\nDeployed revision is: " + revision);
-                                 return "deployed";
-                             }
-                             else
-                                 logger.error("Deployment failed to activate");
-                                 throw new MojoExecutionException("Deployment failed: Bundle did not activate within expected time. Please check deployment status manually before trying again");
-                         }
-                        else {
-                            logger.info(PrintUtil.formatResponse(response, gson.toJson(deployment3).toString()));
-                        }
-                    }
-                }
-
-            }
-            //deployment2 = response.parseAs(BundleActivationConfig.class);
-            deployment2 = new Gson().fromJson(responseString, BundleActivationConfig.class);
-            logger.info(PrintUtil.formatResponse(response, gson.toJson(deployment2).toString()));
-            logger.info("\nDeployed revision is: "+deployment2.revision);
-
-            //Introduce Delay
-            if (Options.delay != 0) {
-                try {
-                    logger.debug("Delay of " + Options.delay + " milli second");
-                    Thread.sleep(Options.delay);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-
-
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw new IOException(e);
-        }
-
-        return deployment2.state;
-
-    }
-
     public static String deleteBundle(ServerProfile profile)
             throws IOException {
     	if(profile.getApi_type()!=null && profile.getApi_type().equalsIgnoreCase("sharedflow")){
