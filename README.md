@@ -36,8 +36,6 @@ Learn more, check out this video! [Ask the Expert](https://www.youtube.com/watch
   - [pom.xml Sample](#pom-xml-sample)
   - [Config.json Sample](#config-json-sample)
 - [Commands](#commands-for-deploying-the-proxy-using-maven)
-- [OAuth and Two-Factor Authentication](#oauth-and-two-factor-authentication)
-- [Node.js Application Support](#deploying-api-proxies-with-nodejs-apps)
 
 # Prerequisites
 You will need the following to run the samples:
