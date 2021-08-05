@@ -247,7 +247,7 @@ To delete the entire proxy or sharedflow, pass the options as `clean`
 mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.options=clean
 ```
 
-*To deploy a proxy that makes requires Apigee to generate the GoogleAccessToken or GoogleIDToken
+*To deploy a proxy that makes requires Apigee to generate the GoogleAccessToken or GoogleIDToken (v2.1.2 or later)
 
 If the API Proxy makes a callout to a Google API, Apigee now supports generating the access token or ID Token by just passing the service account email to the deployment API. For more info on the policy and HTTPTargetConnection config, check out Authentication [](https://cloud.google.com/apigee/docs/api-platform/reference/policies/service-callout-policy#authentication). 
 
