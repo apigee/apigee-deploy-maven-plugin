@@ -536,7 +536,6 @@ public class RestClient {
 				undeployRestRequest.setReadTimeout(0);
 				HttpHeaders headers = new HttpHeaders();
 				headers.setAccept("application/json");
-				headers.setContentType("application/x-www-form-urlencoded");
 				undeployRestRequest.setHeaders(headers);
 
 				HttpResponse response = null;
