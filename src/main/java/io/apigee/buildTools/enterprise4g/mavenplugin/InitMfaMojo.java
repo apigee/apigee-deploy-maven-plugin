@@ -15,14 +15,10 @@
  */
 package io.apigee.buildTools.enterprise4g.mavenplugin;
 
-import io.apigee.buildTools.enterprise4g.rest.RestUtil;
-import io.apigee.buildTools.enterprise4g.rest.RestUtil.Options;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import io.apigee.buildTools.enterprise4g.rest.RestUtil;
 
 
 

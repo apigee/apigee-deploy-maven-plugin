@@ -15,14 +15,15 @@
  */
 package io.apigee.buildTools.enterprise4g.mavenplugin;
 
-import io.apigee.buildTools.enterprise4g.rest.RestUtil;
-import io.apigee.buildTools.enterprise4g.rest.RestUtil.Options;
+import java.io.IOException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import io.apigee.buildTools.enterprise4g.rest.RestUtil;
+import io.apigee.buildTools.enterprise4g.rest.RestUtil.Options;
 
 
 
@@ -43,7 +44,7 @@ public class DeployMojo extends GatewayAbstractMojo
 			+ "This deployment could have failed for a variety of reasons.\n\n"
 			+ "\n\n* * * * * * * * * * *\n\n\n";
 
-	static Logger logger = LoggerFactory.getLogger(DeployMojo.class);
+	static Logger logger = LogManager.getLogger(DeployMojo.class);
 	
 	public DeployMojo() {
 		super();

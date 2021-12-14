@@ -6,7 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.core.env.Environment;
@@ -27,7 +28,7 @@ import com.google.gson.Gson;
 
 public class MgmtAPIClient {
 	
-	private static final Logger logger = Logger.getLogger(MgmtAPIClient.class);
+	private static final Logger logger = LogManager.getLogger(MgmtAPIClient.class);
 
 
 	/**
