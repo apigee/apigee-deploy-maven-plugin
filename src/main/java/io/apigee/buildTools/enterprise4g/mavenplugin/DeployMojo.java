@@ -21,6 +21,8 @@ import io.apigee.buildTools.enterprise4g.rest.Bundle;
 import io.apigee.buildTools.enterprise4g.rest.RestClient;
 import io.apigee.buildTools.enterprise4g.utils.ServerProfile;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import java.io.IOException;
@@ -33,6 +35,8 @@ import java.io.IOException;
  * @phase package
  */
 public class DeployMojo extends GatewayAbstractMojo {
+	
+	static Logger logger = LogManager.getLogger(DeployMojo.class);
 
 	/**
 	 * the REST client to talk to the management API
@@ -45,7 +49,7 @@ public class DeployMojo extends GatewayAbstractMojo {
 	public void execute() throws MojoExecutionException {
 
 		if (isSkip()) {
-			getLog().info("Skipping");
+			logger.info("Skipping");
 			return;
 		}
 
@@ -100,7 +104,7 @@ public class DeployMojo extends GatewayAbstractMojo {
 		// If revision is passed to the module, update that revision
 		if (bundle.getRevision() != null) {
 
-			getLog().info(format("Updating %s/%s revision %d (current active revision is %d)",
+			logger.info(format("Updating %s/%s revision %d (current active revision is %d)",
 					bundle.getType().name().toLowerCase(),
 					bundle.getName(),
 					bundle.getRevision(),
@@ -108,7 +112,7 @@ public class DeployMojo extends GatewayAbstractMojo {
 
 			Long updatedRevision = client.updateBundle(getApplicationBundlePath(), bundle);
 
-			getLog().info(format("Updated %s/%s revision %d",
+			logger.info(format("Updated %s/%s revision %d",
 					bundle.getType().name().toLowerCase(),
 					bundle.getName(),
 					updatedRevision));
@@ -117,7 +121,7 @@ public class DeployMojo extends GatewayAbstractMojo {
 			if (activeRevision != null) {
 				//if there is a revision deployed in this environment we will update this one
 
-				getLog().info(format("Updating %s/%s active revision %d",
+				logger.info(format("Updating %s/%s active revision %d",
 						bundle.getType().name().toLowerCase(),
 						bundle.getName(),
 						activeRevision));
@@ -127,7 +131,7 @@ public class DeployMojo extends GatewayAbstractMojo {
 				//	client.activateBundleRevision(bundle.clone(updatedRevision));
 				//}
 
-				getLog().info(format("Updated %s/%s revision %d",
+				logger.info(format("Updated %s/%s revision %d",
 						bundle.getType().name().toLowerCase(),
 						bundle.getName(),
 						updatedRevision));
@@ -136,7 +140,7 @@ public class DeployMojo extends GatewayAbstractMojo {
 				// no revision deployed, lets upload as a new revision
 				// FIXME this should actually throw an error as neither a revision to update is specified nor any revision is active that could be updated. Also documented in https://github.com/apigee/apigee-deploy-maven-plugin/issues/46#issuecomment-225464906.
 
-				getLog().info(format("Upload %s/%s as new revision",
+				logger.info(format("Upload %s/%s as new revision",
 						bundle.getType().name().toLowerCase(), bundle.getName()));
 
 				Long updatedRevision = client.uploadBundle(getApplicationBundlePath(), bundle);
@@ -145,7 +149,7 @@ public class DeployMojo extends GatewayAbstractMojo {
 					client.activateBundleRevision(bundle.clone(updatedRevision));
 				}
 
-				getLog().info(format("Uploaded %s/%s as new revision %d",
+				logger.info(format("Uploaded %s/%s as new revision %d",
 						bundle.getType().name().toLowerCase(),
 						bundle.getName(),
 						updatedRevision));
@@ -166,7 +170,7 @@ public class DeployMojo extends GatewayAbstractMojo {
 			// TODO Why do we need a revision? Isn't the entire bundle deleted when we do this?
 			client.deleteBundle(bundle.clone(activeRevision));
 		} else {
-			getLog().info("No active revision for " + client.getProfile().getEnvironment()
+			logger.info("No active revision for " + client.getProfile().getEnvironment()
 					+ " environment. Nothing to delete");
 		}
 	}

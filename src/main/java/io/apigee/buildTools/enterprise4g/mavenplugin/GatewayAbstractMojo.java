@@ -30,6 +30,8 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.DefaultProxyAuthenticationHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -51,7 +53,8 @@ import io.apigee.buildTools.enterprise4g.rest.Bundle;
 import io.apigee.buildTools.enterprise4g.utils.ServerProfile;
 
 public abstract class GatewayAbstractMojo extends AbstractMojo implements Contextualizable {
-
+	
+	static Logger logger = LogManager.getLogger(GatewayAbstractMojo.class);
 	protected static final Pattern URL_PARSE_REGEX = Pattern.compile("^(http[s]?)://([^:/?#]*).*$");
 
 	/**
@@ -354,12 +357,12 @@ public abstract class GatewayAbstractMojo extends AbstractMojo implements Contex
 		// setup legacy build options only if no options have been provided
 		if (isBlank(options) && isNotBlank(buildOption)) {
 			if ("deploy-inactive".equals(buildOption)) {
-				getLog().warn("Note: -Dbuild.option=deploy-inactive is Deprecated, use -Dapigee.options=inactive instead");
+				logger.warn("Note: -Dbuild.option=deploy-inactive is Deprecated, use -Dapigee.options=inactive instead");
 				profile.addAction(ActionFlags.INACTIVE, ActionFlags.VALIDATE);
 			} else if ("undeploy".equals(buildOption)) {
 				// FIXME The original code only undeploys the module but does not delete it, there is no equivalent in the current option set.
 				// old code did this: client.deactivateBundle(bundle);
-				getLog().warn("Note: -Dbuild.option=undeploy is Deprecated, use -Dapigee.options=clean instead");
+				logger.warn("Note: -Dbuild.option=undeploy is Deprecated, use -Dapigee.options=clean instead");
 				profile.addAction(ActionFlags.CLEAN);
 			} else if ("delete".equals(buildOption)) {
 				profile.addAction(ActionFlags.CLEAN);
@@ -396,7 +399,7 @@ public abstract class GatewayAbstractMojo extends AbstractMojo implements Contex
 			// process proxy for management api endpoint
 			Proxy mavenProxy = getProxy(settings, hostURL);
 			if (mavenProxy != null) {
-				getLog().info("set proxy to " + mavenProxy.getHost() + ":" + mavenProxy.getPort());
+				logger.info("set proxy to " + mavenProxy.getHost() + ":" + mavenProxy.getPort());
 				DefaultHttpClient httpClient = new DefaultHttpClient();
 				HttpHost proxy = new HttpHost(mavenProxy.getHost(), mavenProxy.getPort());
 				httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
@@ -407,7 +410,7 @@ public abstract class GatewayAbstractMojo extends AbstractMojo implements Contex
 				}
 
 				if (isNotBlank(mavenProxy.getUsername()) && isNotBlank(mavenProxy.getPassword())) {
-					getLog().debug("set proxy credentials");
+					logger.debug("set proxy credentials");
 					httpClient.setProxyAuthenticationHandler(new DefaultProxyAuthenticationHandler());
 					httpClient.getCredentialsProvider().setCredentials(
 							new AuthScope(mavenProxy.getHost(), mavenProxy.getPort()),
@@ -522,7 +525,7 @@ public abstract class GatewayAbstractMojo extends AbstractMojo implements Contex
 			try {
 				settingsDecrypter = container.lookup(SettingsDecrypter.class);
 			} catch (ComponentLookupException e) {
-				getLog().warn("Failed to lookup build in maven component session decrypter.", e);
+				logger.warn("Failed to lookup build in maven component session decrypter.", e);
 			}
 		}
 	}
@@ -563,7 +566,7 @@ public abstract class GatewayAbstractMojo extends AbstractMojo implements Contex
 				if (settingsDecrypter != null) {
 					return settingsDecrypter.decrypt(new DefaultSettingsDecryptionRequest(proxy)).getProxy();
 				} else {
-					getLog().warn("Maven did not inject SettingsDecrypter, " +
+					logger.warn("Maven did not inject SettingsDecrypter, " +
 							"proxy may contain an encrypted password, which cannot be " +
 							"used to setup the REST client.");
 					return proxy;

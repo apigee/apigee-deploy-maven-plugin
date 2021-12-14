@@ -29,7 +29,7 @@
 	<artifactId>apigee-edge-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
 	<!-- This is inherited from <version>0.0.15</version> of the the non-opensource plugin -->
-	<version>1.2.5-SNAPSHOT</version>
+	<version>1.3.0-SNAPSHOT</version>
 	<name>apigee-edge-maven-plugin maven mojo</name>
 	<url>http://maven.apache.org</url>
 
@@ -117,8 +117,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<slf4j.version>1.6.6</slf4j.version>
-		<log4j.version>1.2.17</log4j.version>
+		<log4j.version>2.16.0</log4j.version>
 		<maven.version>3.1.0</maven.version>
 		<maven.api.version>3.5</maven.api.version>
 		<google.http.client.version>1.22.0</google.http.client.version>
@@ -191,16 +190,6 @@
 				<artifactId>maven-plugin-annotations</artifactId>
 				<version>${maven.api.version}</version>
 				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>jcl-over-slf4j</artifactId>
-				<version>${slf4j.version}</version>
 			</dependency>
 			<!-- excluding commons logging by declaring it in the provided scope -->
 			<dependency>
@@ -324,12 +313,6 @@
 				<version>4.13.1</version>
 				<scope>test</scope>
 			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>${slf4j.version}</version>
-				<scope>test</scope>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -349,16 +332,14 @@
 		</dependency>
 		<!-- logging -->
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j.version}</version>
 		</dependency>
 
 		<!-- using google http client for http rest protocols. supposed to be better than all -->

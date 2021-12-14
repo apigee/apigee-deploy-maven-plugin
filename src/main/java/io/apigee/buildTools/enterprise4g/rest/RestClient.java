@@ -27,9 +27,9 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.apigee.mgmtapi.sdk.client.MgmtAPIClient;
 import com.apigee.mgmtapi.sdk.model.AccessToken;
@@ -65,7 +65,7 @@ public class RestClient {
 	public static final String STATE_DEPLOYED = "deployed";
 	public static final String STATE_ERROR = "error";
 	public static final String STATE_IMPORTED = "imported";
-	private static final transient Logger log = LoggerFactory.getLogger(RestClient.class);
+	private static final transient Logger log = LogManager.getLogger(RestClient.class);
 
 	// FIXME access token should be handled as state and be tracking access credentials between module invocations
 	@Deprecated

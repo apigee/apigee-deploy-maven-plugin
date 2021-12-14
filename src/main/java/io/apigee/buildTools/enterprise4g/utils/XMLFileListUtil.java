@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 //import javax.xml.parsers.ParserConfigurationException;
 //import javax.xml.transform.SourceLocator;
@@ -160,7 +160,7 @@ public class XMLFileListUtil {
 		// project pom level.
 
 		ArrayList<File> aList = new ArrayList<File>();
-		Logger logger = LoggerFactory.getLogger(XMLFileListUtil.class);
+		Logger logger = LogManager.getLogger(XMLFileListUtil.class);
 		try {
 			File folder = new File(sFolder);
 

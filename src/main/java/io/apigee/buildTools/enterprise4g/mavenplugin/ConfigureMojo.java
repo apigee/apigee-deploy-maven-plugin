@@ -18,6 +18,8 @@ package io.apigee.buildTools.enterprise4g.mavenplugin;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import io.apigee.buildTools.enterprise4g.rest.Bundle;
 import io.apigee.buildTools.enterprise4g.utils.PackageConfigurer;
@@ -36,10 +38,12 @@ import java.io.File;
 
 public class ConfigureMojo extends GatewayAbstractMojo {
 
+	static Logger logger = LogManager.getLogger(ConfigureMojo.class);
+	
 	public void execute() throws MojoExecutionException, MojoFailureException {
 
 		if (isSkip()) {
-			getLog().info("Skipping");
+			logger.info("Skipping");
 			return;
 		}
 
@@ -54,7 +58,7 @@ public class ConfigureMojo extends GatewayAbstractMojo {
 			configurePackage(profile, configFile, bundle);
 		}
 
-		getLog().info("Checking for node.js app");
+		logger.info("Checking for node.js app");
 		//sometimes node.js source lives outside the apiproxy/ in node/ within the base project directory
 		String externalNodeDirPath = getBaseDirectoryPath() + "/node/";
 		File externalNodeDir = new File(externalNodeDirPath);
@@ -69,7 +73,7 @@ public class ConfigureMojo extends GatewayAbstractMojo {
 		if (externalNodeDir.isDirectory()) {
 			String[] filesInExternalNodeDir = externalNodeDir.list();
 			if (filesInExternalNodeDir.length > 0) {
-				getLog().info("Node.js app code found outside apiproxy/ directory. Moving to target/apiproxy/resources/node (will overwrite).");
+				logger.info("Node.js app code found outside apiproxy/ directory. Moving to target/apiproxy/resources/node (will overwrite).");
 				try {
 					FileUtils.deleteDirectory(nodeDir);
 					FileUtils.copyDirectory(externalNodeDir, nodeDir);
@@ -81,13 +85,13 @@ public class ConfigureMojo extends GatewayAbstractMojo {
 
 		//always handle zipping of any directories in apiproxy/resources/node
 		if (nodeDir.isDirectory()) {
-			getLog().info("Now zipping node modules");
+			logger.info("Now zipping node modules");
 			String[] filesInNodeDir = nodeDir.list();
 			for (String fileName : filesInNodeDir) {
 				String filePath = nodeDirPath + fileName;
 				File dirFile = new File(filePath);
 				if (dirFile.isDirectory() && fileName.contains("node_modules")) {
-					getLog().info("Zipping " + fileName + " (it is a directory).");
+					logger.info("Zipping " + fileName + " (it is a directory).");
 					try {
 						ZipUtils zu = new ZipUtils();
 						zu.zipDir(new File(filePath + ".zip"),
@@ -105,7 +109,7 @@ public class ConfigureMojo extends GatewayAbstractMojo {
 	private void zipDirectory(Bundle bundle) throws MojoExecutionException {
 		try {
 			File bundleFile = new File(getApplicationBundlePath());
-			getLog().info("Create Apigee App Bundle " + bundleFile.getAbsolutePath());
+			logger.info("Create Apigee App Bundle " + bundleFile.getAbsolutePath());
 			ZipUtils zu = new ZipUtils();
 
 			if (Bundle.Type.SHAREDFLOW == bundle.getType()) {
@@ -119,7 +123,7 @@ public class ConfigureMojo extends GatewayAbstractMojo {
 	}
 
 	private void configurePackage(ServerProfile profile, File configFile, Bundle bundle) throws MojoExecutionException {
-		getLog().debug("Updating the configuration values for the App Bundle");
+		logger.debug("Updating the configuration values for the App Bundle");
 		try {
 			if (profile.getProfileId() != null && profile.getProfileId() != "" &&
 					Bundle.Type.SHAREDFLOW == bundle.getType()) {
@@ -141,7 +145,7 @@ public class ConfigureMojo extends GatewayAbstractMojo {
 			return configFile;
 		}
 
-		getLog().info("No config.json found. Skipping package configuration.");
+		logger.info("No config.json found. Skipping package configuration.");
 		return null;
 	}
 

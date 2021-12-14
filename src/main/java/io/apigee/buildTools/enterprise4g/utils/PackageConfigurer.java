@@ -26,8 +26,8 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -49,7 +49,7 @@ public class PackageConfigurer {
 	public static void configurePackage(String env, File configFile)
             throws Exception {
 
-        Logger logger = LoggerFactory.getLogger(PackageConfigurer.class);
+        Logger logger = LogManager.getLogger(PackageConfigurer.class);
 
         TransformerFactory transformerFactory = TransformerFactory
                 .newInstance();
@@ -187,7 +187,7 @@ public class PackageConfigurer {
 	public static void configureSharedFlowPackage(String env, File configFile)
             throws Exception {
 
-        Logger logger = LoggerFactory.getLogger(PackageConfigurer.class);
+        Logger logger = LogManager.getLogger(PackageConfigurer.class);
 
         TransformerFactory transformerFactory = TransformerFactory
                 .newInstance();
@@ -294,7 +294,7 @@ public class PackageConfigurer {
     public static void configureSharedFlowPackage1(String env, File configFile)
             throws Exception {
 
-        Logger logger = LoggerFactory.getLogger(PackageConfigurer.class);
+        Logger logger = LogManager.getLogger(PackageConfigurer.class);
 
         TransformerFactory transformerFactory = TransformerFactory
                 .newInstance();
@@ -372,7 +372,7 @@ public class PackageConfigurer {
     public static Document replaceTokens(Document doc, Policy configTokens)
             throws XPathExpressionException, TransformerConfigurationException {
 
-        Logger logger = LoggerFactory.getLogger(PackageConfigurer.class);
+        Logger logger = LogManager.getLogger(PackageConfigurer.class);
 
         javax.xml.xpath.XPathFactory factory = javax.xml.xpath.XPathFactory
                 .newInstance();
