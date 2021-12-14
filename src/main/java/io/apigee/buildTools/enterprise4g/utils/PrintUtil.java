@@ -15,21 +15,21 @@
  */
 package io.apigee.buildTools.enterprise4g.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.ByteArrayOutputStream;
+import java.util.Iterator;
+import java.util.Set;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpResponse;
 
-import java.io.ByteArrayOutputStream;
-import java.util.Iterator;
-import java.util.Set;
-
 public class PrintUtil {
 
-	private static Logger log = LoggerFactory.getLogger(PrintUtil.class);
+	private static Logger log = LogManager.getLogger(PrintUtil.class);
 
     public static String formatRequest(HttpRequest request) {
 
