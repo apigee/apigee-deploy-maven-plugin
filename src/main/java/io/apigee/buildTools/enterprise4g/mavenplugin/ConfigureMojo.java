@@ -15,15 +15,16 @@
  */
 package io.apigee.buildTools.enterprise4g.mavenplugin;
 
-import io.apigee.buildTools.enterprise4g.utils.PackageConfigurer;
-import io.apigee.buildTools.enterprise4g.utils.ZipUtils;
+import java.io.File;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.apache.commons.io.FileUtils;
 
-import java.io.File;
+import io.apigee.buildTools.enterprise4g.utils.PackageConfigurer;
+import io.apigee.buildTools.enterprise4g.utils.ZipUtils;
 
 
 /**
@@ -44,7 +45,7 @@ public class ConfigureMojo extends GatewayAbstractMojo {
 			return;
 		}
 
-		Logger logger = LoggerFactory.getLogger(ConfigureMojo.class);
+		Logger logger = LogManager.getLogger(ConfigureMojo.class);
 		File configFile = findConfigFile(logger);
 
 		if (configFile != null) {

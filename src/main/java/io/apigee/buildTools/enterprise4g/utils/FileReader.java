@@ -24,8 +24,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -65,7 +65,7 @@ public class FileReader {
 				new java.io.FileReader(filepath));
 		conf = gson.fromJson(bufferedReader, ConfigTokens.class); // binds the file to data config objects
 		
-		Logger logger = LoggerFactory.getLogger(FileReader.class);
+		Logger logger = LogManager.getLogger(FileReader.class);
 		
 //		logger.info("\n\n=============Reading the config file================\n\n{}", conf.toString());
 		logger.info("============= Reading the config file located at ================\n{}",  filepath.getAbsolutePath());

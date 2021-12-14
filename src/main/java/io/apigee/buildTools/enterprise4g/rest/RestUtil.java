@@ -18,15 +18,13 @@ package io.apigee.buildTools.enterprise4g.rest;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import org.apache.maven.plugin.MojoExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.apigee.mgmtapi.sdk.client.MgmtAPIClient;
 import com.google.api.client.http.FileContent;
@@ -48,7 +46,6 @@ import com.google.api.client.util.GenericData;
 import com.google.api.client.util.Key;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
 
 import io.apigee.buildTools.enterprise4g.utils.PrintUtil;
 import io.apigee.buildTools.enterprise4g.utils.ServerProfile;
@@ -59,7 +56,7 @@ public class RestUtil {
     static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     static final JsonFactory JSON_FACTORY = new JacksonFactory();
     static String versionRevision;
-    static Logger logger = LoggerFactory.getLogger(RestUtil.class);
+    static Logger logger = LogManager.getLogger(RestUtil.class);
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static final String STATE_UNDEPLOYED = "undeployed";

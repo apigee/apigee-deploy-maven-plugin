@@ -15,19 +15,24 @@
  */
 package io.apigee.buildTools.enterprise4g.utils;
 
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.regex.Matcher;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ZipUtils {
-    static Logger log = LoggerFactory.getLogger(ZipUtils.class);
+    static Logger log = LogManager.getLogger(ZipUtils.class);
 
 
     public void unzipArchive(File archive, File outputDir) {
