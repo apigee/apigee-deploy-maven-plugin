@@ -69,7 +69,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>4.3.20.RELEASE</spring.version>
 		<spring.security.version>4.2.9.RELEASE</spring.security.version>
-		<log4j.version>2.16.0</log4j.version>
+		<log4j.version>2.17.0</log4j.version>
 	</properties>
 	<!-- mgmt-api-java-sdk -->
 
