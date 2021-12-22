@@ -5,7 +5,7 @@ apigee-deploy-maven-plugin (Apigee X or Apigee hybrid)
 apigee-edge-maven-plugin is a build and deploy utility for building and deploying the Apigee ApiProxy's/Application bundles into Apigee hybrid Edge Platform.
 The code is distributed under the Apache License 2.0.
 
-**NOTE:** Log4J libraries are upgraded to v2.16.0 in v2.2.0
+**NOTE:** Log4J libraries are upgraded to v2.17.0 in v2.2.1
 
 ------------
 TL;DR
