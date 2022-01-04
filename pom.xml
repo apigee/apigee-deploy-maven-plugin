@@ -117,7 +117,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<log4j.version>2.17.0</log4j.version>
+		<log4j.version>2.17.1</log4j.version>
 		<maven.version>3.1.0</maven.version>
 		<maven.api.version>3.5</maven.api.version>
 		<google.http.client.version>1.22.0</google.http.client.version>
