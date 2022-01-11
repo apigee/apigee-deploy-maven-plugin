@@ -146,7 +146,8 @@ public class DeployMojo extends GatewayAbstractMojo
 			
 			logger.info("\n\n=============Importing App================\n\n");
 			state = State.IMPORTING;
-			bundleRevision = RestUtil.uploadBundle(super.getProfile(), super.getApplicationBundlePath());
+			RestUtil restUtil = new RestUtil(super.getProfile());
+			bundleRevision = restUtil.uploadBundle(super.getProfile(), super.getApplicationBundlePath());
 
 		
 		} catch (IOException e) {
@@ -165,7 +166,8 @@ public class DeployMojo extends GatewayAbstractMojo
 			
 			logger.info("\n\n=============Updating App================\n\n");
 			state = State.IMPORTING;
-			bundleRevision = RestUtil.updateBundle(super.getProfile(), super.getApplicationBundlePath(),revision);
+			RestUtil restUtil = new RestUtil(super.getProfile());
+			bundleRevision = restUtil.updateBundle(super.getProfile(), super.getApplicationBundlePath(),revision);
 		
 		} catch (IOException e) {
 			throw e;
@@ -185,7 +187,8 @@ public class DeployMojo extends GatewayAbstractMojo
 		try {
 			logger.info("\n\n=============Deactivating App================\n\n");
 			state = State.DEACTIVATING;
-			RestUtil.deactivateBundle(super.getProfile());
+			RestUtil restUtil = new RestUtil(super.getProfile());
+			restUtil.deactivateBundle(super.getProfile());
 		}
 		catch (IOException e) {
 				throw e ;	
@@ -204,7 +207,8 @@ public class DeployMojo extends GatewayAbstractMojo
 		try {
 			logger.info("\n\n=============Refresh Bundle================\n\n");
 			state = State.ACTIVATING;
-			RestUtil.refreshBundle(super.getProfile(), this.bundleRevision);
+			RestUtil restUtil = new RestUtil(super.getProfile());
+			restUtil.refreshBundle(super.getProfile(), this.bundleRevision);
 		} catch (IOException e) {
 			throw e ;
 		} catch (RuntimeException e) {
@@ -222,7 +226,8 @@ public class DeployMojo extends GatewayAbstractMojo
 		try {
 			logger.info("\n\n=============Activating Bundle================\n\n");
 			state = State.ACTIVATING;
-			String revision = RestUtil.activateBundleRevision(super.getProfile(), this.bundleRevision);
+			RestUtil restUtil = new RestUtil(super.getProfile());
+			String revision = restUtil.activateBundleRevision(super.getProfile(), this.bundleRevision);
 
 			// if user passed -Dapigee.options=async, no need for polling, exit early
 			if (Options.async) {
@@ -232,7 +237,7 @@ public class DeployMojo extends GatewayAbstractMojo
 			boolean deployed = false;
 			//Loop to check the deployment status
 			for (; !deployed; ) {
-				deployed = RestUtil.getDeploymentStateForRevision(super.getProfile(), revision);
+				deployed = restUtil.getDeploymentStateForRevision(super.getProfile(), revision);
 	        	Thread.sleep(5*1000);
 			}
 		} catch (IOException e) {
@@ -249,14 +254,15 @@ public class DeployMojo extends GatewayAbstractMojo
 	
 	public void doDelete() throws IOException, MojoFailureException,Exception {
 	try {
-			String status = RestUtil.deactivateBundle(this.getProfile());
+			RestUtil restUtil = new RestUtil(this.getProfile());
+			String status = restUtil.deactivateBundle(this.getProfile());
 			if(status == null) {
 				logger.info("No bundle to delete");
 				return;
 			}
 			logger.info("\n\n=============Deleting bundle================\n\n");
 			state = State.DELETING;
-			RestUtil.deleteBundle(this.getProfile());
+			restUtil.deleteBundle(this.getProfile());
 		} catch (IOException e) {
 			throw e ;
 		} catch (RuntimeException e) {

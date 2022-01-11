@@ -45,14 +45,16 @@ public class TestGetRevision extends TestCase {
 	
 	
 	public void testGetRevisionCall() throws IOException{
-		RestUtil.getRevision(profile);
-		System.out.println("revision number::"+ RestUtil.getVersionRevision());
-		assertNotNull(RestUtil.getVersionRevision());
+		RestUtil restUtil = new RestUtil(profile);
+		restUtil.getRevision(profile);
+		System.out.println("revision number::"+ restUtil.getVersionRevision());
+		assertNotNull(restUtil.getVersionRevision());
 	}
 	
 	
 	public void testGetLatestRevisionCall() throws IOException{
-		String latestRev = RestUtil.getLatestRevision(profile);
+		RestUtil restUtil = new RestUtil(profile);
+		String latestRev = restUtil.getLatestRevision(profile);
 		assertNotNull(latestRev);
 	}
 

@@ -15,6 +15,8 @@
  */
 package io.apigee.buildTools.enterprise4g.utils;
 
+import org.apache.http.client.HttpClient;
+
 public class ServerProfile {
 
 	private String application; // application name
@@ -41,6 +43,16 @@ public class ServerProfile {
 	private Long revision;
 	private String serviceAccountJSONFile;
 	private String googleTokenEmail;
+	
+	//For Proxy
+	private boolean hasProxy;
+	private String proxyProtocol;
+	private String proxyServer;
+	private int proxyPort;
+	private String proxyUsername;
+	private String proxyPassword;
+	
+	private HttpClient apacheHttpClient;
 	
 	public String getGoogleTokenEmail() {
 		return googleTokenEmail;
@@ -236,5 +248,98 @@ public class ServerProfile {
 	public void setRevision(Long revision) {
 		this.revision = revision;
 	}
+	
+	/**
+	 * @return the proxyProtocol
+	 */
+	public String getProxyProtocol() {
+		return proxyProtocol;
+	}
+
+	/**
+	 * @param proxyProtocol the proxyProtocol to set
+	 */
+	public void setProxyProtocol(String proxyProtocol) {
+		this.proxyProtocol = proxyProtocol;
+	}
+
+	/**
+	 * @return the proxyServer
+	 */
+	public String getProxyServer() {
+		return proxyServer;
+	}
+
+	/**
+	 * @param proxyServer the proxyServer to set
+	 */
+	public void setProxyServer(String proxyServer) {
+		this.proxyServer = proxyServer;
+	}
+
+	/**
+	 * @return the proxyPort
+	 */
+	public int getProxyPort() {
+		return proxyPort;
+	}
+
+	/**
+	 * @param proxyPort the proxyPort to set
+	 */
+	public void setProxyPort(int proxyPort) {
+		this.proxyPort = proxyPort;
+	}
+
+	/**
+	 * @return the hasProxy
+	 */
+	public boolean getHasProxy() {
+		return hasProxy;
+	}
+
+	/**
+	 * @param hasProxy the hasProxy to set
+	 */
+	public void setHasProxy(boolean hasProxy) {
+		this.hasProxy = hasProxy;
+	}
+
+	/**
+	 * @return the proxyUsername
+	 */
+	public String getProxyUsername() {
+		return proxyUsername;
+	}
+
+	/**
+	 * @param proxyUsername the proxyUsername to set
+	 */
+	public void setProxyUsername(String proxyUsername) {
+		this.proxyUsername = proxyUsername;
+	}
+	
+	/**
+	 * @return the proxyPassword
+	 */
+	public String getProxyPassword() {
+		return proxyPassword;
+	}
+
+	/**
+	 * @param proxyPassword the proxyPassword to set
+	 */
+	public void setProxyPassword(String proxyPassword) {
+		this.proxyPassword = proxyPassword;
+	}
+	
+	public HttpClient getApacheHttpClient() {
+		return apacheHttpClient;
+	}
+
+	public void setApacheHttpClient(HttpClient apacheHttpClient) {
+		this.apacheHttpClient = apacheHttpClient;
+	}
+	
 
 }

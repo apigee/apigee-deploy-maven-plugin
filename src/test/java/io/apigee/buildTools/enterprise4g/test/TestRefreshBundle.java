@@ -44,11 +44,12 @@ public class TestRefreshBundle extends TestCase {
 	
 	public void testRefreshBundleCall() throws IOException{
 		String revision;
-		RestUtil.getRevision(profile);
-		revision = RestUtil.getVersionRevision();
+		RestUtil restUtil = new RestUtil(profile);
+		restUtil.getRevision(profile);
+		revision = restUtil.getVersionRevision();
 		//String newRevision = Integer.toString((Integer.parseInt(revision)+1));
 		
-		String status = RestUtil.refreshBundle(profile, revision); //Integer.toString(newRevision)
+		String status = restUtil.refreshBundle(profile, revision); //Integer.toString(newRevision)
 		System.out.println("deployment status::"+status);
 		assertNotNull(status); 
 	}
