@@ -104,7 +104,8 @@
                 <apigee.org>${org}</apigee.org>
                 <apigee.env>${env}</apigee.env>
                 <apigee.authtype>oauth</apigee.authtype> <!-- only option -->
-                <apigee.bearer>${bearer}</apigee.bearer> <!-- this takes precedence over service account file -->                <apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
+                <apigee.bearer>${bearer}</apigee.bearer> <!-- this takes precedence over service account file -->                
+                <apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
                 <apigee.options>override</apigee.options> <!-- override is default. Other options are async|clean-->
                 <apigee.googletoken.email>${googleTokenEmail}</apigee.googletoken.email> <!-- Available in Apigee X and Apigee hybrid 1.6 + -->
             </properties>
