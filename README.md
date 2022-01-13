@@ -38,6 +38,7 @@ Learn more, check out this video! [Ask the Expert](https://www.youtube.com/watch
   - [pom.xml Sample](#pom-xml-sample)
   - [Config.json Sample](#config-json-sample)
 - [Commands](#commands-for-deploying-the-proxy-using-maven)
+- [To configure a proxy](#to-configure-a-proxy)
 
 # Prerequisites
 You will need the following to run the samples:
@@ -295,6 +296,11 @@ The [samples](./samples/security-sharedflow/src/sharedflows) has an example of a
 `<apigee.apitype>sharedflow</apigee.apitype>`
 
 This is required to differentiate the build and deployment process.
+
+## To configure a proxy 
+Supported from v2.3.0
+
+Please refer to this [doc](http://maven.apache.org/guides/mini/guide-proxies.html) that explains how to setup proxy settings in your settings.xml usually in your $HOME/.m2 directory. Only `https` protocol is supported
 
 ------------------------------------------
 Recommended Convention for Contributions

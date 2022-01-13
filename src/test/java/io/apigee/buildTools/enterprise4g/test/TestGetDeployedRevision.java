@@ -45,7 +45,8 @@ public class TestGetDeployedRevision extends TestCase {
 	
 	public void testGetRevisionCall() throws IOException{
 		try {
-			String revision = RestUtil.getDeployedRevision(profile);
+			RestUtil restUtil = new RestUtil(profile);
+			String revision = restUtil.getDeployedRevision(profile);
 			assertNotNull(revision);
 			System.out.println("deployed revision:: "+ revision);
 		} catch (Exception e) {

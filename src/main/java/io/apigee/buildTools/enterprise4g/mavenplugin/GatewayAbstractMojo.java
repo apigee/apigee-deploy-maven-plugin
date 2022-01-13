@@ -15,15 +15,82 @@
  */
 package io.apigee.buildTools.enterprise4g.mavenplugin;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 import java.io.File;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.maven.execution.MavenSession;
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.project.MavenProject;
+import org.apache.maven.settings.Proxy;
+import org.apache.maven.settings.Settings;
+import org.apache.maven.settings.crypto.DefaultSettingsDecryptionRequest;
+import org.apache.maven.settings.crypto.SettingsDecrypter;
+import org.codehaus.plexus.PlexusConstants;
+import org.codehaus.plexus.PlexusContainer;
+import org.codehaus.plexus.component.annotations.Requirement;
+import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
+import org.codehaus.plexus.context.Context;
+import org.codehaus.plexus.context.ContextException;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.Contextualizable;
 
 import io.apigee.buildTools.enterprise4g.utils.ServerProfile;
-import org.apache.maven.plugin.AbstractMojo;
 
 
+public abstract class GatewayAbstractMojo extends AbstractMojo implements Contextualizable{
 
-public abstract class GatewayAbstractMojo extends AbstractMojo {
+	static Logger logger = LogManager.getLogger(GatewayAbstractMojo.class);
+	protected static final Pattern URL_PARSE_REGEX = Pattern.compile("^(http[s]?)://([^:/?#]*).*$");
+	
+	/**
+	 * The project being built
+	 *
+	 * @parameter default-value="${project}"
+	 * @readonly
+	 * @required
+	 */
+	protected MavenProject project;
 
+	/**
+	 * The Maven session
+	 *
+	 * @parameter default-value="${session}"
+	 * @readonly
+	 */
+	protected MavenSession session;
+
+	/**
+	 * The Maven settings
+	 *
+	 * @parameter default-value="${settings}"
+	 * @readonly
+	 */
+	protected Settings settings;
+
+	/**
+	 * Injecting the underlying IoC container to access maven configuration.
+	 */
+	@Requirement
+	protected PlexusContainer container;
+
+	/**
+	 * Injecting the settings decrypter module that allows us to access decrypted properties.
+	 */
+	@Requirement
+	protected SettingsDecrypter settingsDecrypter;
+	
 	/**
 	 * Directory containing the build files.
 	 * 
@@ -257,6 +324,39 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 		this.buildProfile.setServiceAccountJSONFile(this.serviceAccountFilePath);
 		this.buildProfile.setGoogleTokenEmail(this.googleTokenEmail);
 		
+		
+		// process proxy for management api endpoint
+		Proxy mavenProxy = getProxy(settings, hostURL);
+		if (mavenProxy != null) {
+			logger.info("set proxy to " + mavenProxy.getHost() + ":" + mavenProxy.getPort());
+			
+			HttpClientBuilder builder = HttpClientBuilder.create();
+			HttpHost proxy = new HttpHost(mavenProxy.getHost(), mavenProxy.getPort());
+						
+			if (isNotBlank(mavenProxy.getNonProxyHosts())) {
+				//System.setProperty("http.nonProxyHosts", mavenProxy.getNonProxyHosts().replaceAll("[,;]", "|"));
+				// TODO selector based proxy
+			}
+			if (isNotBlank(mavenProxy.getUsername()) && isNotBlank(mavenProxy.getPassword())) {
+				logger.debug("set proxy credentials");
+
+				CredentialsProvider credsProvider = new BasicCredentialsProvider();
+				credsProvider.setCredentials(new AuthScope(mavenProxy.getHost(), mavenProxy.getPort()), 
+						new UsernamePasswordCredentials(mavenProxy.getUsername(), mavenProxy.getPassword()));
+				builder.setProxy(proxy);
+				builder.setDefaultCredentialsProvider(credsProvider);
+				buildProfile.setProxyUsername(mavenProxy.getUsername());
+				buildProfile.setProxyPassword(mavenProxy.getPassword());
+			}
+			buildProfile.setApacheHttpClient(builder.build());
+			
+			//Set Proxy configurations
+			buildProfile.setHasProxy(true);
+			buildProfile.setProxyProtocol(mavenProxy.getProtocol());
+			buildProfile.setProxyServer(mavenProxy.getHost());
+			buildProfile.setProxyPort(mavenProxy.getPort());
+		}
+		
 		return buildProfile;
 	}
 
@@ -349,6 +449,109 @@ public abstract class GatewayAbstractMojo extends AbstractMojo {
 
 	public void setRevision(Long revision) {
 		this.revision = revision;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public void contextualize(Context context) throws ContextException {
+		container = (PlexusContainer) context.get(PlexusConstants.PLEXUS_KEY);
+		if (container.hasComponent(SettingsDecrypter.class)) {
+			try {
+				settingsDecrypter = container.lookup(SettingsDecrypter.class);
+			} catch (ComponentLookupException e) {
+				logger.warn("Failed to lookup build in maven component session decrypter.", e);
+			}
+		}
+	}
+	
+	/**
+	 * Get the proxy configuration from the maven settings
+	 *
+	 * @param settings the maven settings
+	 * @param host     the host name of the apigee edge endpoint
+	 *
+	 * @return proxy or null if none was configured or the host was non-proxied
+	 */
+	protected Proxy getProxy(final Settings settings, final String host) {
+		if (settings == null) {
+			return null;
+		}
+
+		List<Proxy> proxies = settings.getProxies();
+		if (proxies == null || proxies.isEmpty()) {
+			return null;
+		}
+
+		String protocol = "https";
+		String hostname = host;
+
+		// check if protocol is present, if not assume https
+		Matcher matcher = URL_PARSE_REGEX.matcher(host);
+		if (matcher.matches()) {
+			protocol = matcher.group(1);
+			hostname = matcher.group(2);
+		}
+
+		// search active proxy
+		for (Proxy proxy : proxies) {
+			if (proxy.isActive() && protocol.equalsIgnoreCase(proxy.getProtocol()) && !matchNonProxy(proxy, hostname)) {
+				if (settingsDecrypter != null) {
+					return settingsDecrypter.decrypt(new DefaultSettingsDecryptionRequest(proxy)).getProxy();
+				} else {
+					logger.warn("Maven did not inject SettingsDecrypter, " +
+							"proxy may contain an encrypted password, which cannot be " +
+							"used to setup the REST client.");
+					return proxy;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Check hostname that matched nonProxy setting
+	 *
+	 * @param proxy    Maven Proxy. Must not null
+	 * @param hostname
+	 *
+	 * @return matching result. true: match nonProxy
+	 */
+	protected boolean matchNonProxy(final Proxy proxy, final String hostname) {
+
+		// code from org.apache.maven.plugins.site.AbstractDeployMojo#getProxyInfo
+		final String nonProxyHosts = proxy.getNonProxyHosts();
+		if (null != nonProxyHosts) {
+			final String[] nonProxies = nonProxyHosts.split("(,)|(;)|(\\|)");
+			if (null != nonProxies) {
+				for (final String nonProxyHost : nonProxies) {
+					//if ( StringUtils.contains( nonProxyHost, "*" ) )
+					if (null != nonProxyHost && nonProxyHost.contains("*")) {
+						// Handle wildcard at the end, beginning or middle of the nonProxyHost
+						final int pos = nonProxyHost.indexOf('*');
+						String nonProxyHostPrefix = nonProxyHost.substring(0, pos);
+						String nonProxyHostSuffix = nonProxyHost.substring(pos + 1);
+						// prefix*
+						if (!isBlank(nonProxyHostPrefix) && hostname.startsWith(nonProxyHostPrefix) && isBlank(nonProxyHostSuffix)) {
+							return true;
+						}
+						// *suffix
+						if (isBlank(nonProxyHostPrefix) && !isBlank(nonProxyHostSuffix) && hostname.endsWith(nonProxyHostSuffix)) {
+							return true;
+						}
+						// prefix*suffix
+						if (!isBlank(nonProxyHostPrefix) && hostname.startsWith(nonProxyHostPrefix)
+								&& !isBlank(nonProxyHostSuffix) && hostname.endsWith(nonProxyHostSuffix)) {
+							return true;
+						}
+					} else if (hostname.equals(nonProxyHost)) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 	
 }

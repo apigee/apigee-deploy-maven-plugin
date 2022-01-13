@@ -19,7 +19,7 @@
 	<packaging>maven-plugin</packaging>
 	<!-- This is inherited from <version>0.0.15</version> of the the non-opensource 
 		plugin -->
-	<version>2.2.3-SNAPSHOT</version>
+	<version>2.3.0-SNAPSHOT</version>
 	<name>apigee-edge-maven-plugin maven mojo</name>
 	<url>http://maven.apache.org</url>
 
@@ -67,9 +67,11 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>4.3.20.RELEASE</spring.version>
-		<spring.security.version>4.2.9.RELEASE</spring.security.version>
+		<spring.version>5.3.15</spring.version>
+		<spring.security.version>5.6.1</spring.security.version>
 		<log4j.version>2.17.1</log4j.version>
+		<maven.version>3.1.0</maven.version>
+		<maven.api.version>3.5</maven.api.version>
 	</properties>
 	<!-- mgmt-api-java-sdk -->
 
@@ -134,6 +136,23 @@
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-plugin-api</artifactId>
 			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
+			<version>${maven.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-core</artifactId>
+			<version>${maven.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugin-tools</groupId>
+			<artifactId>maven-plugin-annotations</artifactId>
+			<version>${maven.api.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- using google http client for http rest protocols. supposed to be better 

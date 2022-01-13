@@ -15,10 +15,11 @@
  */
 package io.apigee.buildTools.enterprise4g.test;
 
+import java.io.IOException;
+
+import io.apigee.buildTools.enterprise4g.rest.RestUtil;
 import io.apigee.buildTools.enterprise4g.utils.ServerProfile;
 import junit.framework.TestCase;
-
-import java.io.IOException;
 
 public class TestUploadBundle extends TestCase {
 
@@ -40,9 +41,10 @@ public class TestUploadBundle extends TestCase {
     }
 
     public void testUploadBundleCall() throws IOException {
-        io.apigee.buildTools.enterprise4g.rest.RestUtil.uploadBundle(profile, TestUploadBundle.class.getResource("/taskservice1.zip").getFile());
-        System.out.println("revision number::" + io.apigee.buildTools.enterprise4g.rest.RestUtil.getVersionRevision());
-        assertNotNull(io.apigee.buildTools.enterprise4g.rest.RestUtil.getVersionRevision());
+    	RestUtil restUtil = new RestUtil(profile);
+    	restUtil.uploadBundle(profile, TestUploadBundle.class.getResource("/taskservice1.zip").getFile());
+        System.out.println("revision number::" + restUtil.getVersionRevision());
+        assertNotNull(restUtil.getVersionRevision());
     }
 
 }
