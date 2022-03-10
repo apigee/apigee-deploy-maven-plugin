@@ -262,6 +262,11 @@ mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dgoogl
 
 For more info check out [Using Google authentication using Apigee](https://cloud.google.com/apigee/docs/api-platform/security/google-auth/overview)
 
+**NOTE: Please make sure that you have the following config in your Maven profile**
+```
+<apigee.googletoken.email>${googleTokenEmail}</apigee.googletoken.email>
+```
+
 ## Advanced Configuration Options
 
 ##### Note 1
