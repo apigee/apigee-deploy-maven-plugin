@@ -122,7 +122,7 @@
 		<maven.api.version>3.5</maven.api.version>
 		<google.http.client.version>1.22.0</google.http.client.version>
 		<apache.http.client>4.5.13</apache.http.client>
-		<spring.version>5.2.5.RELEASE</spring.version>
+		<spring.version>5.3.18</spring.version>
 		<jackson.version>2.11.0.rc1</jackson.version>
 	</properties>
 	<!-- mgmt-api-java-sdk -->
