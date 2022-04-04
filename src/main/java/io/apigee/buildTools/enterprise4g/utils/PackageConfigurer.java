@@ -157,32 +157,34 @@ public class PackageConfigurer {
         // get the list of files in targets folder
         fileList = listFileUtil.getAPIProxyFiles(configFile);
 
-        Document xmlDoc = fileutil.getXMLDocument(fileList.get(0)); // there would be only one file, at least one file
+        if(fileList!=null && fileList.size()>0) {
+        	Document xmlDoc = fileutil.getXMLDocument(fileList.get(0)); // there would be only one file, at least one file
 
-        javax.xml.xpath.XPathFactory factory = javax.xml.xpath.XPathFactory.newInstance();
-        javax.xml.xpath.XPath xpath = factory.newXPath();
-        javax.xml.xpath.XPathExpression expression = xpath.compile("/APIProxy/Description");
+            javax.xml.xpath.XPathFactory factory = javax.xml.xpath.XPathFactory.newInstance();
+            javax.xml.xpath.XPath xpath = factory.newXPath();
+            javax.xml.xpath.XPathExpression expression = xpath.compile("/APIProxy/Description");
 
-        Node node = (Node) expression.evaluate(xmlDoc, XPathConstants.NODE);
-        if (node == null) {
-            Element root = xmlDoc.getDocumentElement();
-            node = xmlDoc.createElement("Description");
-            root.appendChild(node);
+            Node node = (Node) expression.evaluate(xmlDoc, XPathConstants.NODE);
+            if (node == null) {
+                Element root = xmlDoc.getDocumentElement();
+                node = xmlDoc.createElement("Description");
+                root.appendChild(node);
+            }
+
+            if (node.hasChildNodes()) {
+                // sets the description to whatever is in the <proxyname>.xml file
+                node.setTextContent(expression.evaluate(xmlDoc));
+            } else {
+                // if Description is empty, then it reverts back to appending the username, git hash, etc
+                node.setTextContent(getComment(fileList.get(0)));
+            }
+
+            DOMSource source = new DOMSource(xmlDoc);
+            StreamResult result = new StreamResult(fileList.get(0));
+            //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/66
+            result.setSystemId(fileList.get(0).getAbsolutePath());
+            transformer.transform(source, result);
         }
-
-        if (node.hasChildNodes()) {
-            // sets the description to whatever is in the <proxyname>.xml file
-            node.setTextContent(expression.evaluate(xmlDoc));
-        } else {
-            // if Description is empty, then it reverts back to appending the username, git hash, etc
-            node.setTextContent(getComment(fileList.get(0)));
-        }
-
-        DOMSource source = new DOMSource(xmlDoc);
-        StreamResult result = new StreamResult(fileList.get(0));
-        //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/66
-        result.setSystemId(fileList.get(0).getAbsolutePath());
-        transformer.transform(source, result);
 
     }
 
@@ -235,32 +237,34 @@ public class PackageConfigurer {
         // get the list of files in sharedflowbundle folder
         fileList = listFileUtil.getSharedFlowFiles(configFile);
 
-        Document xmlDoc = fileutil.getXMLDocument(fileList.get(0)); // there would be only one file, at least one file
+        if(fileList!=null && fileList.size()>0) {
+        	 Document xmlDoc = fileutil.getXMLDocument(fileList.get(0)); // there would be only one file, at least one file
 
-        javax.xml.xpath.XPathFactory factory = javax.xml.xpath.XPathFactory.newInstance();
-        javax.xml.xpath.XPath xpath = factory.newXPath();
-        javax.xml.xpath.XPathExpression expression = xpath.compile("/SharedFlowBundle/Description");
+             javax.xml.xpath.XPathFactory factory = javax.xml.xpath.XPathFactory.newInstance();
+             javax.xml.xpath.XPath xpath = factory.newXPath();
+             javax.xml.xpath.XPathExpression expression = xpath.compile("/SharedFlowBundle/Description");
 
-        Node node = (Node) expression.evaluate(xmlDoc, XPathConstants.NODE);
-        if (node == null) {
-            Element root = xmlDoc.getDocumentElement();
-            node = xmlDoc.createElement("Description");
-            root.appendChild(node);
+             Node node = (Node) expression.evaluate(xmlDoc, XPathConstants.NODE);
+             if (node == null) {
+                 Element root = xmlDoc.getDocumentElement();
+                 node = xmlDoc.createElement("Description");
+                 root.appendChild(node);
+             }
+
+             if (node.hasChildNodes()) {
+                 // sets the description to whatever is in the <proxyname>.xml file
+                 node.setTextContent(expression.evaluate(xmlDoc));
+             } else {
+                 // if Description is empty, then it reverts back to appending the username, git hash, etc
+                 node.setTextContent(getComment(fileList.get(0)));
+             }
+
+             DOMSource source = new DOMSource(xmlDoc);
+             StreamResult result = new StreamResult(fileList.get(0));
+             //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/66
+             result.setSystemId(fileList.get(0).getAbsolutePath());
+             transformer.transform(source, result);
         }
-
-        if (node.hasChildNodes()) {
-            // sets the description to whatever is in the <proxyname>.xml file
-            node.setTextContent(expression.evaluate(xmlDoc));
-        } else {
-            // if Description is empty, then it reverts back to appending the username, git hash, etc
-            node.setTextContent(getComment(fileList.get(0)));
-        }
-
-        DOMSource source = new DOMSource(xmlDoc);
-        StreamResult result = new StreamResult(fileList.get(0));
-        //Fix for https://github.com/apigee/apigee-deploy-maven-plugin/issues/66
-        result.setSystemId(fileList.get(0).getAbsolutePath());
-        transformer.transform(source, result);
 
     }
 
