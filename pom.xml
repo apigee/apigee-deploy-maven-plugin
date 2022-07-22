@@ -233,11 +233,6 @@
 				<artifactId>commons-codec</artifactId>
 				<version>1.10</version>
 			</dependency>
-			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>[24.1.1,)</version>
-			</dependency>
 			<!-- Gson: Java to Json conversion -->
 			<dependency>
 				<groupId>com.google.code.gson</groupId>
@@ -362,10 +357,6 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
 		</dependency>
 		<!-- Gson: Java to Json conversion -->
 		<dependency>
