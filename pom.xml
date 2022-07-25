@@ -188,12 +188,12 @@
 			<version>${log4j.version}</version>
 		</dependency>
 		<!-- excluding commons logging by declaring it in the provided scope -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.1.1</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency>  -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
