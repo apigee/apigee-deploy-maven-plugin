@@ -245,6 +245,10 @@
 					<artifactId>woden</artifactId>
 					<groupId>org.apache.woden</groupId>
 				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
