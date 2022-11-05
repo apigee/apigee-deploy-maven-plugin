@@ -343,11 +343,11 @@ public abstract class GatewayAbstractMojo extends AbstractMojo implements Contex
 				CredentialsProvider credsProvider = new BasicCredentialsProvider();
 				credsProvider.setCredentials(new AuthScope(mavenProxy.getHost(), mavenProxy.getPort()), 
 						new UsernamePasswordCredentials(mavenProxy.getUsername(), mavenProxy.getPassword()));
-				builder.setProxy(proxy);
 				builder.setDefaultCredentialsProvider(credsProvider);
 				buildProfile.setProxyUsername(mavenProxy.getUsername());
 				buildProfile.setProxyPassword(mavenProxy.getPassword());
 			}
+			builder.setProxy(proxy);
 			buildProfile.setApacheHttpClient(builder.build());
 			
 			//Set Proxy configurations
