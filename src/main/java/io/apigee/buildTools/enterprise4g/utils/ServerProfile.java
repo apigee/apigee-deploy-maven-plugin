@@ -43,6 +43,8 @@ public class ServerProfile {
 	private Long revision;
 	private String serviceAccountJSONFile;
 	private String googleTokenEmail;
+	private String promoteRevision;
+	private String promoteSourceEnv;
 	
 	//For Proxy
 	private boolean hasProxy;
@@ -54,6 +56,22 @@ public class ServerProfile {
 	
 	private HttpClient apacheHttpClient;
 	
+	public String getPromoteRevision() {
+		return promoteRevision;
+	}
+
+	public void setPromoteRevision(String promoteRevision) {
+		this.promoteRevision = promoteRevision;
+	}
+	
+	public String getPromoteSourceEnv() {
+		return promoteSourceEnv;
+	}
+
+	public void setPromoteSourceEnv(String promoteSourceEnv) {
+		this.promoteSourceEnv = promoteSourceEnv;
+	}
+	
 	public String getGoogleTokenEmail() {
 		return googleTokenEmail;
 	}
@@ -61,7 +79,6 @@ public class ServerProfile {
 	public void setGoogleTokenEmail(String googleTokenEmail) {
 		this.googleTokenEmail = googleTokenEmail;
 	}
-	
 	
 	public String getServiceAccountJSONFile() {
 		return serviceAccountJSONFile;

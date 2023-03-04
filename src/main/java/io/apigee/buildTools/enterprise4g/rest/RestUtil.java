@@ -419,20 +419,24 @@ public class RestUtil {
         }
     }
     
-    public String getLatestRevision(ServerProfile profile) throws IOException {
-
-        // trying to construct the URL like
-        // https://api.enterprise.apigee.com/v1/organizations/apigee-cs/apis/taskservice/
-        // response is like
-        // {
-        // "name" : "taskservice1",
-        // "revision" : [ "1" ]
-        // }
+    public String getLatestRevision(ServerProfile profile)
+            throws IOException {
+    	if(profile.getApi_type()!=null && profile.getApi_type().equalsIgnoreCase("sharedflow")){
+    		return getLatestRevision(profile, "sharedflows");
+    	}	
+    	else{
+    		return getLatestRevision(profile, "apis");
+    	}
+    		
+    }
+    
+    public String getLatestRevision(ServerProfile profile, String type) throws IOException {
     	String revision = "";
         HttpRequest restRequest = REQUEST_FACTORY
                 .buildGetRequest(new GenericUrl(profile.getHostUrl() + "/"
                         + profile.getApi_version() + "/organizations/"
-                        + profile.getOrg() + "/apis/"
+                        + profile.getOrg() + "/"
+                        + type + "/"
                         + profile.getApplication() + "/"));
         restRequest.setReadTimeout(0);
         HttpHeaders headers = new HttpHeaders();
@@ -447,6 +451,7 @@ public class RestUtil {
             logger.info(PrintUtil.formatResponse(response, gson.toJson(apprev).toString()));
         } catch (HttpResponseException e) {
             logger.error(e.getMessage());
+            throw e;
         }
         return revision;
     }
@@ -509,18 +514,18 @@ public class RestUtil {
     // Return a revision if there is a active revision, if there are more than one active revisions deployed in an env, the highest revision number is picked
     // Returns "" if there are no active revision
 
-    public String getDeployedRevision(ServerProfile profile)
+    public String getDeployedRevision(ServerProfile profile, String env)
             throws IOException {
     	if(profile.getApi_type()!=null && profile.getApi_type().equalsIgnoreCase("sharedflow")){
-    		return getDeployedRevision(profile, "sharedflows");
+    		return getDeployedRevision(profile, "sharedflows", env);
     	}	
     	else{
-    		return getDeployedRevision(profile, "apis");
+    		return getDeployedRevision(profile, "apis", env);
     	}
     		
     }
     
-    public String getDeployedRevision(ServerProfile profile, String type)
+    public String getDeployedRevision(ServerProfile profile, String type, String env)
             throws IOException {
 
         BundleDeploymentConfig bundleDeploymentConfig = null;
@@ -529,7 +534,7 @@ public class RestUtil {
             HttpRequest restRequest = REQUEST_FACTORY
                     .buildGetRequest(new GenericUrl(profile.getHostUrl() + "/"
                             + profile.getApi_version() + "/organizations/"
-                            + profile.getOrg() + "/environments/"+profile.getEnvironment()+"/"
+                            + profile.getOrg() + "/environments/"+env+"/"
                             + type+"/"+ profile.getApplication() + "/deployments"));
             restRequest.setReadTimeout(0);
             HttpHeaders headers = new HttpHeaders();
@@ -541,7 +546,7 @@ public class RestUtil {
             logger.debug(PrintUtil.formatResponse(response, gson.toJson(bundleDeploymentConfig).toString()));
             if (bundleDeploymentConfig != null && bundleDeploymentConfig.deployments !=null && bundleDeploymentConfig.deployments.size()>0) {
             	for (Deployment deployment : bundleDeploymentConfig.deployments) {
-					if(deployment.environment.equalsIgnoreCase(profile.getEnvironment())) {
+					if(deployment.environment.equalsIgnoreCase(env)) {
 						logger.info("Deployed revision: "+deployment.revision);
 						return deployment.revision;
 					}
@@ -707,7 +712,7 @@ public class RestUtil {
         String existingRevision = "";
         try {
 
-            existingRevision = getDeployedRevision(profile);
+            existingRevision = getDeployedRevision(profile, profile.getEnvironment());
 
             if (existingRevision.length() > 0) //  there are active revisions
             // deployment then undeploy
