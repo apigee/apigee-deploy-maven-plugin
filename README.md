@@ -242,14 +242,6 @@ For example using gcloud
 mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.options={option}
 ```
 
-### To delete the proxy or sharedflow (v2.0.3 or later)
-
-To delete the entire proxy or sharedflow, pass the options as `clean`
-
-```
-mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.options=clean
-```
-
 ### To deploy a proxy that makes requires Apigee to generate the GoogleAccessToken or GoogleIDToken (v2.1.2 or later) 
 
 **NOTE: This option is available in Apigee X and Apigee hybrid 1.6+**
@@ -266,6 +258,45 @@ For more info check out [Using Google authentication using Apigee](https://cloud
 ```
 <apigee.googletoken.email>${googleTokenEmail}</apigee.googletoken.email>
 ```
+
+### To delete the proxy or sharedflow (v2.0.3 or later)
+
+To delete the entire proxy or sharedflow, pass the options as `clean`
+
+```
+mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.options=clean
+```
+
+### To promote the proxy or sharedflow (v2.4.0 or later)
+
+To promote an existing revision deployed to an Apigee org you can use the `apigee-enterprise:promote` goal
+
+The promote goal allows the following options:
+
+- To deploy the latest revision to a target environment:
+
+```
+mvn apigee-enterprise:promote -P${profile} -Dbearer=$(gcloud auth print-access-token)
+```
+
+For example let's say Revision 5 of a proxy is imported to the Apigee org, the above command will deploy that revision to the environment configured in the Maven profile
+
+- To deploy a specific revision to Target env:
+
+```
+mvn apigee-enterprise:promote -P${profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.promote.revision=${REV}
+```
+
+For example, let's say you want a specific revision (Revision 3) to be deployed to an environment, you just need to pass `-Dapigee.promote.revision=3`. The plugin will deploy that revision to the environment configured in the Maven profile
+
+-  To deploy a revision from a source env to a Target env:
+
+```
+mvn apigee-enterprise:promote -P${PROFILE} -Dbearer=$(gcloud auth print-access-token) -Dapigee.promote.sourceEnv=${SOURCE_ENV}
+```
+
+For example, lets say Revision 6 is deployed to `dev` environment and you want to promote that revision to `qa` environment. You can just pass `-Dapigee.promote.sourceEnv=dev`. The plugin will find the deployed revision from the source environment passed and deploy that revision to the environment configured in the Maven profile
+
 
 ## Advanced Configuration Options
 
