@@ -284,6 +284,18 @@ public abstract class GatewayAbstractMojo extends AbstractMojo implements Contex
 	private String googleTokenEmail;
 	
 	/**
+	 * Apigee revision number to promote
+	 * @parameter expression="${apigee.promote.revision}"
+ 	 */
+	private String promoteRevision;
+	
+	/**
+	 * Apigee source env to promote the latest revision from
+	 * @parameter expression="${apigee.promote.sourceEnv}"
+ 	 */
+	private String promoteSourceEnv;
+	
+	/**
 	* Skip running this plugin.
 	* Default is false.
 	*
@@ -323,6 +335,9 @@ public abstract class GatewayAbstractMojo extends AbstractMojo implements Contex
 		this.buildProfile.setRevision(this.revision);
 		this.buildProfile.setServiceAccountJSONFile(this.serviceAccountFilePath);
 		this.buildProfile.setGoogleTokenEmail(this.googleTokenEmail);
+		this.buildProfile.setPromoteRevision(this.promoteRevision);
+		this.buildProfile.setPromoteSourceEnv(this.promoteSourceEnv);
+		
 		
 		
 		// process proxy for management api endpoint
