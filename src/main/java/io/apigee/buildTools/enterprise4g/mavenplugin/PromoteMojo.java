@@ -170,79 +170,6 @@ public class PromoteMojo extends GatewayAbstractMojo {
 		}
 	}
 
-	protected void doImport() throws IOException, MojoFailureException, Exception {
-		try {
-
-			logger.info("\n\n=============Importing App================\n\n");
-			state = State.IMPORTING;
-			RestUtil restUtil = new RestUtil(super.getProfile());
-			bundleRevision = restUtil.uploadBundle(super.getProfile(), super.getApplicationBundlePath());
-
-		} catch (IOException e) {
-			throw e;
-		} catch (RuntimeException e) {
-			throw e;
-		} catch (Exception e) {
-			// This "throws Exception" bothers me so much
-			throw e;
-		}
-	}
-
-	protected void doUpdate(String revision) throws IOException, MojoFailureException, Exception {
-		try {
-
-			logger.info("\n\n=============Updating App================\n\n");
-			state = State.IMPORTING;
-			RestUtil restUtil = new RestUtil(super.getProfile());
-			bundleRevision = restUtil.updateBundle(super.getProfile(), super.getApplicationBundlePath(), revision);
-
-		} catch (IOException e) {
-			throw e;
-		} catch (RuntimeException e) {
-			throw e;
-		} catch (Exception e) {
-			// This "throws Exception" bothers me so much
-			throw e;
-		}
-	}
-
-	/**
-	 * Deactivae a bundle revision.
-	 */
-
-	public void doDeactivae() throws IOException, MojoFailureException, Exception {
-		try {
-			logger.info("\n\n=============Deactivating App================\n\n");
-			state = State.DEACTIVATING;
-			RestUtil restUtil = new RestUtil(super.getProfile());
-			restUtil.deactivateBundle(super.getProfile());
-		} catch (IOException e) {
-			throw e;
-		} catch (RuntimeException e) {
-			throw e;
-		} catch (Exception e) {
-			throw e;
-		}
-	}
-
-	/**
-	 * Refresh a bundle revision.
-	 */
-
-	public void doRefreshBundle() throws IOException, MojoFailureException {
-		try {
-			logger.info("\n\n=============Refresh Bundle================\n\n");
-			state = State.ACTIVATING;
-			RestUtil restUtil = new RestUtil(super.getProfile());
-			restUtil.refreshBundle(super.getProfile(), this.bundleRevision);
-		} catch (IOException e) {
-			throw e;
-		} catch (RuntimeException e) {
-			throw e;
-		}
-
-	}
-
 	/**
 	 * Activate a bundle revision.
 	 * 
@@ -275,29 +202,6 @@ public class PromoteMojo extends GatewayAbstractMojo {
 		Thread.sleep(5 * 1000);
 	}
 
-	/**
-	 * Delete a bundle.
-	 */
-
-	public void doDelete() throws IOException, MojoFailureException, Exception {
-		try {
-			RestUtil restUtil = new RestUtil(this.getProfile());
-			String status = restUtil.deactivateBundle(this.getProfile());
-			if (status == null) {
-				logger.info("No bundle to delete");
-				return;
-			}
-			logger.info("\n\n=============Deleting bundle================\n\n");
-			state = State.DELETING;
-			restUtil.deleteBundle(this.getProfile());
-		} catch (IOException e) {
-			throw e;
-		} catch (RuntimeException e) {
-			throw e;
-		} catch (Exception e) {
-			throw e;
-		}
-	}
 
 	/**
 	 * Entry point for the mojo.
