@@ -271,7 +271,7 @@ mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapige
 
 To promote an existing revision deployed to an Apigee org you can use the `apigee-enterprise:promote` goal
 
-The promote goal allows the following options:
+The `promote` goal allows the following options:
 
 - To deploy the latest revision to a target environment:
 
@@ -279,7 +279,8 @@ The promote goal allows the following options:
 mvn apigee-enterprise:promote -P${profile} -Dbearer=$(gcloud auth print-access-token)
 ```
 
-For example let's say Revision 5 of a proxy is imported to the Apigee org, the above command will deploy that revision to the environment configured in the Maven profile
+For example let's say the latest revision number of a proxy is 5 (whether deployed or not), the above command will deploy that revision to the environment configured in the Maven profile
+
 
 - To deploy a specific revision to Target env:
 
