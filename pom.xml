@@ -67,7 +67,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>5.3.20</spring.version>
+		<spring.version>5.3.26</spring.version>
 		<spring.security.version>4.2.9.RELEASE</spring.security.version>
 		<log4j.version>2.17.1</log4j.version>
 		<maven.version>3.1.0</maven.version>
