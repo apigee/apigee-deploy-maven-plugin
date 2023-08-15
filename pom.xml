@@ -70,7 +70,7 @@
 		<spring.version>5.3.27</spring.version>
 		<spring.security.version>4.2.9.RELEASE</spring.security.version>
 		<log4j.version>2.17.1</log4j.version>
-		<maven.version>3.1.0</maven.version>
+		<maven.version>3.8.1</maven.version>
 		<maven.api.version>3.5</maven.api.version>
 	</properties>
 	<!-- mgmt-api-java-sdk -->
