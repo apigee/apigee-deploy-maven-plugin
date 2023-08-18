@@ -80,9 +80,9 @@
 		<resources>
 
 			<resource>
-				<directory>${basedir}/src/main/java</directory>
+				<directory>${basedir}/src/main/resources</directory>
 				<includes>
-					<include>log4j.xml</include>
+					<include>log4j2.properties</include>
 				</includes>
 			</resource>
 		</resources>
