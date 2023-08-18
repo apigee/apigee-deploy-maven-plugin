@@ -267,6 +267,14 @@ To delete the entire proxy or sharedflow, pass the options as `clean`
 mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.options=clean
 ```
 
+### To just import the proxy or sharedflow without activating (v2.4.1 or later)
+
+To just import the proxy or sharedflow without activating, pass the options as `inactive`
+
+```
+mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.options=inactive
+```
+
 ### To promote the proxy or sharedflow (v2.4.0 or later)
 
 To promote an existing revision deployed to an Apigee org you can use the `apigee-enterprise:promote` goal

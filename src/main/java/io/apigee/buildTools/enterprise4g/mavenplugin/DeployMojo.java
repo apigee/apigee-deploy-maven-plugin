@@ -56,11 +56,11 @@ public class DeployMojo extends GatewayAbstractMojo
 	}
 
 	enum BUILDOPTIONS {
-		NULL,clean
+		NULL,clean,inactive
 	}
 	
 	enum OPTIONS {
-		override,async,clean
+		override,async,clean,inactive
 	}
 	
 	State state = State.START;
@@ -118,6 +118,10 @@ public class DeployMojo extends GatewayAbstractMojo
 					case clean:
 						Options.clean=true;
 						buildOption=BUILDOPTIONS.valueOf("clean");
+						break;
+					case inactive:
+						Options.inactive=true;
+						buildOption=BUILDOPTIONS.valueOf("inactive");
 						break;
 					default:
 						break;
@@ -294,6 +298,9 @@ public class DeployMojo extends GatewayAbstractMojo
 						break;
 				case clean:
 						doDelete();
+						break;
+				case inactive:
+						doImport();
 						break;
 				default:     
 						break;
