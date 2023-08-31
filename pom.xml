@@ -53,12 +53,16 @@
 	</scm>
 	<developers>
 		<developer>
-			<id>ssvaidyanathan</id>
 			<name>Sai Saran Vaidyanathan</name>
+			<email>ssvaidyanathan@google.com</email>
+			<organization>Google</organization>
+			<organizationUrl>www.google.com</organizationUrl>
 		</developer>
 		<developer>
-			<id>msadasivam</id>
 			<name>Madhan Sadasivam</name>
+			<email>madhans@google.com</email>
+			<organization>Google</organization>
+			<organizationUrl>www.google.com</organizationUrl>
 		</developer>
 	</developers>
 
