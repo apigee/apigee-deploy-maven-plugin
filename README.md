@@ -343,7 +343,7 @@ The [samples](./samples/security-sharedflow/src/sharedflows) has an example of a
 This is required to differentiate the build and deployment process.
 
 ## To configure a proxy 
-Supported from v2.3.0
+Supported from v2.5.0
 
 Please refer to this [doc](http://maven.apache.org/guides/mini/guide-proxies.html) that explains how to setup proxy settings in your settings.xml usually in your $HOME/.m2 directory. Only `https` protocol is supported
 
