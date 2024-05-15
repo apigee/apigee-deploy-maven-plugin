@@ -11,7 +11,7 @@ The code is distributed under the Apache License 2.0.
 TL;DR
 ------------
 
-The [samples folder](https://github.com/apigee/apigee-deploy-maven-plugin/tree/hybrid/samples) provides a Readme with Getting Started steps and commands to hit the ground quickly.
+The [samples folder](https://github.com/apigee/apigee-deploy-maven-plugin/tree/main/samples) provides a Readme with Getting Started steps and commands to hit the ground quickly.
 
 ------------
 Video
