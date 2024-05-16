@@ -94,17 +94,17 @@ Apigee bundles can be described as a zipped file system composed of configuratio
    |-targets
 ```
 
-### Create a new API
+### Create a new API Proxy
 
-Instructions for creating a new API can be found at this link
+Instructions for creating a new API proxy can be found at this link
 
-[http://apigee.com/docs/api-platform/content/add-and-configure-your-first-api](http://apigee.com/docs/api-platform/content/add-and-configure-your-first-api)
+[https://docs.apigee.com/api-platform/get-started/get-started](https://docs.apigee.com/api-platform/get-started/get-started)
 
-### Export your API
+### Export your API Proxy
 
 Instructions for exporting your API via an API can be found at this link
 
-[http://apigee.com/docs/api/api\_methods/105-export-an-api](http://apigee.com/docs/api/api_methods/105-export-an-api)
+[https://docs.apigee.com/api-platform/fundamentals/download-api-proxies](https://docs.apigee.com/api-platform/fundamentals/download-api-proxies)
 
 To export you API via Apigee Edge select the organization that contains the proxy you wish to export. From the navigation bar on the top, under APIs select the API Proxies. Select the proxy, on the far left of the screen, under the drop down menu titled Project, select Download Current Revision.
 
