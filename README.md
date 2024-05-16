@@ -2,7 +2,7 @@
 apigee-deploy-maven-plugin (Apigee X or Apigee hybrid)
 -----------------------------------------------------------
 
-apigee-edge-maven-plugin is a build and deploy utility for building and deploying the Apigee ApiProxy's/Application bundles into Apigee hybrid Edge Platform.
+apigee-edge-maven-plugin is a build and deploy utility for building and deploying the Apigee ApiProxy's/Application bundles into Apigee Platform.
 The code is distributed under the Apache License 2.0.
 
 **NOTE:** Log4J libraries are upgraded to v2.17.1 in v2.2.2
@@ -42,7 +42,7 @@ Learn more, check out this video! [Ask the Expert](https://www.youtube.com/watch
 
 # Prerequisites
 You will need the following to run the samples:
-- Apigee Edge developer account. See [docs](http://apigee.google.com) for more details on how to setup your account..
+- Apigee IAM permissions. See [docs](https://cloud.google.com/apigee/docs/api-platform/system-administration/apigee-roles) for more details on Apigee roles.
 - [Java SDK >= 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 - [Maven 3.x](https://maven.apache.org/)
 
@@ -68,7 +68,7 @@ You will need the following to run the samples:
 
 # Getting Started
 
-Often the most difficult and confusing aspect of application development is figuring out how to build a common framework for creating new applications. Over time, development teams have started using tools like Maven, Ant and Ivy to automate some of these functions. This plugin uses the Maven plugin for deploying Apigee bundles to the Edge platform.
+Often the most difficult and confusing aspect of application development is figuring out how to build a common framework for creating new applications. Over time, development teams have started using tools like Maven, Ant and Ivy to automate some of these functions. This plugin uses the Maven plugin for deploying bundles to the Apigee platform.
 
 #### Why this deployment plugin is developed?
 
@@ -76,7 +76,7 @@ Often the most difficult and confusing aspect of application development is figu
 - Easy integrations with source control like git.
 - The Maven build strategy is a good strategy if your current enterprise build and deploy strategies already use Maven or Maven compatible tools.
 - Configuration management across organizations/environments.
-(Realtime Enterprise Edge architecture consists of multiple organizations/environments and configurations which varies according to these. An example scenario for this use would be the Maven configuration file to replace the number of requests it takes to trip a spike arrest policy. In your non-production environment you may want this policy to take effect when 10 requests a minute is surpassed, in production you may want this policy to trip when 10000 requests a minute is surpassed.)
+(Realtime Enterprise Apigee architecture consists of multiple organizations/environments and configurations which varies according to these. An example scenario for this use would be the Maven configuration file to replace the number of requests it takes to trip a spike arrest policy. In your non-production environment you may want this policy to take effect when 10 requests a minute is surpassed, in production you may want this policy to trip when 10000 requests a minute is surpassed.)
 
 
 
@@ -94,19 +94,19 @@ Apigee bundles can be described as a zipped file system composed of configuratio
    |-targets
 ```
 
-### Create a new API
+### Create a new API Proxy
 
-Instructions for creating a new API can be found at this link
+Instructions for creating a new API proxy can be found at this link
 
-[http://apigee.com/docs/api-platform/content/add-and-configure-your-first-api](http://apigee.com/docs/api-platform/content/add-and-configure-your-first-api)
+[https://cloud.google.com/apigee/docs/api-platform/develop/ui-create-proxy](https://cloud.google.com/apigee/docs/api-platform/develop/ui-create-proxy)
 
 ### Export your API
 
 Instructions for exporting your API via an API can be found at this link
 
-[http://apigee.com/docs/api/api\_methods/105-export-an-api](http://apigee.com/docs/api/api_methods/105-export-an-api)
+[https://cloud.google.com/apigee/docs/api-platform/fundamentals/download-api-proxies#download](https://cloud.google.com/apigee/docs/api-platform/fundamentals/download-api-proxies#download)
 
-To export you API via Apigee Edge select the organization that contains the proxy you wish to export. From the navigation bar on the top, under APIs select the API Proxies. Select the proxy, on the far left of the screen, under the drop down menu titled Project, select Download Current Revision.
+To export you API via Apigee select the organization that contains the proxy you wish to export. From the navigation bar on the top, under APIs select the API Proxies. Select the proxy, on the far left of the screen, under the drop down menu titled Project, select Download Current Revision.
 
 ## Steps to set it up
 
@@ -116,7 +116,7 @@ Follow below steps to set up your local development environment
 2. Create and configure pom files - Parent pom and the child pom for the proxy
 3. Create and configure config.json - if there are environment specific configurations (This is an optional step)
 
-And you are ready for deploy to Apigee Edge using the plugin
+And you are ready for deploy to Apigee using the plugin
 
 ### Step 1 Create a Maven compatible file structure
 
