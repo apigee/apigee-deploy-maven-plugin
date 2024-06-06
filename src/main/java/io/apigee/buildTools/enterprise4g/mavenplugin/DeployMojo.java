@@ -237,12 +237,12 @@ public class DeployMojo extends GatewayAbstractMojo
 			if (Options.async) {
 				return;
 			}
-
+			Thread.sleep(10*1000); //Introducing this delay to avoid the 503 error while performing GET immediately after the POST deployments
 			boolean deployed = false;
 			//Loop to check the deployment status
 			for (; !deployed; ) {
 				deployed = restUtil.getDeploymentStateForRevision(super.getProfile(), revision);
-	        	Thread.sleep(5*1000);
+	        	Thread.sleep(10*1000);
 			}
 		} catch (IOException e) {
 			throw e ;
