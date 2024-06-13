@@ -19,7 +19,7 @@
 	<packaging>maven-plugin</packaging>
 	<!-- This is inherited from <version>0.0.15</version> of the the non-opensource 
 		plugin -->
-	<version>2.5.2-rc3-SNAPSHOT</version>
+	<version>2.5.2-SNAPSHOT</version>
 	<name>apigee-edge-maven-plugin maven mojo</name>
 	<url>http://maven.apache.org</url>
 
