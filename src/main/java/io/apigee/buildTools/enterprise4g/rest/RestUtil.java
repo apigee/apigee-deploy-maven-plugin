@@ -621,7 +621,6 @@ public class RestUtil {
 
             // logger.info(response.parseAsString());
             AppConfig appconf = response.parseAs(AppConfig.class);
-            setVersionRevision(appconf.revision);
             logger.info(PrintUtil.formatResponse(response, gson.toJson(appconf).toString()));
 
             //Introduce Delay
@@ -634,12 +633,11 @@ public class RestUtil {
                     e.printStackTrace();
                 }
             }
+            return appconf.revision;
         } catch (HttpResponseException e) {
             logger.error(e.getMessage());
             throw new IOException(e.getMessage());
         }
-
-        return getVersionRevision();
 
     }
 
