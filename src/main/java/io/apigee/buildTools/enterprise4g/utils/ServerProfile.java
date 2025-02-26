@@ -45,6 +45,7 @@ public class ServerProfile {
 	private String googleTokenEmail;
 	private String promoteRevision;
 	private String promoteSourceEnv;
+	private String space;
 	
 	//For Proxy
 	private boolean hasProxy;
@@ -70,6 +71,14 @@ public class ServerProfile {
 
 	public void setPromoteSourceEnv(String promoteSourceEnv) {
 		this.promoteSourceEnv = promoteSourceEnv;
+	}
+	
+	public String getSpace() {
+		return space;
+	}
+
+	public void setSpace(String space) {
+		this.space = space;
 	}
 	
 	public String getGoogleTokenEmail() {

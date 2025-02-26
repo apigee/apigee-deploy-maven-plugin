@@ -306,6 +306,14 @@ mvn apigee-enterprise:promote -P${PROFILE} -Dbearer=$(gcloud auth print-access-t
 
 For example, lets say Revision 6 is deployed to `dev` environment and you want to promote that revision to `qa` environment. You can just pass `-Dapigee.promote.sourceEnv=dev`. The plugin will find the deployed revision from the source environment passed and deploy that revision to the environment configured in the Maven profile
 
+###  To import a proxy or a sharedflow to an Apigee space (v2.5.2 or later)
+
+```
+mvn clean install -P{profile} -Dbearer=$(gcloud auth print-access-token) -Dapigee.space=${space}
+ 
+```
+
+
 
 ## Advanced Configuration Options
 
