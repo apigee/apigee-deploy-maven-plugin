@@ -607,6 +607,10 @@ public class RestUtil {
         if (Options.validate) {
             importCmd = importCmd + "&validate=true";
         }
+        
+        if (profile.getSpace() != null && !profile.getSpace().equals("")) {
+            importCmd = importCmd + "&space="+profile.getSpace();
+        }
 
         HttpRequest restRequest = REQUEST_FACTORY.buildPostRequest(
                 new GenericUrl(importCmd), content);

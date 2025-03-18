@@ -296,6 +296,13 @@ public abstract class GatewayAbstractMojo extends AbstractMojo implements Contex
 	private String promoteSourceEnv;
 	
 	/**
+	 * Apigee Space
+	 * 
+	 * @parameter expression="${apigee.space}"
+	 */
+	private String space;
+	
+	/**
 	* Skip running this plugin.
 	* Default is false.
 	*
@@ -337,6 +344,7 @@ public abstract class GatewayAbstractMojo extends AbstractMojo implements Contex
 		this.buildProfile.setGoogleTokenEmail(this.googleTokenEmail);
 		this.buildProfile.setPromoteRevision(this.promoteRevision);
 		this.buildProfile.setPromoteSourceEnv(this.promoteSourceEnv);
+		this.buildProfile.setSpace(this.space);
 		
 		
 		
