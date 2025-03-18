@@ -65,8 +65,8 @@ public class DeployMojo extends GatewayAbstractMojo
 	
 	State state = State.START;
 	
-	String activeRevision="";
-	String bundleRevision="";
+//	String activeRevision="";
+//	String bundleRevision="";
 	
 	//revision passed in the maven argument
 	String revisionInArg = "";
@@ -145,7 +145,8 @@ public class DeployMojo extends GatewayAbstractMojo
 
 	
 
-	protected void doImport() throws IOException, MojoFailureException,Exception {
+	protected String doImport() throws IOException, MojoFailureException,Exception {
+		String bundleRevision;
 		try {
 			
 			logger.info("\n\n=============Importing App================\n\n");
@@ -162,6 +163,7 @@ public class DeployMojo extends GatewayAbstractMojo
 			// This "throws Exception" bothers me so much
 			throw e;
 		}
+		return bundleRevision;
 	}
 
 	
@@ -171,7 +173,7 @@ public class DeployMojo extends GatewayAbstractMojo
 			logger.info("\n\n=============Updating App================\n\n");
 			state = State.IMPORTING;
 			RestUtil restUtil = new RestUtil(super.getProfile());
-			bundleRevision = restUtil.updateBundle(super.getProfile(), super.getApplicationBundlePath(),revision);
+			String bundleRevision = restUtil.updateBundle(super.getProfile(), super.getApplicationBundlePath(),revision);
 		
 		} catch (IOException e) {
 			throw e;
@@ -207,12 +209,12 @@ public class DeployMojo extends GatewayAbstractMojo
 	 * Refresh a bundle revision.
 	 */
 	
-	public void doRefreshBundle()  throws IOException, MojoFailureException{
+	public void doRefreshBundle(String bundleRevision)  throws IOException, MojoFailureException{
 		try {
 			logger.info("\n\n=============Refresh Bundle================\n\n");
 			state = State.ACTIVATING;
 			RestUtil restUtil = new RestUtil(super.getProfile());
-			restUtil.refreshBundle(super.getProfile(), this.bundleRevision);
+			restUtil.refreshBundle(super.getProfile(), bundleRevision);
 		} catch (IOException e) {
 			throw e ;
 		} catch (RuntimeException e) {
@@ -226,12 +228,12 @@ public class DeployMojo extends GatewayAbstractMojo
 	 * @throws InterruptedException 
 	 */
 	
-	public void doActivateBundle()  throws IOException, MojoFailureException, InterruptedException{
+	public void doActivateBundle(String bundleRevision)  throws IOException, MojoFailureException, InterruptedException{
 		try {
 			logger.info("\n\n=============Activating Bundle================\n\n");
 			state = State.ACTIVATING;
 			RestUtil restUtil = new RestUtil(super.getProfile());
-			String revision = restUtil.activateBundleRevision(super.getProfile(), this.bundleRevision);
+			String revision = restUtil.activateBundleRevision(super.getProfile(), bundleRevision);
 
 			// if user passed -Dapigee.options=async, no need for polling, exit early
 			if (Options.async) {
@@ -293,8 +295,8 @@ public class DeployMojo extends GatewayAbstractMojo
 			
 			switch (buildOption) {
 				case NULL:
-						doImport();
-						doActivateBundle();
+						String rev = doImport();
+						doActivateBundle(rev);
 						break;
 				case clean:
 						doDelete();
