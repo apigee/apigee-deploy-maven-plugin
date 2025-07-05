@@ -15,15 +15,15 @@
  */
 package io.apigee.buildTools.enterprise4g.utils;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
 
 
 public class GitUtil {

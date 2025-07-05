@@ -114,16 +114,15 @@
 
 	<!-- mgmt-api-java-sdk -->
 	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<log4j.version>2.17.1</log4j.version>
-		<maven.version>3.1.0</maven.version>
-		<maven.api.version>3.5</maven.api.version>
-		<google.http.client.version>1.22.0</google.http.client.version>
+		<maven.version>3.9.9</maven.version>
+		<maven.api.version>3.13.0</maven.api.version>
+		<google.http.client.version>1.46.3</google.http.client.version>
 		<apache.http.client>4.5.13</apache.http.client>
-		<spring.version>5.3.27</spring.version>
-		<jackson.version>2.16.1</jackson.version>
+		<jackson.version>2.18.3</jackson.version>
 	</properties>
 	<!-- mgmt-api-java-sdk -->
 
@@ -168,159 +167,62 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+		       <groupId>org.owasp</groupId>
+		       <artifactId>dependency-check-maven</artifactId>
+		       <version>8.4.1</version>  <!-- Use the latest version -->
+		       <executions>
+		           <execution>
+		               <id>dependency-check-report</id>
+		               <phase>verify</phase>
+		               <goals>
+		                   <goal>check</goal>
+		               </goals>
+		           </execution>
+		       </executions>
+		   </plugin>
 		</plugins>
 	</build>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.apache.maven</groupId>
-				<artifactId>maven-plugin-api</artifactId>
-				<version>${maven.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.maven</groupId>
-				<artifactId>maven-core</artifactId>
-				<version>${maven.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.maven.plugin-tools</groupId>
-				<artifactId>maven-plugin-annotations</artifactId>
-				<version>${maven.api.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<!-- excluding commons logging by declaring it in the provided scope -->
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpclient</artifactId>
-				<version>${apache.http.client}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-            	<artifactId>httpcore</artifactId> 
-            	<version>4.4.13</version>
-            </dependency>
-			<dependency>
-				<groupId>com.google.http-client</groupId>
-				<artifactId>google-http-client</artifactId>
-				<version>${google.http.client.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.http-client</groupId>
-				<artifactId>google-http-client-gson</artifactId>
-				<version>${google.http.client.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-io</groupId>
-				<artifactId>commons-io</artifactId>
-				<version>2.7</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-				<version>3.1</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-codec</groupId>
-				<artifactId>commons-codec</artifactId>
-				<version>1.10</version>
-			</dependency>
-			<!-- Gson: Java to Json conversion -->
-			<dependency>
-				<groupId>com.google.code.gson</groupId>
-				<artifactId>gson</artifactId>
-				<version>2.8.9</version>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.jgit</groupId>
-				<artifactId>org.eclipse.jgit</artifactId>
-				<version>3.3.2.201404171909-r</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-core</artifactId>
-				<version>${spring.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-web</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.security</groupId>
-				<artifactId>spring-security-crypto</artifactId>
-				<version>3.2.9.RELEASE</version>
-			</dependency>
-			<dependency>
-				<groupId>cglib</groupId>
-				<artifactId>cglib</artifactId>
-				<version>2.2.2</version>
-			</dependency>
-			<dependency>
-				<groupId>com.auth0</groupId>
-				<artifactId>java-jwt</artifactId>
-				<version>3.1.0</version>
-			</dependency>
-			<dependency>
-			  <groupId>com.fasterxml.jackson.core</groupId>
-			  <artifactId>jackson-core</artifactId>
-			  <version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-			  <groupId>com.fasterxml.jackson.core</groupId>
-			  <artifactId>jackson-databind</artifactId>
-			  <version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-			  <groupId>com.fasterxml.jackson.core</groupId>
-			  <artifactId>jackson-annotations</artifactId>
-			  <version>${jackson.version}</version>
-			</dependency>
-
-			<!-- test dependencies -->
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.13.1</version>
-				<scope>test</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
 	<dependencies>
-		<!-- apis -->
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-plugin-api</artifactId>
+			<version>${maven.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-core</artifactId>
+			<version>${maven.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven.plugin-tools</groupId>
 			<artifactId>maven-plugin-annotations</artifactId>
+			<version>${maven.api.version}</version>
+			<scope>provided</scope>
 		</dependency>
-		<!-- logging -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>6.2.8</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.httpcomponents.client5</groupId>
+		    <artifactId>httpclient5</artifactId>
+		    <version>5.4.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client</artifactId>
+			<version>${google.http.client.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client-gson</artifactId>
+			<version>${google.http.client.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
@@ -331,67 +233,59 @@
 			<artifactId>log4j-core</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
-
-		<!-- using google http client for http rest protocols. supposed to be better than all -->
-		<dependency>
-			<groupId>com.google.http-client</groupId>
-			<artifactId>google-http-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.http-client</groupId>
-			<artifactId>google-http-client-gson</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
+			<version>2.18.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-		</dependency>
-		<!-- Gson: Java to Json conversion -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
+			<version>1.10</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jgit</groupId>
 			<artifactId>org.eclipse.jgit</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-		<!-- mgmt-api-java-sdk -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-crypto</artifactId>
+			<version>7.2.1.202505142326-r</version>
 		</dependency>
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
+			<version>2.2.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
+			<version>4.5.0</version>
 		</dependency>
-		<!-- mgmt-api-java-sdk -->
+		<dependency>
+		  <groupId>com.fasterxml.jackson.core</groupId>
+		  <artifactId>jackson-core</artifactId>
+		  <version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.fasterxml.jackson.core</groupId>
+		  <artifactId>jackson-databind</artifactId>
+		  <version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.fasterxml.jackson.core</groupId>
+		  <artifactId>jackson-annotations</artifactId>
+		  <version>${jackson.version}</version>
+		</dependency>
+
+		<!-- test dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.1</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<profiles>

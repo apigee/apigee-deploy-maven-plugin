@@ -1,14 +1,14 @@
 package com.apigee.mgmtapi.sdk.client;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-import org.apache.http.HttpHost;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.hc.client5.http.auth.AuthScope;
+import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.core5.http.HttpHost;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,10 +35,10 @@ public class MgmtAPIClient {
 			
 			if(profile.getProxyUsername()!=null && !profile.getProxyUsername().equalsIgnoreCase("")
 					&& profile.getProxyPassword()!=null && !profile.getProxyPassword().equalsIgnoreCase("")) {
-				CredentialsProvider credsProvider = new BasicCredentialsProvider();
+				BasicCredentialsProvider credsProvider = new BasicCredentialsProvider();
 				credsProvider.setCredentials( 
 				        new AuthScope(profile.getProxyServer(), profile.getProxyPort()), 
-				        new UsernamePasswordCredentials(profile.getProxyUsername(), profile.getProxyPassword())
+				        new UsernamePasswordCredentials(profile.getProxyUsername(), profile.getProxyPassword().toCharArray())
 				    );
 				clientBuilder.setDefaultCredentialsProvider(credsProvider).disableCookieManagement();
 			}
@@ -148,7 +148,8 @@ public class MgmtAPIClient {
 		AccessToken token = new AccessToken();
 		ResponseEntity<String> result;
 
-		headers.add("Authorization", "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + client_secret).getBytes()));
+		headers.add("Authorization", "Basic "
+				+ Base64.getEncoder().encodeToString((clientId + ":" + client_secret).getBytes(StandardCharsets.UTF_8)));
 		headers.add("Content-Type", "application/x-www-form-urlencoded");
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("username", username);
@@ -181,7 +182,8 @@ public class MgmtAPIClient {
 		HttpHeaders headers = new HttpHeaders();
 		AccessToken token = new AccessToken();
 		ResponseEntity<String> result = null;
-		headers.add("Authorization", "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + client_secret).getBytes()));
+		headers.add("Authorization", "Basic "
+				+ Base64.getEncoder().encodeToString((clientId + ":" + client_secret).getBytes(StandardCharsets.UTF_8)));
 		headers.add("Content-Type", "application/x-www-form-urlencoded");
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("refresh_token", refreshToken);

@@ -35,6 +35,7 @@ import com.apigee.mgmtapi.sdk.client.MgmtAPIClient;
 import com.apigee.mgmtapi.sdk.model.AccessToken;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.api.client.http.FileContent;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpHeaders;
@@ -127,7 +128,7 @@ public class RestClient {
 	 */
 	private static boolean isValidBearerToken(String accessToken, ServerProfile profile, String clientId) throws JWTDecodeException {
 		boolean isValid = false;
-		JWT jwt = JWT.decode(accessToken);
+		DecodedJWT jwt = JWT.decode(accessToken);
 		String jwtClientId = jwt.getClaim("client_id").asString();
 		String jwtEmailId = jwt.getClaim("email").asString();
 		long jwtExpiresAt = jwt.getExpiresAt().getTime() / 1000;
