@@ -61,15 +61,19 @@
 		<developerConnection>scm:git:ssh://git@github.com/apigee/apigee-deploy-maven-plugin.git</developerConnection>
 	</scm>
 	<developers>
-        <developer>
-            <id>ssvaidyanathan</id>
-            <name>Sai Saran Vaidyanathan</name>
-        </developer>
-         <developer>
-            <id>msadasivam</id>
-            <name>Madhan Sadasivam</name>
-        </developer>
-    </developers>
+		<developer>
+			<name>Madhan Sadasivam</name>
+			<email>madhans@google.com</email>
+			<organization>Google</organization>
+			<organizationUrl>www.google.com</organizationUrl>
+		</developer>
+		<developer>
+			<name>Sai Saran Vaidyanathan</name>
+			<email>ssvaidyanathan@google.com</email>
+			<organization>Google</organization>
+			<organizationUrl>www.google.com</organizationUrl>
+		</developer>
+	</developers>
 
 	<!-- mgmt-api-java-sdk -->
 	<properties>
